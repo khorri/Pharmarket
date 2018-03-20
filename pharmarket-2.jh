@@ -1,0 +1,141 @@
+entity Offre {
+	name String required
+    start Instant
+    end Instant
+    status String
+    description String
+    quantityMin Integer
+    amountMin Integer
+}
+entity Pack {
+	name String required
+    description String
+}
+entity Product{
+	name String required
+    ppv Long required
+    pph Long
+    code String
+    
+}
+entity PackProduct{
+	quantityMin Integer required
+}
+entity Customer{
+	code String
+    name String required
+    firstname String
+    lastname String
+    address String
+    email String
+    phone String
+    isVip Boolean
+    actif Boolean
+}
+
+entity Region {
+	name String required
+}
+entity City{
+	name String required
+}
+entity ShippingMode{
+	name String required
+}
+
+entity Order{
+	totalPaid Long required
+    totalOrdred Long required
+    type OrderType
+    status String
+    paymentDueDate String
+}
+enum OrderType {
+	DIRECT, GROSSISTE
+}
+entity OrderDetail{
+	quantity Integer required
+    quantityShipped Integer
+}
+entity OrderState{
+	name String required
+    color String
+    
+}
+
+entity OrderHistory{
+	addDate Instant
+}
+entity Payment{
+	name String required
+    code String
+}
+entity Shipping{
+	reference String
+    name String required
+    address String
+    phone String
+    contact String
+    isGrossiste Boolean
+}
+entity MaterielPromo{
+	name String required
+    description String
+}
+
+entity Rule{
+	name String required
+    isActive Boolean
+    priority Integer
+    quantityMin Integer
+    amountMin Double
+    reduction Double
+    giftQuantity Integer
+    matPromoQuantity Integer
+}
+
+entity Condition{
+	name String required
+}
+entity Action{
+	name String required
+}
+
+relationship OneToMany{
+    Pack{offre} to Offre
+    Customer{order} to Order
+    Order{orderHistory} to OrderHistory
+    Order{orderDetail} to OrderDetail
+    City{region} to Region
+    Order{payment} to Payment
+    Order{shippingMode} to ShippingMode
+    Order{shipping} to Shipping
+    Rule{condition} to Condition
+    Rule{action} to Action
+    Rule{giftProduct} to Product
+    Rule{giftMatPromo} to MaterielPromo
+    PackProduct{pack} to Pack
+    PackProduct{product} to Product
+    PackProduct{rule} to Rule
+  
+}
+relationship OneToOne{
+	OrderHistory{orderState} to OrderState
+    OrderDetail{product} to Product
+}
+relationship ManyToOne {
+	Customer{region} to Region
+    Customer{city} to City
+}
+relationship ManyToMany{
+	Pack{rule} to Rule
+}
+
+
+
+// Set pagination options
+paginate all with pagination
+
+
+// Set service options to all except few
+service all with serviceImpl
