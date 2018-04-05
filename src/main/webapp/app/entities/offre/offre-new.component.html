@@ -1,0 +1,206 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myOffreLabel" jhiTranslate="pharmarketApp.offre.home.createOrEditLabel">Create or
+            edit a Offre</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!offre.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="offre.id" readonly/>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-8">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.name" for="field_name">Name</label>
+                <input type="text" class="form-control" name="name" id="field_name"
+                       [(ngModel)]="offre.name" required/>
+                <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.name?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group col-4">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.status"
+                       for="field_status">Status</label>
+                <select class="form-control" id="field_status" name="status" [(ngModel)]="offre.status">
+                    <option [ngValue]="statusOption.id === offre.status ? offre.status : statusOption.id"
+                            *ngFor="let statusOption of status">{{statusOption.value}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-3">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.start"
+                       for="field_start">Start</label>
+                <div class="d-flex">
+                    <input id="field_start" type="datetime-local" class="form-control" name="start"
+                           [(ngModel)]="offre.start"
+                    />
+                </div>
+            </div>
+            <div class="form-group col-3">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.end" for="field_end">End</label>
+                <div class="d-flex">
+                    <input id="field_end" type="datetime-local" class="form-control" name="end" [(ngModel)]="offre.end"
+                    />
+                </div>
+            </div>
+            <div class="form-group col-3">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.quantityMin"
+                       for="field_quantityMin">Quantity
+                    Min</label>
+                <input type="number" class="form-control" name="quantityMin" id="field_quantityMin"
+                       [(ngModel)]="offre.quantityMin"/>
+            </div>
+            <div class="form-group col-3">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.amountMin" for="field_amountMin">Amount
+                    Min</label>
+                <input type="number" class="form-control" name="amountMin" id="field_amountMin"
+                       [(ngModel)]="offre.amountMin"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="field_type">Type</label>
+                <select class="form-control" id="field_type" name="offreType" [(ngModel)]="offre.offreType">
+                    <option [ngValue]="typeOption === offre.offreType ? offre.offreType : typeOption"
+                            *ngFor="let typeOption of types">{{typeOption}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group col-6">
+                <label jhiTranslate="pharmarketApp.offre.shipping">Shipping</label>
+                <angular2-multiselect [data]="shippings" [(ngModel)]="offre.shippings"
+                                      [ngModelOptions]="{standalone: true}"
+                                      [settings]="dropdownShipSettings"
+                ></angular2-multiselect>
+            </div>
+        </div>
+
+        <!--div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.offre.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                   [(ngModel)]="offre.description"/>
+        </div-->
+
+
+        <h2> Liste des packs</h2>
+
+        <div class="row card" *ngFor="let pack of offre.packs; index as idx">
+            <div class="card-header bg-primary ">
+                <div class="row">
+                    <div class="form-group col-5">
+
+                        <input type="text" class="form-control" name="description" id="field_pack_name"
+                               [(ngModel)]="pack.name"/>
+                    </div>
+
+                    <div class="form-group col-6">
+
+                        <angular2-multiselect [data]="packRules" [(ngModel)]="pack.rules"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownSettings"
+                                              (onSelect)="onItemSelect($event)"
+                                              (onDeSelect)="OnItemDeSelect($event)"
+                                              (onSelectAll)="onSelectAll($event)"
+                                              (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+                    </div>
+                    <div class="col-1">
+                        <button class="btn btn-sm btn-primary pull-right" (click)="removePack(idx)">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped table-hover table-responsive-sm">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" [(ngModel)]="pack.selectedAll" (click)="selectAll(pack)"
+                               name="selectAll_{{idx}}"></th>
+                    <th>Ref</th>
+                    <th>Name</th>
+                    <th>ppv</th>
+                    <th>pph</th>
+                    <th>Min quantity</th>
+                    <th>Rule</th>
+                    <th>
+                        <button class="btn btn-sm btn-danger" (click)="removeSelected(pack)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let p of pack.packProducts;index as i">
+                    <td><input type="checkbox" [(ngModel)]="p.selected" name="select_{{i}}"></td>
+                    <td>{{p.product.id}}</td>
+                    <td>{{p.product.name}}</td>
+                    <td>{{p.product.ppv}}</td>
+                    <td>{{p.product.pph}}</td>
+                    <td><input type="text" class="form-control" [(ngModel)]="p.quantityMin"
+                               name="product_{{i}}">
+                    </td>
+                    <td>
+                        <angular2-multiselect [data]="productRules" [(ngModel)]="p.rules"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownSettings"
+                                              (onSelect)="onItemSelect($event)"
+                                              (onDeSelect)="OnItemDeSelect($event)"
+                                              (onSelectAll)="onSelectAll($event)"
+                                              (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" (click)="removeLine(pack,i)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <angular2-multiselect [data]="products" [(ngModel)]="pack.selectedProducts"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownSettings1"
+                                              (onSelect)="onProductSelect($event,pack)"
+                                              (onDeSelect)="OnProductDeSelect($event,pack)"
+                                              (onSelectAll)="onSelectAllProduct($event,pack)"
+                                              (onDeSelectAll)="onDeSelectAllProduct($event,pack)"></angular2-multiselect>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+
+        </div>
+
+        <br/>
+
+        <div class="row">
+            <button class="btn btn-primary col-12" type="button" (click)="addPack()"> Nouveau pack</button>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -18,6 +18,7 @@ logging:
         ROOT: DEBUG
         ma.nawar.pharmarket: DEBUG
         io.github.jhipster: DEBUG
+        org.springframework.web: DEBUG
 
 spring:
     profiles:
@@ -34,7 +35,7 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://localhost:3306/Pharmarket?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
-        password:
+        password: root
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -45,6 +46,7 @@ spring:
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
         database: MYSQL
         show-sql: true
+        generate-ddl: true
         properties:
             hibernate.id.new_generator_mappings: true
             hibernate.cache.use_second_level_cache: true
