@@ -3,13 +3,12 @@ package ma.nawar.pharmarket.service.util;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
-import ma.nawar.pharmarket.domain.Offre;
-import ma.nawar.pharmarket.domain.Pack;
+import ma.nawar.pharmarket.domain.*;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by HORRI on 05/04/2018.
@@ -71,24 +70,89 @@ public class OffreDeserializer extends JsonDeserializer {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
-
+        Map<String, Object> data = objectMapper.readValue(p, HashMap.class);
         ObjectCodec objectCodec = p.getCodec();
         JsonNode jsonNode = objectCodec.readTree(p);
         Offre offre = new Offre();
-        offre.setName(jsonNode.get("name").asText());
+        offre.setName(data.get("name").toString());
         //offre.setStart(jsonNode.get("name").asText());
-        offre.setDescription(jsonNode.get("description").asText());
-        offre.setStatus(jsonNode.get("status").asText());
-        offre.setAmountMin(jsonNode.get("amountMin").asInt());
-        offre.setQuantityMin(jsonNode.get("quantityMin").asInt());
-        offre.setOffreType(jsonNode.get("offreType").asText());
+        if (data.get("description") != null) {
+            offre.setDescription(data.get("description").toString());
+        }
+        if (data.get("status") != null) {
+            offre.setStatus(data.get("status").toString());
+        }
+        if (data.get("amountMin") != null) {
 
-        offre.setPacks(this.getPacks(jsonNode));
+            offre.setAmountMin(Integer.valueOf(data.get("amountMin").toString()));
+        }
+        if (data.get("quantityMin") != null) {
+            offre.setQuantityMin(Integer.valueOf(data.get("quantityMin").toString()));
+        }
+        if (data.get("offreType") != null) {
+            offre.setOffreType(data.get("offreType").toString());
+        }
+
+        offre.setPacks(this.getPacks(data.get("packs")));
         return offre;
     }
 
-    private Set<Pack> getPacks(JsonNode jsonNode) {
+    private Set<Pack> getPacks(Object packs) {
+        List<Map<String, Object>> ListPacks = (ArrayList<Map<String, Object>>) packs;
+        Set<Pack> listPack = new HashSet<Pack>();
+        ListPacks.stream().forEach(packMap -> {
+            Pack pack = new Pack();
+            if (packMap.get("name") != null) {
+                pack.setName(packMap.get("name").toString());
+                pack.setRules(this.getRules(packMap.get("rules")));
+                pack.setPackProducts(this.getPackProduct(packMap.get("packProducts")));
+                listPack.add(pack);
+            }
+        });
 
-        return new HashSet<>();
+        return listPack;
     }
+
+    private Set<PackProduct> getPackProduct(Object packProducts) {
+        List<Map<String, Object>> ListPackProducts = (ArrayList<Map<String, Object>>) packProducts;
+        Set<PackProduct> packProductsReturn = new HashSet<PackProduct>();
+        ListPackProducts.stream().forEach(pp -> {
+            PackProduct packProduct = new PackProduct();
+            packProduct.setQuantityMin(Integer.valueOf(pp.get("quantityMin").toString()));
+            Map<String, Object> p = (Map<String, Object>) pp.get("product");
+            Long idProduct = ((Integer) p.get("id")).longValue();
+            Product product = new Product();
+            product.setId(idProduct);
+            packProduct.setProduct(product);
+            packProduct.setRules(this.getRules(pp.get("rules")));
+            packProductsReturn.add(packProduct);
+        });
+        return packProductsReturn;
+    }
+
+    /*private Set<Rule> getPackProductRules(Object rules) {
+        Set<Rule> rulesSet = new HashSet<Rule>();
+        List<Map<String, Object>> rulesMap = (ArrayList<Map<String, Object>>) rules;
+        rulesMap.stream().forEach(rule -> {
+            Rule r = new Rule();
+            Long id = ((Integer) rule.get("id")).longValue();
+            r.setId(id);
+            rulesSet.add(r);
+        });
+        return rulesSet;
+    }*/
+
+    private Set<Rule> getRules(Object rules) {
+        List<Map<String, Object>> ListRules = (ArrayList<Map<String, Object>>) rules;
+        Set<Rule> ruleSet = new HashSet<Rule>();
+        ListRules.stream().forEach(rule -> {
+            Rule r = new Rule();
+            Long id = ((Integer) rule.get("id")).longValue();
+            r.setId(id);
+            ruleSet.add(r);
+        });
+        return ruleSet;
+    }
+
+
 }

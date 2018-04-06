@@ -33,7 +33,6 @@ export class OffreNewComponent implements OnInit {
     types = OffreType;
     status = OffreStatus;
     selectedAll = false;
-    selectedShippings = [];
 
 
     constructor(private jhiAlertService: JhiAlertService,
