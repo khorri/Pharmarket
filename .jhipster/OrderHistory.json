@@ -1,0 +1,31 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "ordre",
+            "otherEntityName": "ordre",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "orderState",
+            "otherEntityName": "orderState",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "orderHistory"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "addDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "changelogDate": "20180331093105",
+    "entityTableName": "order_history",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

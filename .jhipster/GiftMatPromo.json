@@ -1,0 +1,33 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "matpromo",
+            "otherEntityName": "materielPromo",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "giftMatPromo"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "rule",
+            "otherEntityName": "rule",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "giftMatPromo"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "quantity",
+            "fieldType": "Long"
+        }
+    ],
+    "changelogDate": "20180331093056",
+    "entityTableName": "gift_mat_promo",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

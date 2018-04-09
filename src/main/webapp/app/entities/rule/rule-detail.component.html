@@ -1,0 +1,86 @@
+
+<div *ngIf="rule">
+    <h2><span jhiTranslate="pharmarketApp.rule.detail.title">Rule</span> {{rule.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pharmarketApp.rule.name">Name</span></dt>
+        <dd>
+            <span>{{rule.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.isActive">Is Active</span></dt>
+        <dd>
+            <span>{{rule.isActive}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.priority">Priority</span></dt>
+        <dd>
+            <span>{{rule.priority}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.quantityMin">Quantity Min</span></dt>
+        <dd>
+            <span>{{rule.quantityMin}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.amountMin">Amount Min</span></dt>
+        <dd>
+            <span>{{rule.amountMin}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.reduction">Reduction</span></dt>
+        <dd>
+            <span>{{rule.reduction}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.giftQuantity">Gift Quantity</span></dt>
+        <dd>
+            <span>{{rule.giftQuantity}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.gadgetQuantity">Gadget Quantity</span></dt>
+        <dd>
+            <span>{{rule.gadgetQuantity}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.isForPack">Is For Pack</span></dt>
+        <dd>
+            <span>{{rule.isForPack}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.isForProduct">Is For Product</span></dt>
+        <dd>
+            <span>{{rule.isForProduct}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.packProduct">Pack Product</span></dt>
+        <dd>
+            <div *ngIf="rule.packProduct">
+                <a [routerLink]="['/pack-product', rule.packProduct?.id]">{{rule.packProduct?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.type">Type</span></dt>
+        <dd>
+            <div *ngIf="rule.type">
+                <a [routerLink]="['/rule-type', rule.type?.id]">{{rule.type?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.product">Product</span></dt>
+        <dd>
+            <div *ngIf="rule.product">
+                <a [routerLink]="['/product', rule.product?.id]">{{rule.product?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.rule.gadget">Gadget</span></dt>
+        <dd>
+            <div *ngIf="rule.gadget">
+                <a [routerLink]="['/gadget', rule.gadget?.id]">{{rule.gadget?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'rule/'+ rule.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

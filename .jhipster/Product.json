@@ -1,0 +1,62 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "ppv",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "pph",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "code",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "isNew",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "refrence",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "commercialName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "marque",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "tva",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "fabricationPrice",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "actif",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20180331093054",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "product",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

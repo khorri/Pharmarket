@@ -1,0 +1,79 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myOrdreLabel" jhiTranslate="pharmarketApp.ordre.home.createOrEditLabel">Create or edit a Ordre</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!ordre.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="ordre.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.totalPaid" for="field_totalPaid">Total Paid</label>
+            <input type="number" class="form-control" name="totalPaid" id="field_totalPaid"
+                [(ngModel)]="ordre.totalPaid" required/>
+            <div [hidden]="!(editForm.controls.totalPaid?.dirty && editForm.controls.totalPaid?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.totalPaid?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.totalPaid?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.totalOrdred" for="field_totalOrdred">Total Ordred</label>
+            <input type="number" class="form-control" name="totalOrdred" id="field_totalOrdred"
+                [(ngModel)]="ordre.totalOrdred" required/>
+            <div [hidden]="!(editForm.controls.totalOrdred?.dirty && editForm.controls.totalOrdred?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.totalOrdred?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.totalOrdred?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.type" for="field_type">Type</label>
+            <select class="form-control" name="type" [(ngModel)]="ordre.type" id="field_type" >
+                <option value="DIRECT">{{'pharmarketApp.OrderType.DIRECT' | translate}}</option>
+                <option value="GROSSISTE">{{'pharmarketApp.OrderType.GROSSISTE' | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.status" for="field_status">Status</label>
+            <input type="text" class="form-control" name="status" id="field_status"
+                [(ngModel)]="ordre.status" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.paymentDueDate" for="field_paymentDueDate">Payment Due Date</label>
+            <input type="text" class="form-control" name="paymentDueDate" id="field_paymentDueDate"
+                [(ngModel)]="ordre.paymentDueDate" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.customer" for="field_customer">Customer</label>
+            <select class="form-control" id="field_customer" name="customer" [(ngModel)]="ordre.customer" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="customerOption.id === ordre.customer?.id ? ordre.customer : customerOption" *ngFor="let customerOption of customers; trackBy: trackCustomerById">{{customerOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,53 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "ordre",
+            "otherEntityName": "ordre",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "offre",
+            "otherEntityName": "offre",
+            "relationshipType": "many-to-many",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "shipping"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "reference",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "phone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contact",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "isGrossiste",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20180331093107",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "shipping",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

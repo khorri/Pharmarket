@@ -1,0 +1,44 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "rule",
+            "otherEntityName": "rule",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipName": "packProduct",
+            "otherEntityName": "packProduct",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "pack"
+        },
+        {
+            "relationshipName": "offre",
+            "otherEntityName": "offre",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180331093053",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "pack",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

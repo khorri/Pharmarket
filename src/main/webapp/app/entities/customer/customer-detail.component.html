@@ -1,0 +1,70 @@
+
+<div *ngIf="customer">
+    <h2><span jhiTranslate="pharmarketApp.customer.detail.title">Customer</span> {{customer.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pharmarketApp.customer.code">Code</span></dt>
+        <dd>
+            <span>{{customer.code}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.customer.name">Name</span></dt>
+        <dd>
+            <span>{{customer.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.customer.firstname">Firstname</span></dt>
+        <dd>
+            <span>{{customer.firstname}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.customer.lastname">Lastname</span></dt>
+        <dd>
+            <span>{{customer.lastname}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.customer.address">Address</span></dt>
+        <dd>
+            <span>{{customer.address}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.customer.email">Email</span></dt>
+        <dd>
+            <span>{{customer.email}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.customer.phone">Phone</span></dt>
+        <dd>
+            <span>{{customer.phone}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.customer.isVip">Is Vip</span></dt>
+        <dd>
+            <span>{{customer.isVip}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.customer.actif">Actif</span></dt>
+        <dd>
+            <span>{{customer.actif}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.customer.region">Region</span></dt>
+        <dd>
+            <div *ngIf="customer.region">
+                <a [routerLink]="['/region', customer.region?.id]">{{customer.region?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.customer.city">City</span></dt>
+        <dd>
+            <div *ngIf="customer.city">
+                <a [routerLink]="['/city', customer.city?.id]">{{customer.city?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'customer/'+ customer.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

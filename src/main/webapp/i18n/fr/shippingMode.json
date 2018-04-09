@@ -1,0 +1,23 @@
+
+{
+    "pharmarketApp": {
+        "shippingMode" : {
+            "home": {
+                "title": "ShippingModes",
+                "createLabel": "Créer un nouveau Shipping Mode",
+                "createOrEditLabel": "Créer ou éditer un Shipping Mode"
+            },
+            "created": "Un nouveau Shipping Mode a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Shipping Mode avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Shipping Mode avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Shipping Mode {{ id }} ?"
+            },
+            "detail": {
+                "title": "Shipping Mode"
+            },
+            "name": "Name",
+            "ordre": "Ordre"
+        }
+    }
+}

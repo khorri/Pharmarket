@@ -1,0 +1,33 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "product",
+            "otherEntityName": "product",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "giftProduct"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "rule",
+            "otherEntityName": "rule",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "giftProduct"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "quantity",
+            "fieldType": "Long"
+        }
+    ],
+    "changelogDate": "20180331093055",
+    "entityTableName": "gift_product",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

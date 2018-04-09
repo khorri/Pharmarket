@@ -1,0 +1,9 @@
+{
+    "pharmarketApp": {
+        "OrderType" : {
+            "null": "",
+            "DIRECT": "DIRECT",
+            "GROSSISTE": "GROSSISTE"
+        }
+    }
+}

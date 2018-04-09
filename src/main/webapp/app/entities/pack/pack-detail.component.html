@@ -1,0 +1,42 @@
+
+<div *ngIf="pack">
+    <h2><span jhiTranslate="pharmarketApp.pack.detail.title">Pack</span> {{pack.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pharmarketApp.pack.name">Name</span></dt>
+        <dd>
+            <span>{{pack.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.pack.description">Description</span></dt>
+        <dd>
+            <span>{{pack.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.pack.rule">Rule</span></dt>
+        <dd>
+            <span *ngFor="let rule of pack.rules; let last = last">
+                <a [routerLink]="['/rule', rule?.id ]">{{rule.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.pack.offre">Offre</span></dt>
+        <dd>
+            <div *ngIf="pack.offre">
+                <a [routerLink]="['/offre', pack.offre?.id]">{{pack.offre?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'pack/'+ pack.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

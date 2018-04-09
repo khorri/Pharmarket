@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity OrderHistory.
+    -->
+    <changeSet id="20180331093105-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="ordre_id"
+                                 baseTableName="order_history"
+                                 constraintName="fk_order_history_ordre_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="ordre"/>
+
+        <addForeignKeyConstraint baseColumnNames="order_state_id"
+                                 baseTableName="order_history"
+                                 constraintName="fk_order_history_order_state_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="order_state"/>
+
+    </changeSet>
+</databaseChangeLog>

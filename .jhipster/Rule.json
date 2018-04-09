@@ -1,0 +1,93 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "conditions",
+            "otherEntityName": "conditions",
+            "otherEntityRelationshipName": "rule"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "action",
+            "otherEntityName": "action",
+            "otherEntityRelationshipName": "rule"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "type",
+            "otherEntityName": "ruleType",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "product",
+            "otherEntityName": "product",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "gadget",
+            "otherEntityName": "gadget",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "packProduct",
+            "otherEntityName": "packProduct",
+            "relationshipType": "many-to-many",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "rule"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "isActive",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "priority",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "quantityMin",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "amountMin",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "reduction",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "giftQuantity",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "gadgetQuantity",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "isForPack",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "isForProduct",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20180331093109",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "rule",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

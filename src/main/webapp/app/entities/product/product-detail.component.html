@@ -1,0 +1,66 @@
+
+<div *ngIf="product">
+    <h2><span jhiTranslate="pharmarketApp.product.detail.title">Product</span> {{product.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pharmarketApp.product.name">Name</span></dt>
+        <dd>
+            <span>{{product.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.product.ppv">Ppv</span></dt>
+        <dd>
+            <span>{{product.ppv}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.product.pph">Pph</span></dt>
+        <dd>
+            <span>{{product.pph}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.product.code">Code</span></dt>
+        <dd>
+            <span>{{product.code}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.product.isNew">Is New</span></dt>
+        <dd>
+            <span>{{product.isNew}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.product.refrence">Refrence</span></dt>
+        <dd>
+            <span>{{product.refrence}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.product.commercialName">Commercial Name</span></dt>
+        <dd>
+            <span>{{product.commercialName}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.product.marque">Marque</span></dt>
+        <dd>
+            <span>{{product.marque}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.product.tva">Tva</span></dt>
+        <dd>
+            <span>{{product.tva}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.product.fabricationPrice">Fabrication Price</span></dt>
+        <dd>
+            <span>{{product.fabricationPrice}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.product.actif">Actif</span></dt>
+        <dd>
+            <span>{{product.actif}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'product/'+ product.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

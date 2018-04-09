@@ -1,0 +1,78 @@
+<div>
+    <h2>
+        <span jhiTranslate="pharmarketApp.orderHistory.home.title">Order Histories</span>
+        <button class="btn btn-primary float-right jh-create-entity create-order-history" [routerLink]="['/', { outlets: { popup: ['order-history-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="pharmarketApp.orderHistory.home.createLabel">
+            Create new Order History
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="orderHistories">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="addDate"><span jhiTranslate="pharmarketApp.orderHistory.addDate">Add Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="ordre.id"><span jhiTranslate="pharmarketApp.orderHistory.ordre">Ordre</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="orderState.id"><span jhiTranslate="pharmarketApp.orderHistory.orderState">Order State</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let orderHistory of orderHistories ;trackBy: trackId">
+                <td><a [routerLink]="['../order-history', orderHistory.id ]">{{orderHistory.id}}</a></td>
+                <td>{{orderHistory.addDate | date:'medium'}}</td>
+                <td>
+                    <div *ngIf="orderHistory.ordre">
+                        <a [routerLink]="['../ordre', orderHistory.ordre?.id ]" >{{orderHistory.ordre?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="orderHistory.orderState">
+                        <a [routerLink]="['../order-state', orderHistory.orderState?.id ]" >{{orderHistory.orderState?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../order-history', orderHistory.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'order-history/'+ orderHistory.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'order-history/'+ orderHistory.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="orderHistories && orderHistories.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

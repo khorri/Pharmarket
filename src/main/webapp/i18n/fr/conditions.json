@@ -1,0 +1,23 @@
+
+{
+    "pharmarketApp": {
+        "conditions" : {
+            "home": {
+                "title": "Conditions",
+                "createLabel": "Créer un nouveau Conditions",
+                "createOrEditLabel": "Créer ou éditer un Conditions"
+            },
+            "created": "Un nouveau Conditions a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Conditions avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Conditions avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Conditions {{ id }} ?"
+            },
+            "detail": {
+                "title": "Conditions"
+            },
+            "name": "Name",
+            "rule": "Rule"
+        }
+    }
+}

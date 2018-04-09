@@ -1,0 +1,25 @@
+
+{
+    "pharmarketApp": {
+        "orderDetails" : {
+            "home": {
+                "title": "OrderDetails",
+                "createLabel": "Créer un nouveau Order Details",
+                "createOrEditLabel": "Créer ou éditer un Order Details"
+            },
+            "created": "Un nouveau Order Details a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Order Details avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Order Details avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Order Details {{ id }} ?"
+            },
+            "detail": {
+                "title": "Order Details"
+            },
+            "quantity": "Quantity",
+            "quantityShipped": "Quantity Shipped",
+            "ordre": "Ordre",
+            "product": "Product"
+        }
+    }
+}

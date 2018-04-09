@@ -1,0 +1,37 @@
+
+{
+    "pharmarketApp": {
+        "rule" : {
+            "home": {
+                "title": "Rules",
+                "createLabel": "Créer un nouveau Rule",
+                "createOrEditLabel": "Créer ou éditer un Rule"
+            },
+            "created": "Un nouveau Rule a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Rule avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Rule avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Rule {{ id }} ?"
+            },
+            "detail": {
+                "title": "Rule"
+            },
+            "name": "Name",
+            "isActive": "Is Active",
+            "priority": "Priority",
+            "quantityMin": "Quantity Min",
+            "amountMin": "Amount Min",
+            "reduction": "Reduction",
+            "giftQuantity": "Gift Quantity",
+            "gadgetQuantity": "Gadget Quantity",
+            "isForPack": "Is For Pack",
+            "isForProduct": "Is For Product",
+            "conditions": "Conditions",
+            "action": "Action",
+            "type": "Type",
+            "product": "Product",
+            "gadget": "Gadget",
+            "packProduct": "Pack Product"
+        }
+    }
+}

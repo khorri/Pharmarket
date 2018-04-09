@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Rule.
+    -->
+    <changeSet id="20180331093109-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="type_id"
+                                 baseTableName="rule"
+                                 constraintName="fk_rule_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="rule_type"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="rule"
+                                 constraintName="fk_rule_product_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+
+        <addForeignKeyConstraint baseColumnNames="gadget_id"
+                                 baseTableName="rule"
+                                 constraintName="fk_rule_gadget_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="gadget"/>
+
+    </changeSet>
+</databaseChangeLog>

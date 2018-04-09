@@ -1,0 +1,32 @@
+
+<div *ngIf="shippingMode">
+    <h2><span jhiTranslate="pharmarketApp.shippingMode.detail.title">Shipping Mode</span> {{shippingMode.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pharmarketApp.shippingMode.name">Name</span></dt>
+        <dd>
+            <span>{{shippingMode.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.shippingMode.ordre">Ordre</span></dt>
+        <dd>
+            <div *ngIf="shippingMode.ordre">
+                <a [routerLink]="['/ordre', shippingMode.ordre?.id]">{{shippingMode.ordre?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'shipping-mode/'+ shippingMode.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

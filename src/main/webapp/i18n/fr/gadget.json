@@ -1,0 +1,23 @@
+
+{
+    "pharmarketApp": {
+        "gadget" : {
+            "home": {
+                "title": "Gadgets",
+                "createLabel": "Créer un nouveau Gadget",
+                "createOrEditLabel": "Créer ou éditer un Gadget"
+            },
+            "created": "Un nouveau Gadget a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Gadget avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Gadget avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Gadget {{ id }} ?"
+            },
+            "detail": {
+                "title": "Gadget"
+            },
+            "name": "Name",
+            "description": "Description"
+        }
+    }
+}

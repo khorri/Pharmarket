@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Pack.
+    -->
+    <changeSet id="20180331093053-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="packs_id"
+                                 baseTableName="pack_rule"
+                                 constraintName="fk_pack_rule_packs_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="pack"/>
+        <addForeignKeyConstraint baseColumnNames="rules_id"
+                                 baseTableName="pack_rule"
+                                 constraintName="fk_pack_rule_rules_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="rule"/>
+        
+        <addForeignKeyConstraint baseColumnNames="offre_id"
+                                 baseTableName="pack"
+                                 constraintName="fk_pack_offre_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="offre"/>
+
+    </changeSet>
+</databaseChangeLog>

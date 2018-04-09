@@ -1,0 +1,23 @@
+
+{
+    "pharmarketApp": {
+        "ruleType" : {
+            "home": {
+                "title": "RuleTypes",
+                "createLabel": "Créer un nouveau Rule Type",
+                "createOrEditLabel": "Créer ou éditer un Rule Type"
+            },
+            "created": "Un nouveau Rule Type a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Rule Type avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Rule Type avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Rule Type {{ id }} ?"
+            },
+            "detail": {
+                "title": "Rule Type"
+            },
+            "code": "Code",
+            "name": "Name"
+        }
+    }
+}

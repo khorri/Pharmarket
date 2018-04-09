@@ -1,0 +1,24 @@
+
+{
+    "pharmarketApp": {
+        "giftProduct" : {
+            "home": {
+                "title": "GiftProducts",
+                "createLabel": "Créer un nouveau Gift Product",
+                "createOrEditLabel": "Créer ou éditer un Gift Product"
+            },
+            "created": "Un nouveau Gift Product a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Gift Product avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Gift Product avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Gift Product {{ id }} ?"
+            },
+            "detail": {
+                "title": "Gift Product"
+            },
+            "quantity": "Quantity",
+            "product": "Product",
+            "rule": "Rule"
+        }
+    }
+}

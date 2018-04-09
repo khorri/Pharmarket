@@ -1,0 +1,24 @@
+
+{
+    "pharmarketApp": {
+        "giftProduct" : {
+            "home": {
+                "title": "Gift Products",
+                "createLabel": "Create a new Gift Product",
+                "createOrEditLabel": "Create or edit a Gift Product"
+            },
+            "created": "A new Gift Product is created with identifier {{ param }}",
+            "updated": "A Gift Product is updated with identifier {{ param }}",
+            "deleted": "A Gift Product is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Gift Product {{ id }}?"
+            },
+            "detail": {
+                "title": "Gift Product"
+            },
+            "quantity": "Quantity",
+            "product": "Product",
+            "rule": "Rule"
+        }
+    }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity GiftMatPromo.
+    -->
+    <changeSet id="20180331093056-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="matpromo_id"
+                                 baseTableName="gift_mat_promo"
+                                 constraintName="fk_gift_mat_promo_matpromo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="materiel_promo"/>
+
+        <addForeignKeyConstraint baseColumnNames="rule_id"
+                                 baseTableName="gift_mat_promo"
+                                 constraintName="fk_gift_mat_promo_rule_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="rule"/>
+
+    </changeSet>
+</databaseChangeLog>

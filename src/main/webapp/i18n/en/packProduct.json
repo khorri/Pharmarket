@@ -1,0 +1,25 @@
+
+{
+    "pharmarketApp": {
+        "packProduct" : {
+            "home": {
+                "title": "Pack Products",
+                "createLabel": "Create a new Pack Product",
+                "createOrEditLabel": "Create or edit a Pack Product"
+            },
+            "created": "A new Pack Product is created with identifier {{ param }}",
+            "updated": "A Pack Product is updated with identifier {{ param }}",
+            "deleted": "A Pack Product is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Pack Product {{ id }}?"
+            },
+            "detail": {
+                "title": "Pack Product"
+            },
+            "quantityMin": "Quantity Min",
+            "product": "Product",
+            "pack": "Pack",
+            "rule": "Rule"
+        }
+    }
+}

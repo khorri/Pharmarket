@@ -1,0 +1,116 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myRuleLabel" jhiTranslate="pharmarketApp.rule.home.createOrEditLabel">Create or edit a Rule</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!rule.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="rule.id" readonly />
+        </div>
+
+        <div class="row">
+        <div class="form-group col-8">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="rule.name" required/>
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group col-4">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.isActive" for="field_isActive">Is Active</label>
+            <input type="checkbox" class="form-control" name="isActive" id="field_isActive"
+                [(ngModel)]="rule.isActive" />
+        </div>
+        </div>
+
+        <div class="row">
+        <div class="form-group col-4">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.quantityMin" for="field_quantityMin">Quantity Min</label>
+            <input type="number" class="form-control" name="quantityMin" id="field_quantityMin"
+                   [(ngModel)]="rule.quantityMin" />
+        </div>
+        <div class="form-group col-4">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.amountMin" for="field_amountMin">Amount Min</label>
+            <input type="number" class="form-control" name="amountMin" id="field_amountMin"
+                   [(ngModel)]="rule.amountMin" />
+        </div>
+        <div class="form-group col-4">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.priority" for="field_priority">Priority</label>
+            <input type="number" class="form-control" name="priority" id="field_priority"
+                [(ngModel)]="rule.priority" />
+        </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.type" for="field_type">Type</label>
+            <select class="form-control" id="field_type" name="type" [(ngModel)]="rule.type" >
+                <option [ngValue]="ruleTypeOption.id === rule.type?.id ? rule.type : ruleTypeOption" *ngFor="let ruleTypeOption of ruletypes; trackBy: trackRuleTypeById">{{ruleTypeOption.name}}</option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="rule.type.code==='reduction'">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.reduction" for="field_reduction">Reduction</label>
+            <input type="number" class="form-control" name="reduction" id="field_reduction"
+                [(ngModel)]="rule.reduction" />
+        </div>
+        <div class="row" *ngIf="rule.type.code==='ug'">
+        <div class="form-group col-6" >
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.giftQuantity" for="field_giftQuantity">Gift Quantity</label>
+            <input type="number" class="form-control" name="giftQuantity" id="field_giftQuantity"
+                [(ngModel)]="rule.giftQuantity" />
+        </div>
+        <div class="form-group col-6">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.product" for="field_product">Product</label>
+            <select class="form-control" id="field_product" name="product" [(ngModel)]="rule.product" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="productOption.id === rule.product?.id ? rule.product : productOption" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.commercialName}}</option>
+            </select>
+        </div>
+        </div>
+
+        <div class="row" *ngIf="rule.type.code==='gadget'">
+        <div class="form-group col-6">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.gadgetQuantity" for="field_gadgetQuantity">Gadget Quantity</label>
+            <input type="number" class="form-control" name="gadgetQuantity" id="field_gadgetQuantity"
+                [(ngModel)]="rule.gadgetQuantity" />
+        </div>
+        <div class="form-group col-6">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.gadget" for="field_gadget">Gadget</label>
+            <select class="form-control" id="field_gadget" name="gadget" [(ngModel)]="rule.gadget" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="gadgetOption.id === rule.gadget?.id ? rule.gadget : gadgetOption" *ngFor="let gadgetOption of gadgets; trackBy: trackGadgetById">{{gadgetOption.name}}</option>
+            </select>
+        </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.isForPack" for="field_isForPack">Is For Pack</label>
+            <input type="checkbox" class="form-control" name="isForPack" id="field_isForPack"
+                [(ngModel)]="rule.isForPack" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.rule.isForProduct" for="field_isForProduct">Is For Product</label>
+            <input type="checkbox" class="form-control" name="isForProduct" id="field_isForProduct"
+                [(ngModel)]="rule.isForProduct" />
+        </div>
+
+
+
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

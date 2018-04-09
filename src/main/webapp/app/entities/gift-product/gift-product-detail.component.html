@@ -1,0 +1,38 @@
+
+<div *ngIf="giftProduct">
+    <h2><span jhiTranslate="pharmarketApp.giftProduct.detail.title">Gift Product</span> {{giftProduct.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pharmarketApp.giftProduct.quantity">Quantity</span></dt>
+        <dd>
+            <span>{{giftProduct.quantity}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.giftProduct.product">Product</span></dt>
+        <dd>
+            <div *ngIf="giftProduct.product">
+                <a [routerLink]="['/product', giftProduct.product?.id]">{{giftProduct.product?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.giftProduct.rule">Rule</span></dt>
+        <dd>
+            <div *ngIf="giftProduct.rule">
+                <a [routerLink]="['/rule', giftProduct.rule?.id]">{{giftProduct.rule?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'gift-product/'+ giftProduct.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,40 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "product",
+            "otherEntityName": "product",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "pack",
+            "otherEntityName": "pack",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "rule",
+            "otherEntityName": "rule",
+            "relationshipType": "many-to-many",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "packProduct"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "quantityMin",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180331093057",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "pack_product",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

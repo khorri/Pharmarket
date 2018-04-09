@@ -1,0 +1,23 @@
+
+{
+    "pharmarketApp": {
+        "materielPromo" : {
+            "home": {
+                "title": "MaterielPromos",
+                "createLabel": "Créer un nouveau Materiel Promo",
+                "createOrEditLabel": "Créer ou éditer un Materiel Promo"
+            },
+            "created": "Un nouveau Materiel Promo a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Materiel Promo avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Materiel Promo avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Materiel Promo {{ id }} ?"
+            },
+            "detail": {
+                "title": "Materiel Promo"
+            },
+            "name": "Name",
+            "description": "Description"
+        }
+    }
+}

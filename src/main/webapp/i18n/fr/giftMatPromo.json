@@ -1,0 +1,24 @@
+
+{
+    "pharmarketApp": {
+        "giftMatPromo" : {
+            "home": {
+                "title": "GiftMatPromos",
+                "createLabel": "Créer un nouveau Gift Mat Promo",
+                "createOrEditLabel": "Créer ou éditer un Gift Mat Promo"
+            },
+            "created": "Un nouveau Gift Mat Promo a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Gift Mat Promo avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Gift Mat Promo avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Gift Mat Promo {{ id }} ?"
+            },
+            "detail": {
+                "title": "Gift Mat Promo"
+            },
+            "quantity": "Quantity",
+            "matpromo": "Matpromo",
+            "rule": "Rule"
+        }
+    }
+}

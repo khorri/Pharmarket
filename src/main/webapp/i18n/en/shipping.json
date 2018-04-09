@@ -1,0 +1,29 @@
+
+{
+    "pharmarketApp": {
+        "shipping" : {
+            "home": {
+                "title": "Shippings",
+                "createLabel": "Create a new Shipping",
+                "createOrEditLabel": "Create or edit a Shipping"
+            },
+            "created": "A new Shipping is created with identifier {{ param }}",
+            "updated": "A Shipping is updated with identifier {{ param }}",
+            "deleted": "A Shipping is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Shipping {{ id }}?"
+            },
+            "detail": {
+                "title": "Shipping"
+            },
+            "reference": "Reference",
+            "name": "Name",
+            "address": "Address",
+            "phone": "Phone",
+            "contact": "Contact",
+            "isGrossiste": "Is Grossiste",
+            "ordre": "Ordre",
+            "offre": "Offre"
+        }
+    }
+}

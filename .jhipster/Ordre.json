@@ -1,0 +1,76 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "customer",
+            "otherEntityName": "customer",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "orderHistory",
+            "otherEntityName": "orderHistory",
+            "otherEntityRelationshipName": "ordre"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "orderDetail",
+            "otherEntityName": "orderDetails",
+            "otherEntityRelationshipName": "ordre"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "payment",
+            "otherEntityName": "payment",
+            "otherEntityRelationshipName": "ordre"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "shippingMode",
+            "otherEntityName": "shippingMode",
+            "otherEntityRelationshipName": "ordre"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "shipping",
+            "otherEntityName": "shipping",
+            "otherEntityRelationshipName": "ordre"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "totalPaid",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "totalOrdred",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "OrderType",
+            "fieldValues": "DIRECT,GROSSISTE"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "paymentDueDate",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180331093102",
+    "entityTableName": "ordre",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

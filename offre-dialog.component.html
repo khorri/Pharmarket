@@ -1,0 +1,149 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myOffreLabel" jhiTranslate="pharmarketApp.offre.home.createOrEditLabel">Create or
+            edit a Offre</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!offre.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="offre.id" readonly/>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-8">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.name" for="field_name">Name</label>
+                <input type="text" class="form-control" name="name" id="field_name"
+                       [(ngModel)]="offre.name" required/>
+                <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.name?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group col-4">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.status"
+                       for="field_status">Status</label>
+                <input type="text" class="form-control" name="status" id="field_status"
+                       [(ngModel)]="offre.status"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-6">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.start"
+                       for="field_start">Start</label>
+                <div class="d-flex">
+                    <input id="field_start" type="datetime-local" class="form-control" name="start"
+                           [(ngModel)]="offre.start"
+                    />
+                </div>
+            </div>
+            <div class="form-group col-6">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.end" for="field_end">End</label>
+                <div class="d-flex">
+                    <input id="field_end" type="datetime-local" class="form-control" name="end" [(ngModel)]="offre.end"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-6">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.quantityMin"
+                       for="field_quantityMin">Quantity
+                    Min</label>
+                <input type="number" class="form-control" name="quantityMin" id="field_quantityMin"
+                       [(ngModel)]="offre.quantityMin"/>
+            </div>
+            <div class="form-group col-6">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.amountMin" for="field_amountMin">Amount
+                    Min</label>
+                <input type="number" class="form-control" name="amountMin" id="field_amountMin"
+                       [(ngModel)]="offre.amountMin"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.offre.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                   [(ngModel)]="offre.description"/>
+        </div>
+
+        <h2> Liste des packs</h2>
+
+        <div class="row" *ngFor="let pack of packs">
+            <div class="form-group col-6">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.pack.name"
+                       for="field_pack_name">Name</label>
+                <input type="text" class="form-control" name="description" id="field_pack_name"
+                       [(ngModel)]="pack.name"/>
+            </div>
+            <div class="form-group col-6">
+                <label for="field_rule">Règle</label>
+                <select class="form-control" id="field_rule" multiple name="packRules" [(ngModel)]="pack.rules">
+                    <option [ngValue]="getSelected(pack.rules, rule)"
+                            *ngFor="let rule of packRules; trackBy: trackPackRuleById">{{rule.name}}
+                    </option>
+                </select>
+            </div>
+            <hr>
+            <div class="col-12">
+                <table class="table table-responsive table-striped">
+                    <thead>
+                    <tr>
+                        <th>Ref</th>
+                        <th>Name</th>
+                        <th>ppv</th>
+                        <th>pph</th>
+                        <th>Min quantity</th>
+                        <th>Rule</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>123</td>
+                        <td>Humex Abc</td>
+                        <td>12.34 DH</td>
+                        <td>10.43</td>
+                        <td><input type="text" class="form-control"></td>
+                        <td><input type="text" class="form-control"></td>
+                        <td>
+                            <button class="btn btn-sm btn-danger">X</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <button class="btn btn-primary col-12" type="button"> Nouveau pack</button>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="pharmarketApp.offre.shipping" for="field_shipping">Shipping</label>
+            <select class="form-control" id="field_shipping" multiple name="shipping" [(ngModel)]="offre.shippings">
+                <option [ngValue]="getSelected(offre.shippings, shippingOption)"
+                        *ngFor="let shippingOption of shippings; trackBy: trackShippingById">{{shippingOption.id}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,96 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myProductLabel" jhiTranslate="pharmarketApp.product.home.createOrEditLabel">Create or edit a Product</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!product.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="product.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.product.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="product.name" required/>
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.product.ppv" for="field_ppv">Ppv</label>
+            <input type="number" class="form-control" name="ppv" id="field_ppv"
+                [(ngModel)]="product.ppv" required/>
+            <div [hidden]="!(editForm.controls.ppv?.dirty && editForm.controls.ppv?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ppv?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.ppv?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.product.pph" for="field_pph">Pph</label>
+            <input type="number" class="form-control" name="pph" id="field_pph"
+                [(ngModel)]="product.pph" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.product.code" for="field_code">Code</label>
+            <input type="text" class="form-control" name="code" id="field_code"
+                [(ngModel)]="product.code" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.product.isNew" for="field_isNew">Is New</label>
+            <input type="checkbox" class="form-control" name="isNew" id="field_isNew"
+                [(ngModel)]="product.isNew" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.product.refrence" for="field_refrence">Refrence</label>
+            <input type="text" class="form-control" name="refrence" id="field_refrence"
+                [(ngModel)]="product.refrence" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.product.commercialName" for="field_commercialName">Commercial Name</label>
+            <input type="text" class="form-control" name="commercialName" id="field_commercialName"
+                [(ngModel)]="product.commercialName" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.product.marque" for="field_marque">Marque</label>
+            <input type="text" class="form-control" name="marque" id="field_marque"
+                [(ngModel)]="product.marque" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.product.tva" for="field_tva">Tva</label>
+            <input type="number" class="form-control" name="tva" id="field_tva"
+                [(ngModel)]="product.tva" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.product.fabricationPrice" for="field_fabricationPrice">Fabrication Price</label>
+            <input type="number" class="form-control" name="fabricationPrice" id="field_fabricationPrice"
+                [(ngModel)]="product.fabricationPrice" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.product.actif" for="field_actif">Actif</label>
+            <input type="checkbox" class="form-control" name="actif" id="field_actif"
+                [(ngModel)]="product.actif" />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

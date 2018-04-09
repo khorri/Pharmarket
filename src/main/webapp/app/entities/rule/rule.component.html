@@ -1,0 +1,102 @@
+<div>
+    <h2>
+        <span jhiTranslate="pharmarketApp.rule.home.title">Rules</span>
+        <button class="btn btn-primary float-right jh-create-entity create-rule" [routerLink]="['/', { outlets: { popup: ['rule-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="pharmarketApp.rule.home.createLabel">
+            Create new Rule
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="rules">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="name"><span jhiTranslate="pharmarketApp.rule.name">Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="isActive"><span jhiTranslate="pharmarketApp.rule.isActive">Is Active</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="priority"><span jhiTranslate="pharmarketApp.rule.priority">Priority</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="quantityMin"><span jhiTranslate="pharmarketApp.rule.quantityMin">Quantity Min</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="amountMin"><span jhiTranslate="pharmarketApp.rule.amountMin">Amount Min</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="reduction"><span jhiTranslate="pharmarketApp.rule.reduction">Reduction</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="giftQuantity"><span jhiTranslate="pharmarketApp.rule.giftQuantity">Gift Quantity</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="gadgetQuantity"><span jhiTranslate="pharmarketApp.rule.gadgetQuantity">Gadget Quantity</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="isForPack"><span jhiTranslate="pharmarketApp.rule.isForPack">Is For Pack</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="isForProduct"><span jhiTranslate="pharmarketApp.rule.isForProduct">Is For Product</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="type.id"><span jhiTranslate="pharmarketApp.rule.type">Type</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="product.id"><span jhiTranslate="pharmarketApp.rule.product">Product</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="gadget.id"><span jhiTranslate="pharmarketApp.rule.gadget">Gadget</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let rule of rules ;trackBy: trackId">
+                <td><a [routerLink]="['../rule', rule.id ]">{{rule.id}}</a></td>
+                <td>{{rule.name}}</td>
+                <td>{{rule.isActive}}</td>
+                <td>{{rule.priority}}</td>
+                <td>{{rule.quantityMin}}</td>
+                <td>{{rule.amountMin}}</td>
+                <td>{{rule.reduction}}</td>
+                <td>{{rule.giftQuantity}}</td>
+                <td>{{rule.gadgetQuantity}}</td>
+                <td>{{rule.isForPack}}</td>
+                <td>{{rule.isForProduct}}</td>
+                <td>
+                    <div *ngIf="rule.type">
+                        <a [routerLink]="['../rule-type', rule.type?.id ]" >{{rule.type?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rule.product">
+                        <a [routerLink]="['../product', rule.product?.id ]" >{{rule.product?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="rule.gadget">
+                        <a [routerLink]="['../gadget', rule.gadget?.id ]" >{{rule.gadget?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../rule', rule.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'rule/'+ rule.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'rule/'+ rule.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="rules && rules.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

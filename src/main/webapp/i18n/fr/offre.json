@@ -1,0 +1,30 @@
+{
+    "pharmarketApp": {
+        "offre": {
+            "home": {
+                "title": "Offres",
+                "createLabel": "Créer une nouvelle offre",
+                "createOrEditLabel": "Créer ou éditer une offre"
+            },
+            "created": "Une nouvelle offre a été créé avec l'identifiant {{ param }}",
+            "updated": "L'offre avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "L'offre avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer l'offre {{ id }} ?"
+            },
+            "detail": {
+                "title": "Offre"
+            },
+            "name": "Désignation",
+            "start": "Date de début",
+            "end": "Date de fin",
+            "status": "Etat",
+            "description": "Description",
+            "quantityMin": "Quantité Min",
+            "amountMin": "Montant Min",
+            "offreType": "Type",
+            "pack": "Pack",
+            "shipping": "Grossiste"
+        }
+    }
+}

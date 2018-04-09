@@ -1,0 +1,23 @@
+
+{
+    "pharmarketApp": {
+        "orderState" : {
+            "home": {
+                "title": "Order States",
+                "createLabel": "Create a new Order State",
+                "createOrEditLabel": "Create or edit a Order State"
+            },
+            "created": "A new Order State is created with identifier {{ param }}",
+            "updated": "A Order State is updated with identifier {{ param }}",
+            "deleted": "A Order State is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Order State {{ id }}?"
+            },
+            "detail": {
+                "title": "Order State"
+            },
+            "name": "Name",
+            "color": "Color"
+        }
+    }
+}

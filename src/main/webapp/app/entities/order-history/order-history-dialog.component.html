@@ -1,0 +1,46 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myOrderHistoryLabel" jhiTranslate="pharmarketApp.orderHistory.home.createOrEditLabel">Create or edit a Order History</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!orderHistory.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="orderHistory.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.orderHistory.addDate" for="field_addDate">Add Date</label>
+            <div class="d-flex">
+                <input id="field_addDate" type="datetime-local" class="form-control" name="addDate" [(ngModel)]="orderHistory.addDate"
+                />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.orderHistory.ordre" for="field_ordre">Ordre</label>
+            <select class="form-control" id="field_ordre" name="ordre" [(ngModel)]="orderHistory.ordre" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="ordreOption.id === orderHistory.ordre?.id ? orderHistory.ordre : ordreOption" *ngFor="let ordreOption of ordres; trackBy: trackOrdreById">{{ordreOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.orderHistory.orderState" for="field_orderState">Order State</label>
+            <select class="form-control" id="field_orderState" name="orderState" [(ngModel)]="orderHistory.orderState">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="orderStateOption.id === orderHistory.orderState?.id ? orderHistory.orderState : orderStateOption" *ngFor="let orderStateOption of orderstates; trackBy: trackOrderStateById">{{orderStateOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

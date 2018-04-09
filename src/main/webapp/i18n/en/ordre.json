@@ -1,0 +1,32 @@
+
+{
+    "pharmarketApp": {
+        "ordre" : {
+            "home": {
+                "title": "Ordres",
+                "createLabel": "Create a new Ordre",
+                "createOrEditLabel": "Create or edit a Ordre"
+            },
+            "created": "A new Ordre is created with identifier {{ param }}",
+            "updated": "A Ordre is updated with identifier {{ param }}",
+            "deleted": "A Ordre is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Ordre {{ id }}?"
+            },
+            "detail": {
+                "title": "Ordre"
+            },
+            "totalPaid": "Total Paid",
+            "totalOrdred": "Total Ordred",
+            "type": "Type",
+            "status": "Status",
+            "paymentDueDate": "Payment Due Date",
+            "customer": "Customer",
+            "orderHistory": "Order History",
+            "orderDetail": "Order Detail",
+            "payment": "Payment",
+            "shippingMode": "Shipping Mode",
+            "shipping": "Shipping"
+        }
+    }
+}

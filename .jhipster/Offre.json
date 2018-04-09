@@ -1,0 +1,63 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "pack",
+            "otherEntityName": "pack",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "offre"
+        },
+        {
+            "relationshipName": "shipping",
+            "otherEntityName": "shipping",
+            "relationshipType": "many-to-many",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "offre"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "start",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "end",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "quantityMin",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "amountMin",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "offreType",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        }
+    ],
+    "changelogDate": "20180331093052",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "offre",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

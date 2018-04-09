@@ -1,0 +1,48 @@
+
+<div *ngIf="ordre">
+    <h2><span jhiTranslate="pharmarketApp.ordre.detail.title">Ordre</span> {{ordre.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pharmarketApp.ordre.totalPaid">Total Paid</span></dt>
+        <dd>
+            <span>{{ordre.totalPaid}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.ordre.totalOrdred">Total Ordred</span></dt>
+        <dd>
+            <span>{{ordre.totalOrdred}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.ordre.type">Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'pharmarketApp.OrderType.' + ordre.type}}">{{ordre.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.ordre.status">Status</span></dt>
+        <dd>
+            <span>{{ordre.status}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.ordre.paymentDueDate">Payment Due Date</span></dt>
+        <dd>
+            <span>{{ordre.paymentDueDate}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.ordre.customer">Customer</span></dt>
+        <dd>
+            <div *ngIf="ordre.customer">
+                <a [routerLink]="['/customer', ordre.customer?.id]">{{ordre.customer?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'ordre/'+ ordre.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

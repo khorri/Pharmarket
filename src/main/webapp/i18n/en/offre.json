@@ -1,0 +1,31 @@
+
+{
+    "pharmarketApp": {
+        "offre" : {
+            "home": {
+                "title": "Offres",
+                "createLabel": "Create a new Offre",
+                "createOrEditLabel": "Create or edit a Offre"
+            },
+            "created": "A new Offre is created with identifier {{ param }}",
+            "updated": "A Offre is updated with identifier {{ param }}",
+            "deleted": "A Offre is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Offre {{ id }}?"
+            },
+            "detail": {
+                "title": "Offre"
+            },
+            "name": "Name",
+            "start": "Start",
+            "end": "End",
+            "status": "Status",
+            "description": "Description",
+            "quantityMin": "Quantity Min",
+            "amountMin": "Amount Min",
+            "offreType": "Offre Type",
+            "pack": "Pack",
+            "shipping": "Shipping"
+        }
+    }
+}

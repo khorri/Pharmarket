@@ -1,0 +1,81 @@
+<div>
+    <h2>
+        <span jhiTranslate="pharmarketApp.offre.home.title">Offres</span>
+        <button class="btn btn-primary float-right jh-create-entity create-offre" [routerLink]="['../offre-new' ]">
+            <span class="fa fa-plus"></span>
+            <span jhiTranslate="pharmarketApp.offre.home.createLabel">
+            Create new Offre
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="offres">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+                <th jhiSortBy="name"><span jhiTranslate="pharmarketApp.offre.name">Name</span> <span
+                    class="fa fa-sort"></span></th>
+                <th jhiSortBy="start"><span jhiTranslate="pharmarketApp.offre.start">Start</span> <span
+                    class="fa fa-sort"></span></th>
+                <th jhiSortBy="end"><span jhiTranslate="pharmarketApp.offre.end">End</span> <span
+                    class="fa fa-sort"></span></th>
+                <th jhiSortBy="quantityMin"><span jhiTranslate="pharmarketApp.offre.quantityMin">Quantity Min</span>
+                    <span class="fa fa-sort"></span></th>
+                <th jhiSortBy="amountMin"><span jhiTranslate="pharmarketApp.offre.amountMin">Amount Min</span> <span
+                    class="fa fa-sort"></span></th>
+                <th jhiSortBy="offreType"><span jhiTranslate="pharmarketApp.offre.offreType">Offre Type</span> <span
+                    class="fa fa-sort"></span></th>
+                <th jhiSortBy="status"><span jhiTranslate="pharmarketApp.offre.status">Status</span> <span
+                    class="fa fa-sort"></span></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let offre of offres ;trackBy: trackId">
+                <td>{{offre.id}}</td>
+                <th>{{offre.name}}</th>
+                <td>{{offre.start | date:'shortDate'}}</td>
+                <td>{{offre.end | date:'shortDate'}}</td>
+
+                <td>{{offre.quantityMin}}</td>
+                <td>{{offre.amountMin|currency:'MAD':'symbol':'3.2-2':'fr'}}</td>
+                <td *ngIf="offre.offreType==='DIRECT'"><span class="badge badge-info">{{offre.offreType}}</span></td>
+                <td *ngIf="offre.offreType!='DIRECT'"><span class="badge badge-warning">{{offre.offreType}}</span></td>
+                <td><span [ngClass]="getStatusClass(offre.status)">{{offre.statusLabel}}</span></td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../offre/'+offre.id+'/edit' ]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'offre/'+ offre.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="offres && offres.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5"
+                            [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5"
+                            [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

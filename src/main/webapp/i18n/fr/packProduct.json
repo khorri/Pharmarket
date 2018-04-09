@@ -1,0 +1,25 @@
+
+{
+    "pharmarketApp": {
+        "packProduct" : {
+            "home": {
+                "title": "PackProducts",
+                "createLabel": "Créer un nouveau Pack Product",
+                "createOrEditLabel": "Créer ou éditer un Pack Product"
+            },
+            "created": "Un nouveau Pack Product a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Pack Product avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Pack Product avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Pack Product {{ id }} ?"
+            },
+            "detail": {
+                "title": "Pack Product"
+            },
+            "quantityMin": "Quantity Min",
+            "product": "Product",
+            "pack": "Pack",
+            "rule": "Rule"
+        }
+    }
+}

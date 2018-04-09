@@ -1,0 +1,32 @@
+
+<div *ngIf="region">
+    <h2><span jhiTranslate="pharmarketApp.region.detail.title">Region</span> {{region.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pharmarketApp.region.name">Name</span></dt>
+        <dd>
+            <span>{{region.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.region.city">City</span></dt>
+        <dd>
+            <div *ngIf="region.city">
+                <a [routerLink]="['/city', region.city?.id]">{{region.city?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'region/'+ region.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

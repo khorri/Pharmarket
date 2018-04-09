@@ -1,0 +1,32 @@
+
+<div *ngIf="conditions">
+    <h2><span jhiTranslate="pharmarketApp.conditions.detail.title">Conditions</span> {{conditions.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pharmarketApp.conditions.name">Name</span></dt>
+        <dd>
+            <span>{{conditions.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.conditions.rule">Rule</span></dt>
+        <dd>
+            <div *ngIf="conditions.rule">
+                <a [routerLink]="['/rule', conditions.rule?.id]">{{conditions.rule?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'conditions/'+ conditions.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

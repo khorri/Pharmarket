@@ -1,0 +1,42 @@
+
+<div *ngIf="orderDetails">
+    <h2><span jhiTranslate="pharmarketApp.orderDetails.detail.title">Order Details</span> {{orderDetails.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pharmarketApp.orderDetails.quantity">Quantity</span></dt>
+        <dd>
+            <span>{{orderDetails.quantity}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.orderDetails.quantityShipped">Quantity Shipped</span></dt>
+        <dd>
+            <span>{{orderDetails.quantityShipped}}</span>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.orderDetails.ordre">Ordre</span></dt>
+        <dd>
+            <div *ngIf="orderDetails.ordre">
+                <a [routerLink]="['/ordre', orderDetails.ordre?.id]">{{orderDetails.ordre?.id}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="pharmarketApp.orderDetails.product">Product</span></dt>
+        <dd>
+            <div *ngIf="orderDetails.product">
+                <a [routerLink]="['/product', orderDetails.product?.id]">{{orderDetails.product?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'order-details/'+ orderDetails.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
