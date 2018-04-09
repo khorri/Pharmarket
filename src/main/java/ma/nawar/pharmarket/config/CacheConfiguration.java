@@ -88,6 +88,7 @@ public class CacheConfiguration {
             cm.createCache(ma.nawar.pharmarket.domain.Pack.class.getName() + ".packProducts", jcacheConfiguration);
             cm.createCache(ma.nawar.pharmarket.domain.Offre.class.getName() + ".shippings", jcacheConfiguration);
             cm.createCache(ma.nawar.pharmarket.domain.Shipping.class.getName() + ".offres", jcacheConfiguration);
+            cm.createCache(ma.nawar.pharmarket.domain.Rule.class.getName() + ".packProducts", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

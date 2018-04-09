@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.*;
 import ma.nawar.pharmarket.domain.*;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.*;
 
 /**
@@ -76,6 +77,16 @@ public class OffreDeserializer extends JsonDeserializer {
         Offre offre = new Offre();
         offre.setName(data.get("name").toString());
         //offre.setStart(jsonNode.get("name").asText());
+        if (data.get("start") != null) {
+            String startString = (String) data.get("start");
+            Instant start = Instant.parse(startString);
+            offre.setStart(start);
+        }
+        if (data.get("end") != null) {
+            String endString = (String) data.get("end");
+            Instant end = Instant.parse(endString);
+            offre.setEnd(end);
+        }
         if (data.get("description") != null) {
             offre.setDescription(data.get("description").toString());
         }
@@ -94,7 +105,23 @@ public class OffreDeserializer extends JsonDeserializer {
         }
 
         offre.setPacks(this.getPacks(data.get("packs")));
+        offre.setShippings(this.getShippings(data.get("shippings")));
         return offre;
+    }
+
+    private Set<Shipping> getShippings(Object shippings) {
+        List<Map<String, Object>> ListShipping = (ArrayList<Map<String, Object>>) shippings;
+        Set<Shipping> shppingSet = new HashSet<Shipping>();
+        if (ListShipping != null) {
+            ListShipping.stream().forEach(shipping -> {
+                Shipping sh = new Shipping();
+                Long id = ((Integer) shipping.get("id")).longValue();
+                sh.setId(id);
+                shppingSet.add(sh);
+            });
+        }
+        return shppingSet;
+
     }
 
     private Set<Pack> getPacks(Object packs) {
@@ -116,41 +143,35 @@ public class OffreDeserializer extends JsonDeserializer {
     private Set<PackProduct> getPackProduct(Object packProducts) {
         List<Map<String, Object>> ListPackProducts = (ArrayList<Map<String, Object>>) packProducts;
         Set<PackProduct> packProductsReturn = new HashSet<PackProduct>();
-        ListPackProducts.stream().forEach(pp -> {
-            PackProduct packProduct = new PackProduct();
-            packProduct.setQuantityMin(Integer.valueOf(pp.get("quantityMin").toString()));
-            Map<String, Object> p = (Map<String, Object>) pp.get("product");
-            Long idProduct = ((Integer) p.get("id")).longValue();
-            Product product = new Product();
-            product.setId(idProduct);
-            packProduct.setProduct(product);
-            packProduct.setRules(this.getRules(pp.get("rules")));
-            packProductsReturn.add(packProduct);
-        });
+        if (ListPackProducts != null) {
+            ListPackProducts.stream().forEach(pp -> {
+                PackProduct packProduct = new PackProduct();
+                packProduct.setQuantityMin(Integer.valueOf(pp.get("quantityMin").toString()));
+                Map<String, Object> p = (Map<String, Object>) pp.get("product");
+                Long idProduct = ((Integer) p.get("id")).longValue();
+                Product product = new Product();
+                product.setId(idProduct);
+                packProduct.setProduct(product);
+                packProduct.setRules(this.getRules(pp.get("rules")));
+                packProductsReturn.add(packProduct);
+            });
+        }
         return packProductsReturn;
     }
 
-    /*private Set<Rule> getPackProductRules(Object rules) {
-        Set<Rule> rulesSet = new HashSet<Rule>();
-        List<Map<String, Object>> rulesMap = (ArrayList<Map<String, Object>>) rules;
-        rulesMap.stream().forEach(rule -> {
-            Rule r = new Rule();
-            Long id = ((Integer) rule.get("id")).longValue();
-            r.setId(id);
-            rulesSet.add(r);
-        });
-        return rulesSet;
-    }*/
+
 
     private Set<Rule> getRules(Object rules) {
         List<Map<String, Object>> ListRules = (ArrayList<Map<String, Object>>) rules;
         Set<Rule> ruleSet = new HashSet<Rule>();
-        ListRules.stream().forEach(rule -> {
-            Rule r = new Rule();
-            Long id = ((Integer) rule.get("id")).longValue();
-            r.setId(id);
-            ruleSet.add(r);
-        });
+        if (ListRules != null) {
+            ListRules.stream().forEach(rule -> {
+                Rule r = new Rule();
+                Long id = ((Integer) rule.get("id")).longValue();
+                r.setId(id);
+                ruleSet.add(r);
+            });
+        }
         return ruleSet;
     }
 

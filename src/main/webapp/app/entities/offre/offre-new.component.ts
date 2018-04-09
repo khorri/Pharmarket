@@ -1,8 +1,8 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, Injectable} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpResponse, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {JhiEventManager, JhiAlertService} from 'ng-jhipster';
 import {Offre, OffreType, OffreStatus} from './offre.model';
 import {OffrePopupService} from './offre-popup.service';
@@ -12,10 +12,50 @@ import {Rule, RuleService} from '../rule';
 import {Pack, PackService} from '../pack';
 import {Product, ProductService} from '../product';
 import {PackProduct} from "../pack-product/pack-product.model";
+import {NgbDatepickerI18n} from '@ng-bootstrap/ng-bootstrap';
+import * as moment from "moment";
+
+
+const I18N_VALUES = {
+    'fr': {
+        weekdays: ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'],
+        months: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc'],
+    }
+    // other languages you would support
+};
+
+// Define a service holding the language. You probably already have one if your app is i18ned. Or you could also
+// use the Angular LOCALE_ID value
+@Injectable()
+export class I18n {
+    language = 'fr';
+}
+
+// Define custom service providing the months and weekdays translations
+@Injectable()
+export class CustomDatepickerI18n extends NgbDatepickerI18n {
+
+    constructor(private _i18n: I18n) {
+        super();
+    }
+
+    getWeekdayShortName(weekday: number): string {
+        return I18N_VALUES[this._i18n.language].weekdays[weekday - 1];
+    }
+
+    getMonthShortName(month: number): string {
+        return I18N_VALUES[this._i18n.language].months[month - 1];
+    }
+
+    getMonthFullName(month: number): string {
+        return this.getMonthShortName(month);
+    }
+}
 
 @Component({
     selector: 'jhi-offre-new',
-    templateUrl: './offre-new.component.html'
+    templateUrl: './offre-new.component.html',
+    providers: [I18n, {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}]
 })
 export class OffreNewComponent implements OnInit {
 
@@ -33,6 +73,8 @@ export class OffreNewComponent implements OnInit {
     types = OffreType;
     status = OffreStatus;
     selectedAll = false;
+    rulesAll: Rule[];
+    quantityMinAll = 1;
 
 
     constructor(private jhiAlertService: JhiAlertService,
@@ -49,8 +91,9 @@ export class OffreNewComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.offre.status = OffreType[0];
-        this.offre.offreType = OffreStatus[0].id;
+        this.init();
+        this.offre.status = OffreStatus[0].id;
+        this.offre.offreType = OffreType[0];
         this.shippingService.query({size: 9999})
             .subscribe((res: HttpResponse<Shipping[]>) => {
                 this.shippings = res.body;
@@ -107,6 +150,17 @@ export class OffreNewComponent implements OnInit {
 
     }
 
+    isValidData() {
+        if (this.offre.packs && this.offre.packs.length > 0) {
+            let pack: Pack = this.offre.packs[0];
+            if (pack.packProducts && pack.packProducts.length > 0)
+                return true;
+        }
+
+
+        return false;
+    }
+
     selectionChanged(item: any) {
         console.log(item);
     }
@@ -134,6 +188,7 @@ export class OffreNewComponent implements OnInit {
     }
 
     private addProduct(product: any, pack: any) {
+
         const packProducts: PackProduct = new PackProduct(0, 1, [], product);
         if (!pack.packProducts)
             pack.packProducts = [];
@@ -160,12 +215,34 @@ export class OffreNewComponent implements OnInit {
 
     }
 
+    isDisabled(date: NgbDateStruct, current: {year: number; month: number;}) {
+
+        let d = new Date(date.year, date.month - 1, date.day);
+        let day = d.getDay();
+        let isWeekend = (day == 6) || (day == 0);    // 6 = Saturday, 0 = Sunday
+        return isWeekend;
+    }
+
     addPack() {
         let pack: Pack = new Pack(0, '', []);
         pack.packProducts = [];
         if (!this.offre.packs)
             this.offre.packs = [];
         this.offre.packs.push(pack);
+
+    }
+
+    private init() {
+        let current = moment();
+        let currentDate = moment(current);
+        let futureMonth = moment(current).add(1, 'M');
+        let futureMonthEnd = moment(futureMonth).endOf('month');
+
+        if (currentDate.date() != futureMonth.date() && futureMonth.isSame(futureMonthEnd.format('YYYY-MM-DD'))) {
+            futureMonth = futureMonth.add(1, 'd');
+        }
+        this.offre.displayStart = {year: currentDate.year(), month: currentDate.month() + 1, day: currentDate.date()};
+        this.offre.displayEnd = {year: futureMonth.year(), month: futureMonth.month() + 1, day: futureMonth.date()};
 
     }
 
@@ -205,6 +282,13 @@ export class OffreNewComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        if (this.offre.displayStart) {
+            this.offre.start = new Date(this.offre.displayStart.year, this.offre.displayStart.month - 1, this.offre.displayStart.day);
+        }
+        if (this.offre.displayStart) {
+            this.offre.end = new Date(this.offre.displayEnd.year, this.offre.displayEnd.month - 1, this.offre.displayEnd.day + 1);
+        }
+
         //this.offre.status = this.offre.status.id;
         if (this.offre.id !== undefined) {
             this.subscribeToSaveResponse(
@@ -252,6 +336,24 @@ export class OffreNewComponent implements OnInit {
         }
         return option;
     }
-}
 
+    applyAll(pack: Pack) {
+        if (this.quantityMinAll) {
+            pack.packProducts.forEach((pp: PackProduct) => {
+                pp.quantityMin = this.quantityMinAll;
+            });
+        }
+        if (this.rulesAll) {
+            pack.packProducts.forEach((pp: PackProduct) => {
+                pp.rules = [].concat(this.rulesAll);
+            });
+        }
+    }
+
+    isProductSelected(pack: Pack) {
+        if (pack && pack.packProducts && pack.packProducts.length > 0)
+            return true;
+        return false;
+    }
+}
 

@@ -3,8 +3,6 @@
     <div class="modal-header">
         <h4 class="modal-title" id="myOffreLabel" jhiTranslate="pharmarketApp.offre.home.createOrEditLabel">Create or
             edit a Offre</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
@@ -15,7 +13,7 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-8">
+            <div class="form-group col-3">
                 <label class="form-control-label" jhiTranslate="pharmarketApp.offre.name" for="field_name">Name</label>
                 <input type="text" class="form-control" name="name" id="field_name"
                        [(ngModel)]="offre.name" required/>
@@ -27,7 +25,22 @@
                     </small>
                 </div>
             </div>
-            <div class="form-group col-4">
+
+            <div class="form-group col-3">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.quantityMin"
+                       for="field_quantityMin">Quantity
+                    Min</label>
+                <input type="number" class="form-control" name="quantityMin" id="field_quantityMin"
+                       [(ngModel)]="offre.quantityMin"/>
+            </div>
+            <div class="form-group col-3">
+                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.amountMin" for="field_amountMin">Amount
+                    Min</label>
+                <input type="number" class="form-control" name="amountMin" id="field_amountMin"
+                       [(ngModel)]="offre.amountMin"/>
+            </div>
+
+            <div class="form-group col-3">
                 <label class="form-control-label" jhiTranslate="pharmarketApp.offre.status"
                        for="field_status">Status</label>
                 <select class="form-control" id="field_status" name="status" [(ngModel)]="offre.status">
@@ -42,36 +55,29 @@
             <div class="form-group col-3">
                 <label class="form-control-label" jhiTranslate="pharmarketApp.offre.start"
                        for="field_start">Start</label>
-                <div class="d-flex">
-                    <input id="field_start" type="datetime-local" class="form-control" name="start"
-                           [(ngModel)]="offre.start"
-                    />
+                <div class="input-group">
+                    <input id="field_start" type="text" class="form-control" name="start" ngbDatepicker
+                           #start="ngbDatepicker" [(ngModel)]="offre.displayStart" readonly
+                           [markDisabled]="isDisabled"/>
+                    <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary" (click)="start.toggle()"><i
+                        class="fa fa-calendar"></i></button>
+                </span>
                 </div>
             </div>
             <div class="form-group col-3">
                 <label class="form-control-label" jhiTranslate="pharmarketApp.offre.end" for="field_end">End</label>
-                <div class="d-flex">
-                    <input id="field_end" type="datetime-local" class="form-control" name="end" [(ngModel)]="offre.end"
-                    />
+
+                <div class="input-group">
+                    <input id="field_end" type="text" class="form-control" name="end" ngbDatepicker
+                           #end="ngbDatepicker" [(ngModel)]="offre.displayEnd" readonly [markDisabled]="isDisabled"/>
+                    <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary" (click)="end.toggle()"><i
+                        class="fa fa-calendar"></i></button>
+                </span>
                 </div>
             </div>
             <div class="form-group col-3">
-                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.quantityMin"
-                       for="field_quantityMin">Quantity
-                    Min</label>
-                <input type="number" class="form-control" name="quantityMin" id="field_quantityMin"
-                       [(ngModel)]="offre.quantityMin"/>
-            </div>
-            <div class="form-group col-3">
-                <label class="form-control-label" jhiTranslate="pharmarketApp.offre.amountMin" for="field_amountMin">Amount
-                    Min</label>
-                <input type="number" class="form-control" name="amountMin" id="field_amountMin"
-                       [(ngModel)]="offre.amountMin"/>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-6">
                 <label for="field_type">Type</label>
                 <select class="form-control" id="field_type" name="offreType" [(ngModel)]="offre.offreType">
                     <option [ngValue]="typeOption === offre.offreType ? offre.offreType : typeOption"
@@ -80,13 +86,18 @@
                 </select>
             </div>
 
-            <div class="form-group col-6">
+            <div class="form-group col-3">
                 <label jhiTranslate="pharmarketApp.offre.shipping">Shipping</label>
                 <angular2-multiselect [data]="shippings" [(ngModel)]="offre.shippings"
                                       [ngModelOptions]="{standalone: true}"
                                       [settings]="dropdownShipSettings"
                 ></angular2-multiselect>
             </div>
+
+        </div>
+
+        <div class="row">
+
         </div>
 
         <!--div class="form-group">
@@ -130,15 +141,38 @@
                 <tr>
                     <th><input type="checkbox" [(ngModel)]="pack.selectedAll" (click)="selectAll(pack)"
                                name="selectAll_{{idx}}"></th>
-                    <th>Ref</th>
-                    <th>Name</th>
-                    <th>ppv</th>
-                    <th>pph</th>
-                    <th>Min quantity</th>
-                    <th>Rule</th>
+                    <th>Référence</th>
+                    <th>Désignation</th>
+                    <th>PPV</th>
+                    <th>PPH</th>
+                    <th>Quantité min</th>
+                    <th>Règle</th>
                     <th>
                         <button class="btn btn-sm btn-danger" (click)="removeSelected(pack)">
                             <i class="fa fa-trash"></i>
+                        </button>
+                    </th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>
+                        <input type="text" class="form-control" [(ngModel)]="quantityMinAll"
+                               name="quantityMinAll">
+                    </th>
+                    <td>
+                        <angular2-multiselect [data]="productRules" [(ngModel)]="rulesAll"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownSettings"
+                        ></angular2-multiselect>
+                    </td>
+                    <th>
+                        <button type="button" class="btn btn-sm btn-success" [disabled]="!isProductSelected(pack)"
+                                (click)="applyAll(pack)">
+                            <i class="fa fa-check"></i>
                         </button>
                     </th>
                 </tr>
@@ -148,8 +182,8 @@
                     <td><input type="checkbox" [(ngModel)]="p.selected" name="select_{{i}}"></td>
                     <td>{{p.product.id}}</td>
                     <td>{{p.product.name}}</td>
-                    <td>{{p.product.ppv}}</td>
-                    <td>{{p.product.pph}}</td>
+                    <td>{{p.product.ppv|currency:'MAD':'symbol':'3.2-2':'fr'}}</td>
+                    <td>{{p.product.pph|currency:'MAD':'symbol':'3.2-2':'fr'}}</td>
                     <td><input type="text" class="form-control" [(ngModel)]="p.quantityMin"
                                name="product_{{i}}">
                     </td>
@@ -190,16 +224,16 @@
         <br/>
 
         <div class="row">
-            <button class="btn btn-primary col-12" type="button" (click)="addPack()"> Nouveau pack</button>
+            <button class="btn btn-primary col-12" type="button" (click)="addPack()"> Ajouter un pack</button>
         </div>
 
 
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" [routerLink]="['../offre' ]">
             <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
-        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving || !isValidData()" class="btn btn-primary">
             <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
     </div>
