@@ -49,9 +49,9 @@ public class OffreResource {
     @Timed
     public ResponseEntity<Offre> createOffre(@Valid @RequestBody Offre offre) throws URISyntaxException {
         log.debug("REST request to save Offre : {}", offre);
-        if (offre.getId() != null) {
+        /*if (offre.getId() != null) {
             throw new BadRequestAlertException("A new offre cannot already have an ID", ENTITY_NAME, "idexists");
-        }
+        }*/
         Offre result = offreService.save(offre);
         return ResponseEntity.created(new URI("/api/offres/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

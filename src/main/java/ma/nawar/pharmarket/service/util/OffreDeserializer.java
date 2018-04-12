@@ -77,6 +77,9 @@ public class OffreDeserializer extends JsonDeserializer {
         Offre offre = new Offre();
         offre.setName(data.get("name").toString());
         //offre.setStart(jsonNode.get("name").asText());
+        if (data.get("id") != null) {
+            offre.setId(Long.valueOf(data.get("id").toString()));
+        }
         if (data.get("start") != null) {
             String startString = (String) data.get("start");
             Instant start = Instant.parse(startString);
@@ -129,6 +132,9 @@ public class OffreDeserializer extends JsonDeserializer {
         Set<Pack> listPack = new HashSet<Pack>();
         ListPacks.stream().forEach(packMap -> {
             Pack pack = new Pack();
+            if (packMap.get("id") != null && !"0".equals(packMap.get("id"))) {
+                pack.setId(Long.valueOf(packMap.get("id").toString()));
+            }
             if (packMap.get("name") != null) {
                 pack.setName(packMap.get("name").toString());
                 pack.setRules(this.getRules(packMap.get("rules")));
@@ -146,6 +152,9 @@ public class OffreDeserializer extends JsonDeserializer {
         if (ListPackProducts != null) {
             ListPackProducts.stream().forEach(pp -> {
                 PackProduct packProduct = new PackProduct();
+                if (pp.get("id") != null && !"0".equals(pp.get("id"))) {
+                    packProduct.setId(Long.valueOf(pp.get("id").toString()));
+                }
                 packProduct.setQuantityMin(Integer.valueOf(pp.get("quantityMin").toString()));
                 Map<String, Object> p = (Map<String, Object>) pp.get("product");
                 Long idProduct = ((Integer) p.get("id")).longValue();

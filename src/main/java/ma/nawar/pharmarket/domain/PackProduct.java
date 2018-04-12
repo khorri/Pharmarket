@@ -1,5 +1,6 @@
 package ma.nawar.pharmarket.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -32,7 +33,8 @@ public class PackProduct implements Serializable {
     @ManyToOne
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Pack pack;
 
     @ManyToMany
@@ -55,17 +57,21 @@ public class PackProduct implements Serializable {
         return quantityMin;
     }
 
+    public void setQuantityMin(Integer quantityMin) {
+        this.quantityMin = quantityMin;
+    }
+
     public PackProduct quantityMin(Integer quantityMin) {
         this.quantityMin = quantityMin;
         return this;
     }
 
-    public void setQuantityMin(Integer quantityMin) {
-        this.quantityMin = quantityMin;
-    }
-
     public Product getProduct() {
         return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public PackProduct product(Product product) {
@@ -73,12 +79,12 @@ public class PackProduct implements Serializable {
         return this;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     public Pack getPack() {
         return pack;
+    }
+
+    public void setPack(Pack pack) {
+        this.pack = pack;
     }
 
     public PackProduct pack(Pack pack) {
@@ -86,12 +92,12 @@ public class PackProduct implements Serializable {
         return this;
     }
 
-    public void setPack(Pack pack) {
-        this.pack = pack;
-    }
-
     public Set<Rule> getRules() {
         return rules;
+    }
+
+    public void setRules(Set<Rule> rules) {
+        this.rules = rules;
     }
 
     public PackProduct rules(Set<Rule> rules) {
@@ -109,10 +115,6 @@ public class PackProduct implements Serializable {
         this.rules.remove(rule);
         rule.getPackProducts().remove(this);
         return this;
-    }
-
-    public void setRules(Set<Rule> rules) {
-        this.rules = rules;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

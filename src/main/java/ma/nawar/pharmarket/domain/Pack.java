@@ -40,12 +40,12 @@ public class Pack implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "rules_id", referencedColumnName = "id"))
     private Set<Rule> rules = new HashSet<>();
 
-    @OneToMany(mappedBy = "pack", cascade = CascadeType.REMOVE)
-    @JsonIgnore
+    @OneToMany(mappedBy = "pack", cascade = {CascadeType.REMOVE})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PackProduct> packProducts = new HashSet<>();
 
     @ManyToOne
+    @JsonIgnore
     private Offre offre;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

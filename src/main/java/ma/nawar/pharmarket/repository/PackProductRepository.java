@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Spring Data JPA repository for the PackProduct entity.
@@ -21,7 +22,10 @@ public interface PackProductRepository extends JpaRepository<PackProduct, Long> 
     @Query("select pack_product from PackProduct pack_product left join fetch pack_product.rules where pack_product.id =:id")
     PackProduct findOneWithEagerRelationships(@Param("id") Long id);
 
-    @Query("select pack_product from PackProduct pack_product where pack_product.pack.id=:pack.id")
-    List<PackProduct> findByPack(Pack pack);
+    @Query("select pack_product from PackProduct pack_product left join fetch pack_product.rules where pack_product.pack.id =:id")
+    Set<PackProduct> findByPackWithEagerRelationships(@Param("id") Long id);
 
+    @Modifying
+    @Query("delete from PackProduct pack_product  where pack_product.pack.id =:packId and pack_product.id not in :ids")
+    void delete(@Param("packId") Long packId, @Param("ids") List<Long> ids);
 }

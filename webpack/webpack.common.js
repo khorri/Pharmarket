@@ -37,7 +37,12 @@ module.exports = (options) => ({
             {
                 test: /manifest.webapp$/,
                 loader: 'file-loader?name=manifest.webapp!web-app-manifest-loader'
+            },
+            {
+                test: /\.scss$/,
+                use: ['raw-loader', 'sass-loader']
             }
+
         ]
     },
     plugins: [

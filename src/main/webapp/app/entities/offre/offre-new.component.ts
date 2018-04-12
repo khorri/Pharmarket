@@ -84,7 +84,8 @@ export class OffreNewComponent implements OnInit {
                 private packService: PackService,
                 private productService: ProductService,
                 private eventManager: JhiEventManager,
-                private router: Router) {
+                private router: Router,
+                private route: ActivatedRoute) {
 
 
     }
@@ -94,6 +95,10 @@ export class OffreNewComponent implements OnInit {
         this.init();
         this.offre.status = OffreStatus[0].id;
         this.offre.offreType = OffreType[0];
+        this.route.params.subscribe((params) => {
+            this.load(params['id']);
+        });
+
         this.shippingService.query({size: 9999})
             .subscribe((res: HttpResponse<Shipping[]>) => {
                 this.shippings = res.body;
@@ -143,6 +148,7 @@ export class OffreNewComponent implements OnInit {
             selectAllText: 'Selectionner tous',
             unSelectAllText: 'déselectionner tous',
             classes: 'multi-select',
+            enableSearchFilter: true,
             badgeShowLimit: 3,
             labelKey: 'name'
         };
@@ -150,6 +156,26 @@ export class OffreNewComponent implements OnInit {
 
     }
 
+    load(id) {
+        if (!id)
+            return;
+        this.offreService.find(id)
+            .subscribe((offreResponse: HttpResponse<Offre>) => {
+                this.offre = offreResponse.body;
+                let start = moment(this.offre.start);
+                let end = moment(this.offre.end);
+                this.offre.displayStart = {
+                    year: start.year(),
+                    month: start.month() + 1,
+                    day: start.date()
+                };
+                this.offre.displayEnd = {
+                    year: end.year(),
+                    month: end.month() + 1,
+                    day: end.date()
+                };
+            });
+    }
     isValidData() {
         if (this.offre.packs && this.offre.packs.length > 0) {
             let pack: Pack = this.offre.packs[0];
@@ -189,7 +215,7 @@ export class OffreNewComponent implements OnInit {
 
     private addProduct(product: any, pack: any) {
 
-        const packProducts: PackProduct = new PackProduct(0, 1, [], product);
+        const packProducts: PackProduct = new PackProduct(null, 1, [], product);
         if (!pack.packProducts)
             pack.packProducts = [];
         const alreadyExists = pack.packProducts.filter((p) => {
@@ -224,7 +250,7 @@ export class OffreNewComponent implements OnInit {
     }
 
     addPack() {
-        let pack: Pack = new Pack(0, '', []);
+        let pack: Pack = new Pack(null, '', []);
         pack.packProducts = [];
         if (!this.offre.packs)
             this.offre.packs = [];
@@ -290,13 +316,13 @@ export class OffreNewComponent implements OnInit {
         }
 
         //this.offre.status = this.offre.status.id;
-        if (this.offre.id !== undefined) {
+        /*if (this.offre.id !== undefined) {
             this.subscribeToSaveResponse(
                 this.offreService.update(this.offre));
-        } else {
+         } else {*/
             this.subscribeToSaveResponse(
                 this.offreService.create(this.offre));
-        }
+        //}
     }
 
     private    subscribeToSaveResponse(result: Observable < HttpResponse < Offre >>) {
@@ -354,6 +380,10 @@ export class OffreNewComponent implements OnInit {
         if (pack && pack.packProducts && pack.packProducts.length > 0)
             return true;
         return false;
+    }
+
+    trackIndex(index: number, item: Offre) {
+        return index;
     }
 }
 

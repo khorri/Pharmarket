@@ -25,8 +25,10 @@ export class OffreService {
     }
 
     update(offre: Offre): Observable<EntityResponseType> {
-        const copy = this.convert(offre);
-        return this.http.put<Offre>(this.resourceUrl, copy, {observe: 'response'})
+        //const copy = this.convert(offre);
+        return this.http.post<Offre>(this.resourceUrl, Offre, {
+            observe: 'response'
+        })
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 

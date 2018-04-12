@@ -56,7 +56,6 @@ public class Offre implements Serializable {
     private String offreType;
 
     @OneToMany(mappedBy = "offre", cascade = CascadeType.REMOVE)
-    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Pack> packs = new HashSet<>();
 

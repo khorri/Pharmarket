@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -55,15 +56,39 @@ public class OffreServiceImpl implements OffreService {
         packs = packs.stream().map(pack -> {
             pack.setOffre(offer);
             final Pack pac = packRepository.save(pack);
+
             Set<PackProduct> pp = pack.getPackProducts().stream().map(packProduct -> {
                 packProduct.setPack(pac);
                 return packProductRepository.save(packProduct);
             }).collect(Collectors.toSet());
+
+            removeOthersPackProducts(pac, pp);
             pac.setPackProducts(pp);
             return pac;
         }).collect(Collectors.toSet());
+        removeOthersPacks(offre, packs);
         offer.setPacks(packs);
         return offer;
+    }
+
+    private void removeOthersPackProducts(Pack pac, Set<PackProduct> pp) {
+        List<Long> packProductIds = pp.stream().map(packProduct -> {
+            return packProduct.getId();
+        }).collect(Collectors.toList());
+        packProductRepository.delete(pac.getId(), packProductIds);
+    }
+
+    private void removeOthersPacks(Offre offre, Set<Pack> packs) {
+        List<Pack> packsAll = packRepository.findByOffreWithEagerRelationships(offre.getId());
+        List<Pack> intersect = packsAll.stream()
+            .filter(pack -> {
+                return !packs.contains(pack);
+            })
+            .collect(Collectors.toList());
+        intersect.forEach(pack -> {
+            packRepository.delete(pack);
+        });
+
     }
 
     /**
@@ -89,7 +114,15 @@ public class OffreServiceImpl implements OffreService {
     @Transactional(readOnly = true)
     public Offre findOne(Long id) {
         log.debug("Request to get Offre : {}", id);
-        return offreRepository.findOneWithEagerRelationships(id);
+        Offre offre = offreRepository.findOneWithEagerRelationships(id);
+        List<Pack> packs = packRepository.findByOffreWithEagerRelationships(id);
+        Set<Pack> packSet = packs.stream().map(pack -> {
+            Set<PackProduct> packProducts = packProductRepository.findByPackWithEagerRelationships(pack.getId());
+            pack.setPackProducts(packProducts);
+            return pack;
+        }).collect(Collectors.toSet());
+        offre.setPacks(packSet);
+        return offre;
     }
 
     /**
@@ -101,8 +134,6 @@ public class OffreServiceImpl implements OffreService {
     @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Offre : {}", id);
-        //List<Pack> packs = packRepository.findByOffre(id);
-        //packs.stream().map(PackProductRepository::findByPack).collect(Collectors.toSet());
         offreRepository.delete(id);
     }
 }
