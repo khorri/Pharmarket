@@ -4,8 +4,8 @@
         {
             "relationshipName": "ordre",
             "otherEntityName": "ordre",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "payment"
         }
     ],
     "fields": [
@@ -22,9 +22,9 @@
         }
     ],
     "changelogDate": "20180331093106",
-    "entityTableName": "payment",
     "dto": "no",
-    "pagination": "pagination",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": false
+    "entityTableName": "payment",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
 }

@@ -217,3 +217,52 @@ ui bootstrap tweaks
 .selected-list .c-btn {
     box-shadow: none !important;
 }
+
+.card-header-sm {
+    height: 3rem;
+    padding-left: 0.45rem;
+    color: #fff;
+}
+
+.btn-primary {
+    background-color: #009688;
+    border-color: #009688;
+}
+
+.btn-primary:hover {
+    background-color: #42B2A6;
+    border-color: #42B2A6;
+}
+
+.bg-primary {
+    background-color: #009688;
+    border-color: #009688;
+}
+
+.bg-primary:focus {
+    background-color: #009688;
+    border-color: #009688;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    background-color: #42B2A6;
+    border-color: #42B2A6;
+}
+
+.rule-list {
+    margin-bottom: 0px !important;
+}
+
+.fixed-footer {
+    position: fixed;
+    bottom: 0px;
+    background: #fff;
+    width: 100%;
+    border-top-color: #666666;
+    left: 0;
+}
+
+.table-sm-order td, .table-sm-order th {
+    padding: 0.1rem !important;
+    font-size: 0.9rem;
+}

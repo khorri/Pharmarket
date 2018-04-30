@@ -7,6 +7,7 @@ import { OrdreComponent } from './ordre.component';
 import { OrdreDetailComponent } from './ordre-detail.component';
 import { OrdrePopupComponent } from './ordre-dialog.component';
 import { OrdreDeletePopupComponent } from './ordre-delete-dialog.component';
+import {OrdreNewComponent} from "./ordre-new.component";
 
 @Injectable()
 export class OrdreResolvePagingParams implements Resolve<any> {
@@ -39,6 +40,14 @@ export const ordreRoute: Routes = [
     }, {
         path: 'ordre/:id',
         component: OrdreDetailComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'pharmarketApp.ordre.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'order-new',
+        component: OrdreNewComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'pharmarketApp.ordre.home.title'

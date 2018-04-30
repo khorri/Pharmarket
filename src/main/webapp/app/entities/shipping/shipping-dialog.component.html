@@ -49,13 +49,6 @@
                 [(ngModel)]="shipping.isGrossiste" />
         </div>
 
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pharmarketApp.shipping.ordre" for="field_ordre">Ordre</label>
-            <select class="form-control" id="field_ordre" name="ordre" [(ngModel)]="shipping.ordre" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="ordreOption.id === shipping.ordre?.id ? shipping.ordre : ordreOption" *ngFor="let ordreOption of ordres; trackBy: trackOrdreById">{{ordreOption.id}}</option>
-            </select>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

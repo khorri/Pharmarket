@@ -9,8 +9,8 @@ export class Shipping implements BaseEntity {
         public phone?: string,
         public contact?: string,
         public isGrossiste?: boolean,
-        public ordre?: BaseEntity,
         public offres?: BaseEntity[],
+        public ordres?: BaseEntity[],
     ) {
         this.isGrossiste = false;
     }

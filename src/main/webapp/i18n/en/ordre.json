@@ -21,12 +21,14 @@
             "type": "Type",
             "status": "Status",
             "paymentDueDate": "Payment Due Date",
+            "totalDiscount": "Total Discount",
             "customer": "Customer",
             "orderHistory": "Order History",
             "orderDetail": "Order Detail",
+            "offre": "Offre",
             "payment": "Payment",
-            "shippingMode": "Shipping Mode",
-            "shipping": "Shipping"
+            "shipping": "Shipping",
+            "shippingMode": "Shipping Mode"
         }
     }
 }

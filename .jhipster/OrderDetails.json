@@ -8,12 +8,10 @@
             "otherEntityField": "id"
         },
         {
-            "relationshipType": "one-to-one",
-            "relationshipName": "product",
-            "otherEntityName": "product",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "orderDetails"
+            "relationshipName": "packProduct",
+            "otherEntityName": "packProduct",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         }
     ],
     "fields": [
@@ -27,12 +25,16 @@
         {
             "fieldName": "quantityShipped",
             "fieldType": "Integer"
+        },
+        {
+            "fieldName": "ugQuantity",
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20180331093103",
-    "entityTableName": "order_details",
     "dto": "no",
-    "pagination": "pagination",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": false
+    "entityTableName": "order_details",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
 }

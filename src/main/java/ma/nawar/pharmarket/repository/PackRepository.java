@@ -22,7 +22,7 @@ public interface PackRepository extends JpaRepository<Pack, Long> {
     @Query("select pack from Pack pack left join fetch pack.rules where pack.id =:id")
     Pack findOneWithEagerRelationships(@Param("id") Long id);
 
-    @Query("select pack from Pack pack left join fetch pack.rules where pack.offre.id =:id")
+    @Query("select pack from Pack pack left join fetch pack.rules  where pack.offre.id =:id")
     List<Pack> findByOffreWithEagerRelationships(@Param("id") Long id);
 
 

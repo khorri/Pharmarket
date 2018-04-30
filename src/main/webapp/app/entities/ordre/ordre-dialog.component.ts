@@ -10,6 +10,10 @@ import { Ordre } from './ordre.model';
 import { OrdrePopupService } from './ordre-popup.service';
 import { OrdreService } from './ordre.service';
 import { Customer, CustomerService } from '../customer';
+import { Offre, OffreService } from '../offre';
+import { Payment, PaymentService } from '../payment';
+import { Shipping, ShippingService } from '../shipping';
+import { ShippingMode, ShippingModeService } from '../shipping-mode';
 
 @Component({
     selector: 'jhi-ordre-dialog',
@@ -22,11 +26,23 @@ export class OrdreDialogComponent implements OnInit {
 
     customers: Customer[];
 
+    offres: Offre[];
+
+    payments: Payment[];
+
+    shippings: Shipping[];
+
+    shippingmodes: ShippingMode[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private jhiAlertService: JhiAlertService,
         private ordreService: OrdreService,
         private customerService: CustomerService,
+        private offreService: OffreService,
+        private paymentService: PaymentService,
+        private shippingService: ShippingService,
+        private shippingModeService: ShippingModeService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -35,6 +51,14 @@ export class OrdreDialogComponent implements OnInit {
         this.isSaving = false;
         this.customerService.query()
             .subscribe((res: HttpResponse<Customer[]>) => { this.customers = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+        this.offreService.query()
+            .subscribe((res: HttpResponse<Offre[]>) => { this.offres = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+        this.paymentService.query()
+            .subscribe((res: HttpResponse<Payment[]>) => { this.payments = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+        this.shippingService.query()
+            .subscribe((res: HttpResponse<Shipping[]>) => { this.shippings = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+        this.shippingModeService.query()
+            .subscribe((res: HttpResponse<ShippingMode[]>) => { this.shippingmodes = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -72,6 +96,22 @@ export class OrdreDialogComponent implements OnInit {
     }
 
     trackCustomerById(index: number, item: Customer) {
+        return item.id;
+    }
+
+    trackOffreById(index: number, item: Offre) {
+        return item.id;
+    }
+
+    trackPaymentById(index: number, item: Payment) {
+        return item.id;
+    }
+
+    trackShippingById(index: number, item: Shipping) {
+        return item.id;
+    }
+
+    trackShippingModeById(index: number, item: ShippingMode) {
         return item.id;
     }
 }

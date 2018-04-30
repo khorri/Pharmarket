@@ -10,6 +10,10 @@ import { OrdreDialogComponent } from '../../../../../../main/webapp/app/entities
 import { OrdreService } from '../../../../../../main/webapp/app/entities/ordre/ordre.service';
 import { Ordre } from '../../../../../../main/webapp/app/entities/ordre/ordre.model';
 import { CustomerService } from '../../../../../../main/webapp/app/entities/customer';
+import { OffreService } from '../../../../../../main/webapp/app/entities/offre';
+import { PaymentService } from '../../../../../../main/webapp/app/entities/payment';
+import { ShippingService } from '../../../../../../main/webapp/app/entities/shipping';
+import { ShippingModeService } from '../../../../../../main/webapp/app/entities/shipping-mode';
 
 describe('Component Tests', () => {
 
@@ -26,6 +30,10 @@ describe('Component Tests', () => {
                 declarations: [OrdreDialogComponent],
                 providers: [
                     CustomerService,
+                    OffreService,
+                    PaymentService,
+                    ShippingService,
+                    ShippingModeService,
                     OrdreService
                 ]
             })

@@ -1,4 +1,5 @@
 import { BaseEntity } from './../../shared';
+import {RuleType} from "../rule-type/rule-type.model";
 
 export class Rule implements BaseEntity {
     constructor(
@@ -15,7 +16,7 @@ export class Rule implements BaseEntity {
         public isForProduct?: boolean,
         public conditions?: BaseEntity[],
         public actions?: BaseEntity[],
-        public type?: BaseEntity,
+        public type?: RuleType,
         public product?: BaseEntity,
         public gadget?: BaseEntity,
         public packProducts?: BaseEntity[],

@@ -45,13 +45,15 @@ public class Shipping implements Serializable {
     @Column(name = "is_grossiste")
     private Boolean isGrossiste;
 
-    @ManyToOne
-    private Ordre ordre;
-
     @ManyToMany(mappedBy = "shippings")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Offre> offres = new HashSet<>();
+
+    @OneToMany(mappedBy = "shipping")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Ordre> ordres = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -140,19 +142,6 @@ public class Shipping implements Serializable {
         this.isGrossiste = isGrossiste;
     }
 
-    public Ordre getOrdre() {
-        return ordre;
-    }
-
-    public Shipping ordre(Ordre ordre) {
-        this.ordre = ordre;
-        return this;
-    }
-
-    public void setOrdre(Ordre ordre) {
-        this.ordre = ordre;
-    }
-
     public Set<Offre> getOffres() {
         return offres;
     }
@@ -176,6 +165,31 @@ public class Shipping implements Serializable {
 
     public void setOffres(Set<Offre> offres) {
         this.offres = offres;
+    }
+
+    public Set<Ordre> getOrdres() {
+        return ordres;
+    }
+
+    public Shipping ordres(Set<Ordre> ordres) {
+        this.ordres = ordres;
+        return this;
+    }
+
+    public Shipping addOrdre(Ordre ordre) {
+        this.ordres.add(ordre);
+        ordre.setShipping(this);
+        return this;
+    }
+
+    public Shipping removeOrdre(Ordre ordre) {
+        this.ordres.remove(ordre);
+        ordre.setShipping(null);
+        return this;
+    }
+
+    public void setOrdres(Set<Ordre> ordres) {
+        this.ordres = ordres;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

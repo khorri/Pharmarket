@@ -1,5 +1,6 @@
 package ma.nawar.pharmarket.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -15,7 +16,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "order_history")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class OrderHistory implements Serializable {
+public class OrderHistory extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,6 +28,7 @@ public class OrderHistory implements Serializable {
     private Instant addDate;
 
     @ManyToOne
+    @JsonIgnore
     private Ordre ordre;
 
     @OneToOne
@@ -46,17 +48,21 @@ public class OrderHistory implements Serializable {
         return addDate;
     }
 
+    public void setAddDate(Instant addDate) {
+        this.addDate = addDate;
+    }
+
     public OrderHistory addDate(Instant addDate) {
         this.addDate = addDate;
         return this;
     }
 
-    public void setAddDate(Instant addDate) {
-        this.addDate = addDate;
-    }
-
     public Ordre getOrdre() {
         return ordre;
+    }
+
+    public void setOrdre(Ordre ordre) {
+        this.ordre = ordre;
     }
 
     public OrderHistory ordre(Ordre ordre) {
@@ -64,21 +70,17 @@ public class OrderHistory implements Serializable {
         return this;
     }
 
-    public void setOrdre(Ordre ordre) {
-        this.ordre = ordre;
-    }
-
     public OrderState getOrderState() {
         return orderState;
+    }
+
+    public void setOrderState(OrderState orderState) {
+        this.orderState = orderState;
     }
 
     public OrderHistory orderState(OrderState orderState) {
         this.orderState = orderState;
         return this;
-    }
-
-    public void setOrderState(OrderState orderState) {
-        this.orderState = orderState;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

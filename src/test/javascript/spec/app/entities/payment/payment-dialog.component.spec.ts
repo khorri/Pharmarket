@@ -9,7 +9,6 @@ import { PharmarketTestModule } from '../../../test.module';
 import { PaymentDialogComponent } from '../../../../../../main/webapp/app/entities/payment/payment-dialog.component';
 import { PaymentService } from '../../../../../../main/webapp/app/entities/payment/payment.service';
 import { Payment } from '../../../../../../main/webapp/app/entities/payment/payment.model';
-import { OrdreService } from '../../../../../../main/webapp/app/entities/ordre';
 
 describe('Component Tests', () => {
 
@@ -25,7 +24,6 @@ describe('Component Tests', () => {
                 imports: [PharmarketTestModule],
                 declarations: [PaymentDialogComponent],
                 providers: [
-                    OrdreService,
                     PaymentService
                 ]
             })

@@ -70,18 +70,18 @@
                             <span jhiTranslate="global.menu.entities.product">Product</span>
                         </a>
                     </li>
-                    <li>
+                    <!--li>
                         <a class="dropdown-item" routerLink="gift-product" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.giftProduct">Gift Product</span>
                         </a>
-                    </li>
-                    <li>
+                    </li-->
+                    <!--li>
                         <a class="dropdown-item" routerLink="gift-mat-promo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.giftMatPromo">Gift Mat Promo</span>
                         </a>
-                    </li>
+                    </li-->
 
                     <li>
                         <a class="dropdown-item" routerLink="customer" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
@@ -128,12 +128,12 @@
                             <span jhiTranslate="global.menu.entities.shipping">Shipping</span>
                         </a>
                     </li>
-                    <li>
+                    <!--li>
                         <a class="dropdown-item" routerLink="materiel-promo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.materielPromo">Materiel Promo</span>
                         </a>
-                    </li>
+                    </li-->
                     <li>
                         <a class="dropdown-item" routerLink="rule" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
@@ -142,18 +142,32 @@
                     </li>
 
 
-                    <li>
+                    <!--li>
                         <a class="dropdown-item" routerLink="rule-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.ruleType">Rule Type</span>
                         </a>
-                    </li>
+                    </li-->
                     <li>
                         <a class="dropdown-item" routerLink="gadget" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.gadget">Gadget</span>
                         </a>
                     </li>
+                    <!--li>
+                        <a class="dropdown-item" routerLink="ordre" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span jhiTranslate="global.menu.entities.ordre">Ordre</span>
+                        </a>
+                    </li-->
+                    <!--li>
+                        <a class="dropdown-item" routerLink="order-details" routerLinkActive="active"
+                           [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span jhiTranslate="global.menu.entities.orderDetails">Order Details</span>
+                        </a>
+                    </li-->
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>
@@ -216,7 +230,7 @@
                     <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
                 </ul>
             </li>
-            
+
             <li ngbDropdown class="nav-item dropdown pointer" placement="bottom-right" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">
                   <span *ngIf="!getImageUrl()">

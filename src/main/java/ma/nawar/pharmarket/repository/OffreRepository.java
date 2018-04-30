@@ -1,6 +1,8 @@
 package ma.nawar.pharmarket.repository;
 
 import ma.nawar.pharmarket.domain.Offre;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
@@ -19,4 +21,6 @@ public interface OffreRepository extends JpaRepository<Offre, Long> {
     @Query("select offre from Offre offre left join fetch offre.shippings where offre.id =:id")
     Offre findOneWithEagerRelationships(@Param("id") Long id);
 
+    @Query("select offre from Offre offre left join fetch offre.shippings where offre.status =:status")
+    List<Offre> findByStatusWithEagerRelationships(@Param("status") String status);
 }

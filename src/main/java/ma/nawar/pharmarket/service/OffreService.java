@@ -39,4 +39,6 @@ public interface OffreService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    Page<Offre> findByStatus(Pageable pageable, String status);
 }

@@ -1,79 +1,205 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
 
-    <div class="modal-header">
-        <h4 class="modal-title" id="myOrdreLabel" jhiTranslate="pharmarketApp.ordre.home.createOrEditLabel">Create or edit a Ordre</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
+    <div class="row">
+
+        <div class="col-9">
+            <h4 class="modal-title" id="myOrdreLabel">{{offre?.name}}</h4>
+            <span *ngIf="offre?.amountMin"> Montant minimal par commande est : <span class="badge badge-danger">{{offre?.amountMin|currency:'MAD':'symbol':'2.2-2':'fr'}}  T.T.C</span> (après remise)</span>
+            <span *ngIf="offre?.quantityMin"> Quantité minimal par commande est {{offre?.quantityMin}} unité</span>
+        </div>
+
+
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!ordre.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="ordre.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.totalPaid" for="field_totalPaid">Total Paid</label>
-            <input type="number" class="form-control" name="totalPaid" id="field_totalPaid"
-                [(ngModel)]="ordre.totalPaid" required/>
-            <div [hidden]="!(editForm.controls.totalPaid?.dirty && editForm.controls.totalPaid?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.totalPaid?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-                <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.totalPaid?.errors?.number" jhiTranslate="entity.validation.number">
-                    This field should be a number.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.totalOrdred" for="field_totalOrdred">Total Ordred</label>
-            <input type="number" class="form-control" name="totalOrdred" id="field_totalOrdred"
-                [(ngModel)]="ordre.totalOrdred" required/>
-            <div [hidden]="!(editForm.controls.totalOrdred?.dirty && editForm.controls.totalOrdred?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.totalOrdred?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-                <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.totalOrdred?.errors?.number" jhiTranslate="entity.validation.number">
-                    This field should be a number.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.type" for="field_type">Type</label>
-            <select class="form-control" name="type" [(ngModel)]="ordre.type" id="field_type" >
-                <option value="DIRECT">{{'pharmarketApp.OrderType.DIRECT' | translate}}</option>
-                <option value="GROSSISTE">{{'pharmarketApp.OrderType.GROSSISTE' | translate}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.status" for="field_status">Status</label>
-            <input type="text" class="form-control" name="status" id="field_status"
-                [(ngModel)]="ordre.status" />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.paymentDueDate" for="field_paymentDueDate">Payment Due Date</label>
-            <input type="text" class="form-control" name="paymentDueDate" id="field_paymentDueDate"
-                [(ngModel)]="ordre.paymentDueDate" />
+
+        <div class="row">
+            <div class="col-9">
+                <div *ngFor="let pac of offre?.packs; index as idx; trackBy:trackId">
+                    <div class="row card">
+                        <div class="card-header-sm bg-info">
+                            <div class="row">
+                                <div class="col-4">
+                                    <h4>{{pac.name}}</h4>
+                                </div>
+
+                                <div class="col-8">
+
+                                    <div class="col-12" *ngFor="let rule of pac.rules; trackBy:trackId">
+                                        <span *ngIf="rule?.reduction"> A l'achat de ce pack une remise de {{rule?.reduction}}% sera appliqué sur le total</span>
+                                        <span *ngIf="rule?.giftQuantity"> A l'achat d'1 pack,  {{rule?.giftQuantity}} boite(s) de ({{rule?.product?.name}}) sont offerts</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm-order table-sm table-responsive-sm table-striped table-hover ">
+                            <thead>
+                            <tr>
+                                <th>Désignation</th>
+                                <th>PPV</th>
+                                <th>PPH</th>
+                                <th>Qté Min</th>
+                                <th>Règle</th>
+                                <th style="width: 80px;"><input type="number" class="form-control-sm"
+                                                                style="width: 80px;" placeholder="Qté"
+                                                                name="pack_quantity_{{idx}}" [ngModel]="pack?.quantity"
+                                                                (ngModelChange)="assignQuantity($event,pac)">
+                                </th>
+                                <th>UG</th>
+                                <th>Total TTC</th>
+                                <th>TTC Remise</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let p of pac?.packProducts;index as i;trackBy:trackId">
+                                <td>{{p.product.name}}</td>
+                                <td class="font-weight-bold">{{p.product.ppv|currency:'MAD':'symbol':'2.2-2':'fr'}}
+                                </td>
+                                <td class="font-weight-bold">{{p.product.pph|currency:'MAD':'symbol':'2.2-2':'fr'}}</td>
+                                <td>{{p.quantityMin}}</td>
+                                <td>
+                                    <ul class="rule-list">
+                                        <li *ngFor=" let r of p.rules">
+                                            <span *ngIf="r.type.code=='reduction'">{{r.name}}</span>
+                                            <span *ngIf="r.type.code=='ug'">A l'achat de {{r.quantityMin}} boîtes, {{r.giftQuantity}}  sont offertes</span>
+                                        </li>
+                                    </ul>
+
+                                </td>
+                                <td style="width: 80px;">
+                                    <input type="number" class="form-control form-control-sm "
+                                           name="quantity_{{idx}}_{{i}}"
+                                           [ngModel]="p.quantity" (ngModelChange)="calculateTotals($event,p,pac)">
+                                </td>
+                                <td>
+                                    {{p.ugQuantity}}
+                                </td>
+                                <td>
+                            <span
+                                *ngIf="p.totalTtc">{{p.totalTtc|currency:'MAD':'symbol':'2.2-2':'fr'}}</span>
+                                </td>
+                                <td>
+                            <span
+                                *ngIf="p.totalDiscounted">{{p.totalDiscounted|currency:'MAD':'symbol':'2.2-2':'fr'}}</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot *ngIf="pac.totalTtc">
+                            <tr>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td colspan="3">Sous total {{pac.name}}</td>
+                                <td>{{pac.totalUgQuantity}}</td>
+                                <td>{{pac.totalTtc|currency:'MAD':'symbol':'2.2-2':'fr'}}</td>
+                                <td>{{pac.totalDiscounted|currency:'MAD':'symbol':'2.2-2':'fr'}}</td>
+                            </tr>
+                            </tfoot>
+
+                        </table>
+
+                    </div>
+                    <br/>
+                </div>
         </div>
 
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pharmarketApp.ordre.customer" for="field_customer">Customer</label>
-            <select class="form-control" id="field_customer" name="customer" [(ngModel)]="ordre.customer" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="customerOption.id === ordre.customer?.id ? ordre.customer : customerOption" *ngFor="let customerOption of customers; trackBy: trackCustomerById">{{customerOption.id}}</option>
-            </select>
+            <div class="col-3">
+
+                <div class="col-12">
+                    <div class="row">
+
+                        <angular2-multiselect [data]="cities" [(ngModel)]="city"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownCitySettings"
+                                              (onSelect)="onSelectCity($event)"
+                                              (onDeSelect)="OnDeSelectCity($event)"
+                        ></angular2-multiselect>
+                    </div>
+                    <div class="row">
+
+                        <angular2-multiselect [data]="filtredCustomers" [(ngModel)]="selectedCustomer"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownCustomerSettings"
+                        ></angular2-multiselect>
+
+                    </div>
+                    <div class="row">
+
+                        <angular2-multiselect [data]="shippingModes" [(ngModel)]="selectedShippingMode"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownShippingModSettings"
+                        ></angular2-multiselect>
+
+                    </div>
+                    <div class="row">
+
+                        <angular2-multiselect [data]="shippings" [(ngModel)]="selectedShipping"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownShippingSettings"
+
+                        ></angular2-multiselect>
+
+                    </div>
+                    <div class="row">
+
+                        <angular2-multiselect [data]="payments" [(ngModel)]="selectedPayment"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownPaymentSettings"
+                        ></angular2-multiselect>
+
+                    </div>
+                    <div class="row">
+                        <div class="input-group col-12">
+                            <input id="field_paymentDueDate" type="text" class="form-control" name="paymentDueDate"
+                                   ngbDatepicker
+                                   #start="ngbDatepicker" [(ngModel)]="ordre.displayPaymentDueDate" readonly/>
+                            <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary" (click)="start.toggle()"><i
+                        class="fa fa-calendar"></i></button>
+                </span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <span class="text-uppercase col-6">Total TTC</span>
+                        <h6 class="display-5 col-6">{{totalTtc|currency:'MAD':'symbol':'2.2-2':'fr'}}</h6>
+                    </div>
+                    <div class="row">
+                        <span class="text-uppercase col-6">Total Remise</span>
+                        <h6 class="display-5 col-6">
+                            {{totalTtc-totalDiscounted|currency:'MAD':'symbol':'2.2-2':'fr'}}</h6>
+                    </div>
+                    <div class="row">
+
+                        <span class="text-uppercase col-6">Nat à payer</span>
+                        <h6 class="display-5 col-6">{{totalDiscounted|currency:'MAD':'symbol':'2.2-2':'fr'}} </h6>
+
+                    </div>
+                    <div class="row">
+                        <button type="button" class="btn btn-secondary col-5 mt-2" data-dismiss="modal"
+                                (click)="clear()">
+                            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit"
+                                [disabled]="editForm.form.invalid || isSaving || !selectedCustomer || totalDiscounted<offre?.amountMin"
+                                class="btn btn-primary col-6 mt-2 ml-2">
+                            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
+
+
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
-            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-        </button>
+        <div class="col-12">
+
+        </div>
     </div>
 </form>
+

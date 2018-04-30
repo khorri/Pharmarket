@@ -43,6 +43,11 @@ export class OffreService {
             .map((res: HttpResponse<Offre[]>) => this.convertArrayResponse(res));
     }
 
+    getByStatus(status: any): Observable<HttpResponse<Offre[]>> {
+        return this.http.get<Offre[]>(this.resourceUrl + "/status/" + status, {observe: 'response'})
+            .map((res: HttpResponse<Offre[]>) => this.convertArrayResponse(res));
+    }
+
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
     }

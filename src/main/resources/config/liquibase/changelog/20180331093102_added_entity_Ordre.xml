@@ -42,7 +42,31 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="total_discount" type="double">
+                <constraints nullable="true" />
+            </column>
+
             <column name="customer_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="offre_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="payment_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="shipping_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="shipping_mode_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="user_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

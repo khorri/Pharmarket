@@ -18,8 +18,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="name"><span jhiTranslate="pharmarketApp.rule.name">Name</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="isActive"><span jhiTranslate="pharmarketApp.rule.isActive">Is Active</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="priority"><span jhiTranslate="pharmarketApp.rule.priority">Priority</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="quantityMin"><span jhiTranslate="pharmarketApp.rule.quantityMin">Quantity Min</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="amountMin"><span jhiTranslate="pharmarketApp.rule.amountMin">Amount Min</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="reduction"><span jhiTranslate="pharmarketApp.rule.reduction">Reduction</span> <span class="fa fa-sort"></span></th>
@@ -37,23 +35,21 @@
             <tr *ngFor="let rule of rules ;trackBy: trackId">
                 <td><a [routerLink]="['../rule', rule.id ]">{{rule.id}}</a></td>
                 <td>{{rule.name}}</td>
-                <td>{{rule.isActive}}</td>
-                <td>{{rule.priority}}</td>
                 <td>{{rule.quantityMin}}</td>
                 <td>{{rule.amountMin}}</td>
-                <td>{{rule.reduction}}</td>
+                <td><span *ngIf="rule.reduction">{{rule.reduction}}%</span></td>
                 <td>{{rule.giftQuantity}}</td>
                 <td>{{rule.gadgetQuantity}}</td>
-                <td>{{rule.isForPack}}</td>
-                <td>{{rule.isForProduct}}</td>
+                <td><span *ngIf="rule.isForPack" class="badge badge-info"> Oui</span></td>
+                <td><span *ngIf="rule.isForProduct" class="badge badge-info"> Oui</span></td>
                 <td>
                     <div *ngIf="rule.type">
-                        <a [routerLink]="['../rule-type', rule.type?.id ]" >{{rule.type?.id}}</a>
+                        <a [routerLink]="['../rule-type', rule.type?.id ]">{{rule.type?.name}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="rule.product">
-                        <a [routerLink]="['../product', rule.product?.id ]" >{{rule.product?.id}}</a>
+                        <a [routerLink]="['../product', rule.product?.id ]">{{rule.product?.name}}</a>
                     </div>
                 </td>
                 <td>

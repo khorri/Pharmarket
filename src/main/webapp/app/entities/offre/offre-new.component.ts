@@ -311,7 +311,7 @@ export class OffreNewComponent implements OnInit {
         if (this.offre.displayStart) {
             this.offre.start = new Date(this.offre.displayStart.year, this.offre.displayStart.month - 1, this.offre.displayStart.day);
         }
-        if (this.offre.displayStart) {
+        if (this.offre.displayEnd) {
             this.offre.end = new Date(this.offre.displayEnd.year, this.offre.displayEnd.month - 1, this.offre.displayEnd.day + 1);
         }
 

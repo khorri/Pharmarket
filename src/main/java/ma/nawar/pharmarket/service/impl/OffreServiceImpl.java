@@ -10,6 +10,7 @@ import ma.nawar.pharmarket.repository.OffreRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -135,5 +136,21 @@ public class OffreServiceImpl implements OffreService {
     public void delete(Long id) {
         log.debug("Request to delete Offre : {}", id);
         offreRepository.delete(id);
+    }
+
+    @Override
+    public Page<Offre> findByStatus(Pageable pageable, String status) {
+        log.debug("Request to get all Offres by status: {}", status);
+        List<Offre> offres = offreRepository.findByStatusWithEagerRelationships(status);
+        offres.forEach(offre -> {
+            List<Pack> packs = packRepository.findByOffreWithEagerRelationships(offre.getId());
+            Set<Pack> packSet = packs.stream().map(pack -> {
+                Set<PackProduct> packProducts = packProductRepository.findByPackWithEagerRelationships(pack.getId());
+                pack.setPackProducts(packProducts);
+                return pack;
+            }).collect(Collectors.toSet());
+            offre.setPacks(packSet);
+        });
+        return new PageImpl<Offre>(offres);
     }
 }

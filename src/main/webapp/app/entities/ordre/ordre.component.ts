@@ -7,6 +7,7 @@ import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 import { Ordre } from './ordre.model';
 import { OrdreService } from './ordre.service';
 import { ITEMS_PER_PAGE, Principal } from '../../shared';
+import {NgbDropdownConfig} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'jhi-ordre',
@@ -36,7 +37,8 @@ currentAccount: any;
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        config: NgbDropdownConfig,
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
@@ -45,6 +47,9 @@ currentAccount: any;
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
         });
+        config.placement = 'bottom-right';
+        config.autoClose = false;
+
     }
 
     loadAll() {

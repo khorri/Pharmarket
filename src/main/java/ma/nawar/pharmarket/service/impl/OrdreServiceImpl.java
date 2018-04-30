@@ -1,5 +1,11 @@
 package ma.nawar.pharmarket.service.impl;
 
+import ma.nawar.pharmarket.domain.OrderDetails;
+import ma.nawar.pharmarket.domain.OrderHistory;
+import ma.nawar.pharmarket.domain.OrderState;
+import ma.nawar.pharmarket.repository.OrderDetailsRepository;
+import ma.nawar.pharmarket.repository.OrderHistoryRepository;
+import ma.nawar.pharmarket.repository.OrderStateRepository;
 import ma.nawar.pharmarket.service.OrdreService;
 import ma.nawar.pharmarket.domain.Ordre;
 import ma.nawar.pharmarket.repository.OrdreRepository;
@@ -9,6 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -21,9 +31,15 @@ public class OrdreServiceImpl implements OrdreService {
     private final Logger log = LoggerFactory.getLogger(OrdreServiceImpl.class);
 
     private final OrdreRepository ordreRepository;
+    private final OrderDetailsRepository orderDetailsRepository;
+    private final OrderStateRepository orderStateRepository;
+    private final OrderHistoryRepository orderHistoryRepository;
 
-    public OrdreServiceImpl(OrdreRepository ordreRepository) {
+    public OrdreServiceImpl(OrdreRepository ordreRepository, OrderHistoryRepository orderHistoryRepository, OrderDetailsRepository orderDetailsRepository, OrderStateRepository orderStateRepository) {
         this.ordreRepository = ordreRepository;
+        this.orderDetailsRepository = orderDetailsRepository;
+        this.orderStateRepository = orderStateRepository;
+        this.orderHistoryRepository = orderHistoryRepository;
     }
 
     /**
@@ -33,9 +49,28 @@ public class OrdreServiceImpl implements OrdreService {
      * @return the persisted entity
      */
     @Override
+    @Transactional
     public Ordre save(Ordre ordre) {
         log.debug("Request to save Ordre : {}", ordre);
-        return ordreRepository.save(ordre);
+        if (ordre.getId() == null) {
+
+        }
+        final Ordre order = ordreRepository.save(ordre);
+        Set<OrderDetails> orderDetails = order.getOrderDetails();
+        orderDetails.forEach(orderDetail -> {
+            orderDetail.setOrdre(order);
+        });
+        if (order.getOrderHistories() == null || order.getOrderHistories().isEmpty()) {
+            OrderState orderState = orderStateRepository.findOne(1L);
+            order.setStatus(orderState.getName());
+            OrderHistory orderHistory = new OrderHistory();
+            orderHistory.setOrderState(orderState);
+            orderHistory.setAddDate(Instant.now());
+            orderHistory.setOrdre(order);
+            orderHistoryRepository.save(orderHistory);
+        }
+        return ordreRepository.save(order);
+
     }
 
     /**
@@ -61,7 +96,11 @@ public class OrdreServiceImpl implements OrdreService {
     @Transactional(readOnly = true)
     public Ordre findOne(Long id) {
         log.debug("Request to get Ordre : {}", id);
-        return ordreRepository.findOne(id);
+        Ordre ordre = ordreRepository.findOne(id);
+        Set<OrderDetails> orderDetails = orderDetailsRepository.findByOrdre(ordre);
+        ordre.setOrderDetails(orderDetails);
+        ordre.setOrderHistories(orderHistoryRepository.findByOrdre(ordre));
+        return ordre;
     }
 
     /**

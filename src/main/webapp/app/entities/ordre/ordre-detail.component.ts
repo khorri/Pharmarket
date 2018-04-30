@@ -6,6 +6,15 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { Ordre } from './ordre.model';
 import { OrdreService } from './ordre.service';
+import {ShippingModeService} from "../shipping-mode/shipping-mode.service";
+import {PaymentService} from "../payment/payment.service";
+import {ShippingService} from "../shipping/shipping.service";
+import {CityService} from "../city/city.service";
+import {OffreService} from "../offre/offre.service";
+import {Offre} from "../offre/offre.model";
+import {OrderDetails} from "../order-details/order-details.model";
+import {Pack} from "../pack/pack.model";
+import {PackProduct} from "../pack-product/pack-product.model";
 
 @Component({
     selector: 'jhi-ordre-detail',
@@ -14,13 +23,23 @@ import { OrdreService } from './ordre.service';
 export class OrdreDetailComponent implements OnInit, OnDestroy {
 
     ordre: Ordre;
+    orderLine: Offre;
+    totalDiscounted: any;
+    totalTtc: any;
+    selectedPackProducts: any[];
     private subscription: Subscription;
     private eventSubscriber: Subscription;
+
 
     constructor(
         private eventManager: JhiEventManager,
         private ordreService: OrdreService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private offreService: OffreService,
+        private cityService: CityService,
+        private shippingService: ShippingService,
+        private paymentService: PaymentService,
+        private shippingModeService: ShippingModeService,
     ) {
     }
 
@@ -35,7 +54,48 @@ export class OrdreDetailComponent implements OnInit, OnDestroy {
         this.ordreService.find(id)
             .subscribe((ordreResponse: HttpResponse<Ordre>) => {
                 this.ordre = ordreResponse.body;
+                this.loadOffre(this.ordre.offre.id);
             });
+    }
+
+    loadOffre(id) {
+        this.offreService.find(id)
+            .subscribe((res: HttpResponse<Offre>) => {
+                this.ordre.offre = res.body;
+                this.processPacks(this.ordre);
+
+
+            });
+    }
+
+    processPacks(order: Ordre) {
+
+        let offre = this.ordre.offre;
+        let orderDetails = this.ordre.orderDetails;
+        offre.packs.forEach((pack: Pack) => {
+            pack.packProducts.forEach((packProduct: PackProduct) => {
+                let detail: OrderDetails[] = orderDetails.filter((orderDetails: OrderDetails) => {
+                    return orderDetails.packProduct.id === packProduct.id;
+                });
+                if (detail && detail.length > 0) {
+                    pack.selected = true;
+                    packProduct.quantity = detail[0].quantity;
+                    packProduct.ugQuantity = detail[0].ugQuantity;
+                    packProduct.totalTtc = packProduct.quantity * packProduct.product.pph;
+                    packProduct.totalDiscounted = packProduct.quantity * packProduct.product.pph;
+                    if (packProduct.quantity >= packProduct.quantityMin)
+                        this.ordreService.applyDiscount(packProduct);
+                }
+            });
+            this.ordreService.calculatePackTotals(pack);
+        });
+        this.calculateOrderTotals(offre.packs);
+    }
+
+
+    private calculateOrderTotals(packs) {
+        this.totalTtc = this.ordreService.getTotalTtc(packs);
+        this.totalDiscounted = this.ordreService.getTotalTtc(packs);
     }
     previousState() {
         window.history.back();

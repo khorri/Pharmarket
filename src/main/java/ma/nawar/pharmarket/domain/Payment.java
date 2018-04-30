@@ -1,5 +1,6 @@
 package ma.nawar.pharmarket.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -7,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -30,8 +33,10 @@ public class Payment implements Serializable {
     @Column(name = "code")
     private String code;
 
-    @ManyToOne
-    private Ordre ordre;
+    @OneToMany(mappedBy = "payment")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Ordre> ordres = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -68,17 +73,29 @@ public class Payment implements Serializable {
         this.code = code;
     }
 
-    public Ordre getOrdre() {
-        return ordre;
+    public Set<Ordre> getOrdres() {
+        return ordres;
     }
 
-    public Payment ordre(Ordre ordre) {
-        this.ordre = ordre;
+    public Payment ordres(Set<Ordre> ordres) {
+        this.ordres = ordres;
         return this;
     }
 
-    public void setOrdre(Ordre ordre) {
-        this.ordre = ordre;
+    public Payment addOrdre(Ordre ordre) {
+        this.ordres.add(ordre);
+        ordre.setPayment(this);
+        return this;
+    }
+
+    public Payment removeOrdre(Ordre ordre) {
+        this.ordres.remove(ordre);
+        ordre.setPayment(null);
+        return this;
+    }
+
+    public void setOrdres(Set<Ordre> ordres) {
+        this.ordres = ordres;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

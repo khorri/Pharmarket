@@ -10,7 +10,7 @@ import { OrderDetails } from './order-details.model';
 import { OrderDetailsPopupService } from './order-details-popup.service';
 import { OrderDetailsService } from './order-details.service';
 import { Ordre, OrdreService } from '../ordre';
-import { Product, ProductService } from '../product';
+import { PackProduct, PackProductService } from '../pack-product';
 
 @Component({
     selector: 'jhi-order-details-dialog',
@@ -23,14 +23,14 @@ export class OrderDetailsDialogComponent implements OnInit {
 
     ordres: Ordre[];
 
-    products: Product[];
+    packproducts: PackProduct[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private jhiAlertService: JhiAlertService,
         private orderDetailsService: OrderDetailsService,
         private ordreService: OrdreService,
-        private productService: ProductService,
+        private packProductService: PackProductService,
         private eventManager: JhiEventManager
     ) {
     }
@@ -39,19 +39,8 @@ export class OrderDetailsDialogComponent implements OnInit {
         this.isSaving = false;
         this.ordreService.query()
             .subscribe((res: HttpResponse<Ordre[]>) => { this.ordres = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
-        this.productService
-            .query({filter: 'orderdetails-is-null'})
-            .subscribe((res: HttpResponse<Product[]>) => {
-                if (!this.orderDetails.product || !this.orderDetails.product.id) {
-                    this.products = res.body;
-                } else {
-                    this.productService
-                        .find(this.orderDetails.product.id)
-                        .subscribe((subRes: HttpResponse<Product>) => {
-                            this.products = [subRes.body].concat(res.body);
-                        }, (subRes: HttpErrorResponse) => this.onError(subRes.message));
-                }
-            }, (res: HttpErrorResponse) => this.onError(res.message));
+        this.packProductService.query()
+            .subscribe((res: HttpResponse<PackProduct[]>) => { this.packproducts = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -92,7 +81,7 @@ export class OrderDetailsDialogComponent implements OnInit {
         return item.id;
     }
 
-    trackProductById(index: number, item: Product) {
+    trackPackProductById(index: number, item: PackProduct) {
         return item.id;
     }
 }

@@ -2,16 +2,16 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipName": "ordre",
-            "otherEntityName": "ordre",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
             "relationshipName": "offre",
             "otherEntityName": "offre",
             "relationshipType": "many-to-many",
             "ownerSide": false,
+            "otherEntityRelationshipName": "shipping"
+        },
+        {
+            "relationshipName": "ordre",
+            "otherEntityName": "ordre",
+            "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "shipping"
         }
     ],

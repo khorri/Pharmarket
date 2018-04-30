@@ -5,7 +5,7 @@ export class Payment implements BaseEntity {
         public id?: number,
         public name?: string,
         public code?: string,
-        public ordre?: BaseEntity,
+        public ordres?: BaseEntity[],
     ) {
     }
 }

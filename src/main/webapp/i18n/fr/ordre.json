@@ -3,30 +3,32 @@
     "pharmarketApp": {
         "ordre" : {
             "home": {
-                "title": "Ordres",
-                "createLabel": "Créer un nouveau Ordre",
-                "createOrEditLabel": "Créer ou éditer un Ordre"
+                "title": "Commandes",
+                "createLabel": "Commande Direct",
+                "createOrEditLabel": "Créer ou éditer une commande"
             },
-            "created": "Un nouveau Ordre a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Ordre avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Ordre avec l'identifiant {{ param }} a été supprimé",
+            "created": "Une nouvelle commande a été créé avec l'identifiant {{ param }}",
+            "updated": "La commande avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "La commande avec l'identifiant {{ param }} a été supprimée",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Ordre {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer la commande {{ id }} ?"
             },
             "detail": {
-                "title": "Ordre"
+                "title": "Commande"
             },
             "totalPaid": "Total Paid",
             "totalOrdred": "Total Ordred",
             "type": "Type",
             "status": "Status",
             "paymentDueDate": "Payment Due Date",
+            "totalDiscount": "Total Discount",
             "customer": "Customer",
             "orderHistory": "Order History",
             "orderDetail": "Order Detail",
+            "offre": "Offre",
             "payment": "Payment",
-            "shippingMode": "Shipping Mode",
-            "shipping": "Shipping"
+            "shipping": "Shipping",
+            "shippingMode": "Shipping Mode"
         }
     }
 }

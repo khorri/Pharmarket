@@ -12,12 +12,6 @@
         <dd>
             <span>{{payment.code}}</span>
         </dd>
-        <dt><span jhiTranslate="pharmarketApp.payment.ordre">Ordre</span></dt>
-        <dd>
-            <div *ngIf="payment.ordre">
-                <a [routerLink]="['/ordre', payment.ordre?.id]">{{payment.ordre?.id}}</a>
-            </div>
-        </dd>
     </dl>
 
     <button type="submit"

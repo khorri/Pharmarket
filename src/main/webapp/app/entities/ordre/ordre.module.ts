@@ -14,7 +14,9 @@ import {
     ordreRoute,
     ordrePopupRoute,
     OrdreResolvePagingParams,
+    OrdreNewComponent
 } from './';
+import {AngularMultiSelectModule} from "../../angular2-multiselect-dropdown/multiselect.component";
 
 const ENTITY_STATES = [
     ...ordreRoute,
@@ -24,7 +26,8 @@ const ENTITY_STATES = [
 @NgModule({
     imports: [
         PharmarketSharedModule,
-        RouterModule.forChild(ENTITY_STATES)
+        RouterModule.forChild(ENTITY_STATES),
+        AngularMultiSelectModule
     ],
     declarations: [
         OrdreComponent,
@@ -33,6 +36,7 @@ const ENTITY_STATES = [
         OrdreDeleteDialogComponent,
         OrdrePopupComponent,
         OrdreDeletePopupComponent,
+        OrdreNewComponent,
     ],
     entryComponents: [
         OrdreComponent,
@@ -40,6 +44,7 @@ const ENTITY_STATES = [
         OrdrePopupComponent,
         OrdreDeleteDialogComponent,
         OrdreDeletePopupComponent,
+        OrdreNewComponent,
     ],
     providers: [
         OrdreService,

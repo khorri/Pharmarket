@@ -4,12 +4,11 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Payment } from './payment.model';
 import { PaymentPopupService } from './payment-popup.service';
 import { PaymentService } from './payment.service';
-import { Ordre, OrdreService } from '../ordre';
 
 @Component({
     selector: 'jhi-payment-dialog',
@@ -20,21 +19,15 @@ export class PaymentDialogComponent implements OnInit {
     payment: Payment;
     isSaving: boolean;
 
-    ordres: Ordre[];
-
     constructor(
         public activeModal: NgbActiveModal,
-        private jhiAlertService: JhiAlertService,
         private paymentService: PaymentService,
-        private ordreService: OrdreService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.ordreService.query()
-            .subscribe((res: HttpResponse<Ordre[]>) => { this.ordres = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -65,14 +58,6 @@ export class PaymentDialogComponent implements OnInit {
 
     private onSaveError() {
         this.isSaving = false;
-    }
-
-    private onError(error: any) {
-        this.jhiAlertService.error(error.message, null, null);
-    }
-
-    trackOrdreById(index: number, item: Ordre) {
-        return item.id;
     }
 }
 

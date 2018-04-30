@@ -4,8 +4,8 @@
         {
             "relationshipName": "ordre",
             "otherEntityName": "ordre",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "shippingMode"
         }
     ],
     "fields": [
@@ -18,9 +18,9 @@
         }
     ],
     "changelogDate": "20180331093101",
-    "entityTableName": "shipping_mode",
     "dto": "no",
-    "pagination": "pagination",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": false
+    "entityTableName": "shipping_mode",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
 }

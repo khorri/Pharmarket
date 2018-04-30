@@ -20,7 +20,7 @@ import ma.nawar.pharmarket.domain.enumeration.OrderType;
 @Entity
 @Table(name = "ordre")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Ordre implements Serializable {
+public class Ordre extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,33 +46,32 @@ public class Ordre implements Serializable {
     @Column(name = "payment_due_date")
     private String paymentDueDate;
 
+    @Column(name = "total_discount")
+    private Double totalDiscount;
+
     @ManyToOne
     private Customer customer;
 
-    @OneToMany(mappedBy = "ordre")
-    @JsonIgnore
+    @OneToMany(mappedBy = "ordre", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<OrderHistory> orderHistories = new HashSet<>();
 
-    @OneToMany(mappedBy = "ordre")
-    @JsonIgnore
+    @OneToMany(mappedBy = "ordre", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<OrderDetails> orderDetails = new HashSet<>();
 
-    @OneToMany(mappedBy = "ordre")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Payment> payments = new HashSet<>();
+    @ManyToOne
+    private Offre offre;
 
-    @OneToMany(mappedBy = "ordre")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<ShippingMode> shippingModes = new HashSet<>();
+    @ManyToOne
+    private Payment payment;
 
-    @OneToMany(mappedBy = "ordre")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Shipping> shippings = new HashSet<>();
+    @ManyToOne
+    private Shipping shipping;
+
+    @ManyToOne
+    private ShippingMode shippingMode;
+
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -87,17 +86,21 @@ public class Ordre implements Serializable {
         return totalPaid;
     }
 
+    public void setTotalPaid(Long totalPaid) {
+        this.totalPaid = totalPaid;
+    }
+
     public Ordre totalPaid(Long totalPaid) {
         this.totalPaid = totalPaid;
         return this;
     }
 
-    public void setTotalPaid(Long totalPaid) {
-        this.totalPaid = totalPaid;
-    }
-
     public Long getTotalOrdred() {
         return totalOrdred;
+    }
+
+    public void setTotalOrdred(Long totalOrdred) {
+        this.totalOrdred = totalOrdred;
     }
 
     public Ordre totalOrdred(Long totalOrdred) {
@@ -105,12 +108,12 @@ public class Ordre implements Serializable {
         return this;
     }
 
-    public void setTotalOrdred(Long totalOrdred) {
-        this.totalOrdred = totalOrdred;
-    }
-
     public OrderType getType() {
         return type;
+    }
+
+    public void setType(OrderType type) {
+        this.type = type;
     }
 
     public Ordre type(OrderType type) {
@@ -118,12 +121,12 @@ public class Ordre implements Serializable {
         return this;
     }
 
-    public void setType(OrderType type) {
-        this.type = type;
-    }
-
     public String getStatus() {
         return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Ordre status(String status) {
@@ -131,12 +134,12 @@ public class Ordre implements Serializable {
         return this;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getPaymentDueDate() {
         return paymentDueDate;
+    }
+
+    public void setPaymentDueDate(String paymentDueDate) {
+        this.paymentDueDate = paymentDueDate;
     }
 
     public Ordre paymentDueDate(String paymentDueDate) {
@@ -144,12 +147,25 @@ public class Ordre implements Serializable {
         return this;
     }
 
-    public void setPaymentDueDate(String paymentDueDate) {
-        this.paymentDueDate = paymentDueDate;
+    public Double getTotalDiscount() {
+        return totalDiscount;
+    }
+
+    public void setTotalDiscount(Double totalDiscount) {
+        this.totalDiscount = totalDiscount;
+    }
+
+    public Ordre totalDiscount(Double totalDiscount) {
+        this.totalDiscount = totalDiscount;
+        return this;
     }
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Ordre customer(Customer customer) {
@@ -157,12 +173,12 @@ public class Ordre implements Serializable {
         return this;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public Set<OrderHistory> getOrderHistories() {
         return orderHistories;
+    }
+
+    public void setOrderHistories(Set<OrderHistory> orderHistories) {
+        this.orderHistories = orderHistories;
     }
 
     public Ordre orderHistories(Set<OrderHistory> orderHistories) {
@@ -182,12 +198,12 @@ public class Ordre implements Serializable {
         return this;
     }
 
-    public void setOrderHistories(Set<OrderHistory> orderHistories) {
-        this.orderHistories = orderHistories;
-    }
-
     public Set<OrderDetails> getOrderDetails() {
         return orderDetails;
+    }
+
+    public void setOrderDetails(Set<OrderDetails> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 
     public Ordre orderDetails(Set<OrderDetails> orderDetails) {
@@ -207,84 +223,58 @@ public class Ordre implements Serializable {
         return this;
     }
 
-    public void setOrderDetails(Set<OrderDetails> orderDetails) {
-        this.orderDetails = orderDetails;
+    public Offre getOffre() {
+        return offre;
     }
 
-    public Set<Payment> getPayments() {
-        return payments;
+    public void setOffre(Offre offre) {
+        this.offre = offre;
     }
 
-    public Ordre payments(Set<Payment> payments) {
-        this.payments = payments;
+    public Ordre offre(Offre offre) {
+        this.offre = offre;
         return this;
     }
 
-    public Ordre addPayment(Payment payment) {
-        this.payments.add(payment);
-        payment.setOrdre(this);
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
+    public Ordre payment(Payment payment) {
+        this.payment = payment;
         return this;
     }
 
-    public Ordre removePayment(Payment payment) {
-        this.payments.remove(payment);
-        payment.setOrdre(null);
+    public Shipping getShipping() {
+        return shipping;
+    }
+
+    public void setShipping(Shipping shipping) {
+        this.shipping = shipping;
+    }
+
+    public Ordre shipping(Shipping shipping) {
+        this.shipping = shipping;
         return this;
     }
 
-    public void setPayments(Set<Payment> payments) {
-        this.payments = payments;
+    public ShippingMode getShippingMode() {
+        return shippingMode;
     }
 
-    public Set<ShippingMode> getShippingModes() {
-        return shippingModes;
+    public void setShippingMode(ShippingMode shippingMode) {
+        this.shippingMode = shippingMode;
     }
 
-    public Ordre shippingModes(Set<ShippingMode> shippingModes) {
-        this.shippingModes = shippingModes;
+    public Ordre shippingMode(ShippingMode shippingMode) {
+        this.shippingMode = shippingMode;
         return this;
     }
 
-    public Ordre addShippingMode(ShippingMode shippingMode) {
-        this.shippingModes.add(shippingMode);
-        shippingMode.setOrdre(this);
-        return this;
-    }
-
-    public Ordre removeShippingMode(ShippingMode shippingMode) {
-        this.shippingModes.remove(shippingMode);
-        shippingMode.setOrdre(null);
-        return this;
-    }
-
-    public void setShippingModes(Set<ShippingMode> shippingModes) {
-        this.shippingModes = shippingModes;
-    }
-
-    public Set<Shipping> getShippings() {
-        return shippings;
-    }
-
-    public Ordre shippings(Set<Shipping> shippings) {
-        this.shippings = shippings;
-        return this;
-    }
-
-    public Ordre addShipping(Shipping shipping) {
-        this.shippings.add(shipping);
-        shipping.setOrdre(this);
-        return this;
-    }
-
-    public Ordre removeShipping(Shipping shipping) {
-        this.shippings.remove(shipping);
-        shipping.setOrdre(null);
-        return this;
-    }
-
-    public void setShippings(Set<Shipping> shippings) {
-        this.shippings = shippings;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -316,6 +306,7 @@ public class Ordre implements Serializable {
             ", type='" + getType() + "'" +
             ", status='" + getStatus() + "'" +
             ", paymentDueDate='" + getPaymentDueDate() + "'" +
+            ", totalDiscount=" + getTotalDiscount() +
             "}";
     }
 }

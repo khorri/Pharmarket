@@ -1,9 +1,12 @@
 package ma.nawar.pharmarket.repository;
 
 import ma.nawar.pharmarket.domain.OrderHistory;
+import ma.nawar.pharmarket.domain.Ordre;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
+
+import java.util.Set;
 
 
 /**
@@ -13,4 +16,5 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface OrderHistoryRepository extends JpaRepository<OrderHistory, Long> {
 
+    Set<OrderHistory> findByOrdre(Ordre ordre);
 }

@@ -20,21 +20,35 @@
             "otherEntityRelationshipName": "ordre"
         },
         {
-            "relationshipType": "one-to-many",
+            "relationshipName": "offre",
+            "otherEntityName": "offre",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
             "relationshipName": "payment",
             "otherEntityName": "payment",
-            "otherEntityRelationshipName": "ordre"
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
         },
         {
-            "relationshipType": "one-to-many",
-            "relationshipName": "shippingMode",
-            "otherEntityName": "shippingMode",
-            "otherEntityRelationshipName": "ordre"
-        },
-        {
-            "relationshipType": "one-to-many",
             "relationshipName": "shipping",
             "otherEntityName": "shipping",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipName": "shippingMode",
+            "otherEntityName": "shippingMode",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
             "otherEntityRelationshipName": "ordre"
         }
     ],
@@ -65,12 +79,16 @@
         {
             "fieldName": "paymentDueDate",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "totalDiscount",
+            "fieldType": "Double"
         }
     ],
     "changelogDate": "20180331093102",
-    "entityTableName": "ordre",
     "dto": "no",
-    "pagination": "pagination",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": false
+    "entityTableName": "ordre",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
 }

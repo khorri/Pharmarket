@@ -9,7 +9,6 @@ import { PharmarketTestModule } from '../../../test.module';
 import { ShippingModeDialogComponent } from '../../../../../../main/webapp/app/entities/shipping-mode/shipping-mode-dialog.component';
 import { ShippingModeService } from '../../../../../../main/webapp/app/entities/shipping-mode/shipping-mode.service';
 import { ShippingMode } from '../../../../../../main/webapp/app/entities/shipping-mode/shipping-mode.model';
-import { OrdreService } from '../../../../../../main/webapp/app/entities/ordre';
 
 describe('Component Tests', () => {
 
@@ -25,7 +24,6 @@ describe('Component Tests', () => {
                 imports: [PharmarketTestModule],
                 declarations: [ShippingModeDialogComponent],
                 providers: [
-                    OrdreService,
                     ShippingModeService
                 ]
             })

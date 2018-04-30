@@ -33,6 +33,10 @@ public class Pack implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "operator")
+    private String operator;
+
+
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "pack_rule",
@@ -83,6 +87,13 @@ public class Pack implements Serializable {
         return this;
     }
 
+    public String getOperator() {
+        return this.operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
     public Set<Rule> getRules() {
         return rules;
     }

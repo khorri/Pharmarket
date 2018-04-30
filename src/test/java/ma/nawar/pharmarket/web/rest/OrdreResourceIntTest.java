@@ -55,6 +55,9 @@ public class OrdreResourceIntTest {
     private static final String DEFAULT_PAYMENT_DUE_DATE = "AAAAAAAAAA";
     private static final String UPDATED_PAYMENT_DUE_DATE = "BBBBBBBBBB";
 
+    private static final Double DEFAULT_TOTAL_DISCOUNT = 1D;
+    private static final Double UPDATED_TOTAL_DISCOUNT = 2D;
+
     @Autowired
     private OrdreRepository ordreRepository;
 
@@ -100,7 +103,8 @@ public class OrdreResourceIntTest {
             .totalOrdred(DEFAULT_TOTAL_ORDRED)
             .type(DEFAULT_TYPE)
             .status(DEFAULT_STATUS)
-            .paymentDueDate(DEFAULT_PAYMENT_DUE_DATE);
+            .paymentDueDate(DEFAULT_PAYMENT_DUE_DATE)
+            .totalDiscount(DEFAULT_TOTAL_DISCOUNT);
         return ordre;
     }
 
@@ -129,6 +133,7 @@ public class OrdreResourceIntTest {
         assertThat(testOrdre.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testOrdre.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testOrdre.getPaymentDueDate()).isEqualTo(DEFAULT_PAYMENT_DUE_DATE);
+        assertThat(testOrdre.getTotalDiscount()).isEqualTo(DEFAULT_TOTAL_DISCOUNT);
     }
 
     @Test
@@ -201,7 +206,8 @@ public class OrdreResourceIntTest {
             .andExpect(jsonPath("$.[*].totalOrdred").value(hasItem(DEFAULT_TOTAL_ORDRED.intValue())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].paymentDueDate").value(hasItem(DEFAULT_PAYMENT_DUE_DATE.toString())));
+            .andExpect(jsonPath("$.[*].paymentDueDate").value(hasItem(DEFAULT_PAYMENT_DUE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].totalDiscount").value(hasItem(DEFAULT_TOTAL_DISCOUNT.doubleValue())));
     }
 
     @Test
@@ -219,7 +225,8 @@ public class OrdreResourceIntTest {
             .andExpect(jsonPath("$.totalOrdred").value(DEFAULT_TOTAL_ORDRED.intValue()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
-            .andExpect(jsonPath("$.paymentDueDate").value(DEFAULT_PAYMENT_DUE_DATE.toString()));
+            .andExpect(jsonPath("$.paymentDueDate").value(DEFAULT_PAYMENT_DUE_DATE.toString()))
+            .andExpect(jsonPath("$.totalDiscount").value(DEFAULT_TOTAL_DISCOUNT.doubleValue()));
     }
 
     @Test
@@ -247,7 +254,8 @@ public class OrdreResourceIntTest {
             .totalOrdred(UPDATED_TOTAL_ORDRED)
             .type(UPDATED_TYPE)
             .status(UPDATED_STATUS)
-            .paymentDueDate(UPDATED_PAYMENT_DUE_DATE);
+            .paymentDueDate(UPDATED_PAYMENT_DUE_DATE)
+            .totalDiscount(UPDATED_TOTAL_DISCOUNT);
 
         restOrdreMockMvc.perform(put("/api/ordres")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -263,6 +271,7 @@ public class OrdreResourceIntTest {
         assertThat(testOrdre.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testOrdre.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testOrdre.getPaymentDueDate()).isEqualTo(UPDATED_PAYMENT_DUE_DATE);
+        assertThat(testOrdre.getTotalDiscount()).isEqualTo(UPDATED_TOTAL_DISCOUNT);
     }
 
     @Test

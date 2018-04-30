@@ -24,13 +24,6 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pharmarketApp.shippingMode.ordre" for="field_ordre">Ordre</label>
-            <select class="form-control" id="field_ordre" name="ordre" [(ngModel)]="shippingMode.ordre" >
-                <option [ngValue]="null"></option>
-                <option [ngValue]="ordreOption.id === shippingMode.ordre?.id ? shippingMode.ordre : ordreOption" *ngFor="let ordreOption of ordres; trackBy: trackOrdreById">{{ordreOption.id}}</option>
-            </select>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

@@ -15,6 +15,7 @@ import {
     rulePopupRoute,
     RuleResolvePagingParams,
 } from './';
+import {AngularMultiSelectModule} from "../../angular2-multiselect-dropdown/multiselect.component";
 
 const ENTITY_STATES = [
     ...ruleRoute,
@@ -24,7 +25,8 @@ const ENTITY_STATES = [
 @NgModule({
     imports: [
         PharmarketSharedModule,
-        RouterModule.forChild(ENTITY_STATES)
+        RouterModule.forChild(ENTITY_STATES),
+        AngularMultiSelectModule
     ],
     declarations: [
         RuleComponent,

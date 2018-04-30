@@ -12,16 +12,20 @@
         <dd>
             <span>{{orderDetails.quantityShipped}}</span>
         </dd>
+        <dt><span jhiTranslate="pharmarketApp.orderDetails.ugQuantity">Ug Quantity</span></dt>
+        <dd>
+            <span>{{orderDetails.ugQuantity}}</span>
+        </dd>
         <dt><span jhiTranslate="pharmarketApp.orderDetails.ordre">Ordre</span></dt>
         <dd>
             <div *ngIf="orderDetails.ordre">
                 <a [routerLink]="['/ordre', orderDetails.ordre?.id]">{{orderDetails.ordre?.id}}</a>
             </div>
         </dd>
-        <dt><span jhiTranslate="pharmarketApp.orderDetails.product">Product</span></dt>
+        <dt><span jhiTranslate="pharmarketApp.orderDetails.packProduct">Pack Product</span></dt>
         <dd>
-            <div *ngIf="orderDetails.product">
-                <a [routerLink]="['/product', orderDetails.product?.id]">{{orderDetails.product?.id}}</a>
+            <div *ngIf="orderDetails.packProduct">
+                <a [routerLink]="['/pack-product', orderDetails.packProduct?.id]">{{orderDetails.packProduct?.id}}</a>
             </div>
         </dd>
     </dl>

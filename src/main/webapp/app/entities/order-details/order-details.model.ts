@@ -5,8 +5,9 @@ export class OrderDetails implements BaseEntity {
         public id?: number,
         public quantity?: number,
         public quantityShipped?: number,
+        public ugQuantity?: number,
         public ordre?: BaseEntity,
-        public product?: BaseEntity,
+        public packProduct?: BaseEntity,
     ) {
     }
 }

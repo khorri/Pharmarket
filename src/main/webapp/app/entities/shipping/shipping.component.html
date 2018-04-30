@@ -23,7 +23,6 @@
             <th jhiSortBy="phone"><span jhiTranslate="pharmarketApp.shipping.phone">Phone</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="contact"><span jhiTranslate="pharmarketApp.shipping.contact">Contact</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="isGrossiste"><span jhiTranslate="pharmarketApp.shipping.isGrossiste">Is Grossiste</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="ordre.id"><span jhiTranslate="pharmarketApp.shipping.ordre">Ordre</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -36,11 +35,6 @@
                 <td>{{shipping.phone}}</td>
                 <td>{{shipping.contact}}</td>
                 <td>{{shipping.isGrossiste}}</td>
-                <td>
-                    <div *ngIf="shipping.ordre">
-                        <a [routerLink]="['../ordre', shipping.ordre?.id ]" >{{shipping.ordre?.id}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

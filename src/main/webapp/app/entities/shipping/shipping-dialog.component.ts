@@ -9,7 +9,6 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Shipping } from './shipping.model';
 import { ShippingPopupService } from './shipping-popup.service';
 import { ShippingService } from './shipping.service';
-import { Ordre, OrdreService } from '../ordre';
 import { Offre, OffreService } from '../offre';
 
 @Component({
@@ -21,15 +20,12 @@ export class ShippingDialogComponent implements OnInit {
     shipping: Shipping;
     isSaving: boolean;
 
-    ordres: Ordre[];
-
     offres: Offre[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private jhiAlertService: JhiAlertService,
         private shippingService: ShippingService,
-        private ordreService: OrdreService,
         private offreService: OffreService,
         private eventManager: JhiEventManager
     ) {
@@ -37,8 +33,6 @@ export class ShippingDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.ordreService.query()
-            .subscribe((res: HttpResponse<Ordre[]>) => { this.ordres = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
         this.offreService.query()
             .subscribe((res: HttpResponse<Offre[]>) => { this.offres = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
@@ -75,10 +69,6 @@ export class ShippingDialogComponent implements OnInit {
 
     private onError(error: any) {
         this.jhiAlertService.error(error.message, null, null);
-    }
-
-    trackOrdreById(index: number, item: Ordre) {
-        return item.id;
     }
 
     trackOffreById(index: number, item: Offre) {

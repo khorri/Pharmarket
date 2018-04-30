@@ -8,12 +8,6 @@
         <dd>
             <span>{{shippingMode.name}}</span>
         </dd>
-        <dt><span jhiTranslate="pharmarketApp.shippingMode.ordre">Ordre</span></dt>
-        <dd>
-            <div *ngIf="shippingMode.ordre">
-                <a [routerLink]="['/ordre', shippingMode.ordre?.id]">{{shippingMode.ordre?.id}}</a>
-            </div>
-        </dd>
     </dl>
 
     <button type="submit"

@@ -14,5 +14,35 @@
                                  referencedColumnNames="id"
                                  referencedTableName="customer"/>
 
+        <addForeignKeyConstraint baseColumnNames="offre_id"
+                                 baseTableName="ordre"
+                                 constraintName="fk_ordre_offre_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="offre"/>
+
+        <addForeignKeyConstraint baseColumnNames="payment_id"
+                                 baseTableName="ordre"
+                                 constraintName="fk_ordre_payment_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="payment"/>
+
+        <addForeignKeyConstraint baseColumnNames="shipping_id"
+                                 baseTableName="ordre"
+                                 constraintName="fk_ordre_shipping_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shipping"/>
+
+        <addForeignKeyConstraint baseColumnNames="shipping_mode_id"
+                                 baseTableName="ordre"
+                                 constraintName="fk_ordre_shipping_mode_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shipping_mode"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="ordre"
+                                 constraintName="fk_ordre_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
     </changeSet>
 </databaseChangeLog>

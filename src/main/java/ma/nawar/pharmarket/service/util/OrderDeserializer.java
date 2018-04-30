@@ -3,7 +3,6 @@ package ma.nawar.pharmarket.service.util;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import ma.nawar.pharmarket.domain.*;
 
@@ -14,7 +13,7 @@ import java.util.*;
 /**
  * Created by HORRI on 05/04/2018.
  */
-public class OffreDeserializer extends JsonDeserializer {
+public class OrderDeserializer extends JsonDeserializer {
 
     /**
      * Method that can be called to ask implementation to deserialize
@@ -67,49 +66,12 @@ public class OffreDeserializer extends JsonDeserializer {
      * @return Deserialized value
      */
     @Override
-    public Offre deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Ordre deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
-        Map<String, Object> data = objectMapper.readValue(p, HashMap.class);
-        ObjectCodec objectCodec = p.getCodec();
-        //JsonNode jsonNode = objectCodec.readTree(p);
-        Offre offre = new Offre();
-        offre.setName(data.get("name").toString());
-        //offre.setStart(jsonNode.get("name").asText());
-        if (data.get("id") != null) {
-            offre.setId(Long.valueOf(data.get("id").toString()));
-        }
-        if (data.get("start") != null) {
-            String startString = (String) data.get("start");
-            Instant start = Instant.parse(startString);
-            offre.setStart(start);
-        }
-        if (data.get("end") != null) {
-            String endString = (String) data.get("end");
-            Instant end = Instant.parse(endString);
-            offre.setEnd(end);
-        }
-        if (data.get("description") != null) {
-            offre.setDescription(data.get("description").toString());
-        }
-        if (data.get("status") != null) {
-            offre.setStatus(data.get("status").toString());
-        }
-        if (data.get("amountMin") != null) {
-
-            offre.setAmountMin(Integer.valueOf(data.get("amountMin").toString()));
-        }
-        if (data.get("quantityMin") != null) {
-            offre.setQuantityMin(Integer.valueOf(data.get("quantityMin").toString()));
-        }
-        if (data.get("offreType") != null) {
-            offre.setOffreType(data.get("offreType").toString());
-        }
-
-        offre.setPacks(this.getPacks(data.get("packs")));
-        offre.setShippings(this.getShippings(data.get("shippings")));
-        return offre;
+        Ordre order = objectMapper.readValue(p, Ordre.class);
+        return order;
     }
 
     private Set<Shipping> getShippings(Object shippings) {
@@ -167,7 +129,6 @@ public class OffreDeserializer extends JsonDeserializer {
         }
         return packProductsReturn;
     }
-
 
 
     private Set<Rule> getRules(Object rules) {

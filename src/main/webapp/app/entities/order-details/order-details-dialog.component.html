@@ -32,6 +32,11 @@
             <input type="number" class="form-control" name="quantityShipped" id="field_quantityShipped"
                 [(ngModel)]="orderDetails.quantityShipped" />
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.orderDetails.ugQuantity" for="field_ugQuantity">Ug Quantity</label>
+            <input type="number" class="form-control" name="ugQuantity" id="field_ugQuantity"
+                [(ngModel)]="orderDetails.ugQuantity" />
+        </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="pharmarketApp.orderDetails.ordre" for="field_ordre">Ordre</label>
@@ -41,10 +46,10 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pharmarketApp.orderDetails.product" for="field_product">Product</label>
-            <select class="form-control" id="field_product" name="product" [(ngModel)]="orderDetails.product">
+            <label class="form-control-label" jhiTranslate="pharmarketApp.orderDetails.packProduct" for="field_packProduct">Pack Product</label>
+            <select class="form-control" id="field_packProduct" name="packProduct" [(ngModel)]="orderDetails.packProduct" >
                 <option [ngValue]="null"></option>
-                <option [ngValue]="productOption.id === orderDetails.product?.id ? orderDetails.product : productOption" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.id}}</option>
+                <option [ngValue]="packProductOption.id === orderDetails.packProduct?.id ? orderDetails.packProduct : packProductOption" *ngFor="let packProductOption of packproducts; trackBy: trackPackProductById">{{packProductOption.id}}</option>
             </select>
         </div>
     </div>

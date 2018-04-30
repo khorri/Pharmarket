@@ -22,8 +22,8 @@
             "phone": "Phone",
             "contact": "Contact",
             "isGrossiste": "Is Grossiste",
-            "ordre": "Ordre",
-            "offre": "Offre"
+            "offre": "Offre",
+            "ordre": "Ordre"
         }
     }
 }

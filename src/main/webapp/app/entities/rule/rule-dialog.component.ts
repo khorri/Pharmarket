@@ -30,6 +30,8 @@ export class RuleDialogComponent implements OnInit {
     products: Product[];
 
     gadgets: Gadget[];
+
+    dropdownProductSettings;
     constructor(
         public activeModal: NgbActiveModal,
         private jhiAlertService: JhiAlertService,
@@ -50,10 +52,19 @@ export class RuleDialogComponent implements OnInit {
             this.ruletypes = res.body;
             this.rule.type = this.ruletypes[0];
         }, (res: HttpErrorResponse) => this.onError(res.message));
-        this.productService.query()
+        this.productService.query({size: 9999})
             .subscribe((res: HttpResponse<Product[]>) => { this.products = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
         this.gadgetService.query()
             .subscribe((res: HttpResponse<Gadget[]>) => { this.gadgets = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+
+        this.dropdownProductSettings = {
+            singleSelection: true,
+            text: 'Produit',
+            enableSearchFilter: true,
+            classes: 'col-12 mb-2',
+            badgeShowLimit: 1,
+            labelKey: 'name'
+        };
     }
 
     clear() {

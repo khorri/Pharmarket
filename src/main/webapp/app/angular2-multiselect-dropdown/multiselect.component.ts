@@ -330,6 +330,7 @@ export class AngularMultiSelect implements OnInit, ControlValueAccessor, OnChang
 
         for (var i = fromPos; i < finalItem; i++) {
                 this.chunkIndex.push((i * this.itemHeight) + 'px');
+            if (this.data)
                 this.chunkArray.push(this.data[i]);
         }
     }

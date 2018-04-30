@@ -28,12 +28,6 @@
         <dd>
             <span>{{shipping.isGrossiste}}</span>
         </dd>
-        <dt><span jhiTranslate="pharmarketApp.shipping.ordre">Ordre</span></dt>
-        <dd>
-            <div *ngIf="shipping.ordre">
-                <a [routerLink]="['/ordre', shipping.ordre?.id]">{{shipping.ordre?.id}}</a>
-            </div>
-        </dd>
     </dl>
 
     <button type="submit"

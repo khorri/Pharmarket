@@ -4,12 +4,11 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { ShippingMode } from './shipping-mode.model';
 import { ShippingModePopupService } from './shipping-mode-popup.service';
 import { ShippingModeService } from './shipping-mode.service';
-import { Ordre, OrdreService } from '../ordre';
 
 @Component({
     selector: 'jhi-shipping-mode-dialog',
@@ -20,21 +19,15 @@ export class ShippingModeDialogComponent implements OnInit {
     shippingMode: ShippingMode;
     isSaving: boolean;
 
-    ordres: Ordre[];
-
     constructor(
         public activeModal: NgbActiveModal,
-        private jhiAlertService: JhiAlertService,
         private shippingModeService: ShippingModeService,
-        private ordreService: OrdreService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.ordreService.query()
-            .subscribe((res: HttpResponse<Ordre[]>) => { this.ordres = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -65,14 +58,6 @@ export class ShippingModeDialogComponent implements OnInit {
 
     private onSaveError() {
         this.isSaving = false;
-    }
-
-    private onError(error: any) {
-        this.jhiAlertService.error(error.message, null, null);
-    }
-
-    trackOrdreById(index: number, item: Ordre) {
-        return item.id;
     }
 }
 

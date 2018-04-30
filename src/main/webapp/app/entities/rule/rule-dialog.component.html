@@ -72,6 +72,10 @@
                 <option [ngValue]="null"></option>
                 <option [ngValue]="productOption.id === rule.product?.id ? rule.product : productOption" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.commercialName}}</option>
             </select>
+            <!--angular2-multiselect [data]="products" [(ngModel)]="rule.product"
+                                  [ngModelOptions]="{standalone: true}"
+                                  [settings]="dropdownProductSettings"
+            ></--angular2-multiselect-->
         </div>
         </div>
 

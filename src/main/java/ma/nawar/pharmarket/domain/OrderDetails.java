@@ -1,5 +1,6 @@
 package ma.nawar.pharmarket.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -30,12 +31,15 @@ public class OrderDetails implements Serializable {
     @Column(name = "quantity_shipped")
     private Integer quantityShipped;
 
+    @Column(name = "ug_quantity")
+    private Integer ugQuantity;
+
     @ManyToOne
+    @JsonIgnore
     private Ordre ordre;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Product product;
+    @ManyToOne
+    private PackProduct packProduct;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -50,17 +54,21 @@ public class OrderDetails implements Serializable {
         return quantity;
     }
 
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     public OrderDetails quantity(Integer quantity) {
         this.quantity = quantity;
         return this;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
     public Integer getQuantityShipped() {
         return quantityShipped;
+    }
+
+    public void setQuantityShipped(Integer quantityShipped) {
+        this.quantityShipped = quantityShipped;
     }
 
     public OrderDetails quantityShipped(Integer quantityShipped) {
@@ -68,12 +76,25 @@ public class OrderDetails implements Serializable {
         return this;
     }
 
-    public void setQuantityShipped(Integer quantityShipped) {
-        this.quantityShipped = quantityShipped;
+    public Integer getUgQuantity() {
+        return ugQuantity;
+    }
+
+    public void setUgQuantity(Integer ugQuantity) {
+        this.ugQuantity = ugQuantity;
+    }
+
+    public OrderDetails ugQuantity(Integer ugQuantity) {
+        this.ugQuantity = ugQuantity;
+        return this;
     }
 
     public Ordre getOrdre() {
         return ordre;
+    }
+
+    public void setOrdre(Ordre ordre) {
+        this.ordre = ordre;
     }
 
     public OrderDetails ordre(Ordre ordre) {
@@ -81,21 +102,17 @@ public class OrderDetails implements Serializable {
         return this;
     }
 
-    public void setOrdre(Ordre ordre) {
-        this.ordre = ordre;
+    public PackProduct getPackProduct() {
+        return packProduct;
     }
 
-    public Product getProduct() {
-        return product;
+    public void setPackProduct(PackProduct packProduct) {
+        this.packProduct = packProduct;
     }
 
-    public OrderDetails product(Product product) {
-        this.product = product;
+    public OrderDetails packProduct(PackProduct packProduct) {
+        this.packProduct = packProduct;
         return this;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -125,6 +142,7 @@ public class OrderDetails implements Serializable {
             "id=" + getId() +
             ", quantity=" + getQuantity() +
             ", quantityShipped=" + getQuantityShipped() +
+            ", ugQuantity=" + getUgQuantity() +
             "}";
     }
 }

@@ -18,8 +18,9 @@
             },
             "quantity": "Quantity",
             "quantityShipped": "Quantity Shipped",
+            "ugQuantity": "Ug Quantity",
             "ordre": "Ordre",
-            "product": "Product"
+            "packProduct": "Pack Product"
         }
     }
 }

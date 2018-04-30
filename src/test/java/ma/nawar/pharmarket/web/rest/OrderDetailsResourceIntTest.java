@@ -45,6 +45,9 @@ public class OrderDetailsResourceIntTest {
     private static final Integer DEFAULT_QUANTITY_SHIPPED = 1;
     private static final Integer UPDATED_QUANTITY_SHIPPED = 2;
 
+    private static final Integer DEFAULT_UG_QUANTITY = 1;
+    private static final Integer UPDATED_UG_QUANTITY = 2;
+
     @Autowired
     private OrderDetailsRepository orderDetailsRepository;
 
@@ -87,7 +90,8 @@ public class OrderDetailsResourceIntTest {
     public static OrderDetails createEntity(EntityManager em) {
         OrderDetails orderDetails = new OrderDetails()
             .quantity(DEFAULT_QUANTITY)
-            .quantityShipped(DEFAULT_QUANTITY_SHIPPED);
+            .quantityShipped(DEFAULT_QUANTITY_SHIPPED)
+            .ugQuantity(DEFAULT_UG_QUANTITY);
         return orderDetails;
     }
 
@@ -113,6 +117,7 @@ public class OrderDetailsResourceIntTest {
         OrderDetails testOrderDetails = orderDetailsList.get(orderDetailsList.size() - 1);
         assertThat(testOrderDetails.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
         assertThat(testOrderDetails.getQuantityShipped()).isEqualTo(DEFAULT_QUANTITY_SHIPPED);
+        assertThat(testOrderDetails.getUgQuantity()).isEqualTo(DEFAULT_UG_QUANTITY);
     }
 
     @Test
@@ -164,7 +169,8 @@ public class OrderDetailsResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(orderDetails.getId().intValue())))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
-            .andExpect(jsonPath("$.[*].quantityShipped").value(hasItem(DEFAULT_QUANTITY_SHIPPED)));
+            .andExpect(jsonPath("$.[*].quantityShipped").value(hasItem(DEFAULT_QUANTITY_SHIPPED)))
+            .andExpect(jsonPath("$.[*].ugQuantity").value(hasItem(DEFAULT_UG_QUANTITY)));
     }
 
     @Test
@@ -179,7 +185,8 @@ public class OrderDetailsResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(orderDetails.getId().intValue()))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))
-            .andExpect(jsonPath("$.quantityShipped").value(DEFAULT_QUANTITY_SHIPPED));
+            .andExpect(jsonPath("$.quantityShipped").value(DEFAULT_QUANTITY_SHIPPED))
+            .andExpect(jsonPath("$.ugQuantity").value(DEFAULT_UG_QUANTITY));
     }
 
     @Test
@@ -204,7 +211,8 @@ public class OrderDetailsResourceIntTest {
         em.detach(updatedOrderDetails);
         updatedOrderDetails
             .quantity(UPDATED_QUANTITY)
-            .quantityShipped(UPDATED_QUANTITY_SHIPPED);
+            .quantityShipped(UPDATED_QUANTITY_SHIPPED)
+            .ugQuantity(UPDATED_UG_QUANTITY);
 
         restOrderDetailsMockMvc.perform(put("/api/order-details")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -217,6 +225,7 @@ public class OrderDetailsResourceIntTest {
         OrderDetails testOrderDetails = orderDetailsList.get(orderDetailsList.size() - 1);
         assertThat(testOrderDetails.getQuantity()).isEqualTo(UPDATED_QUANTITY);
         assertThat(testOrderDetails.getQuantityShipped()).isEqualTo(UPDATED_QUANTITY_SHIPPED);
+        assertThat(testOrderDetails.getUgQuantity()).isEqualTo(UPDATED_UG_QUANTITY);
     }
 
     @Test

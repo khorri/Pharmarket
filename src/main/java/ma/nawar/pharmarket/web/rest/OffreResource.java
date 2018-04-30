@@ -95,6 +95,15 @@ public class OffreResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+    @GetMapping("/offres/status/{status}")
+    @Timed
+    public ResponseEntity<List<Offre>> getAllOffresByStatus(Pageable pageable, @PathVariable String status) {
+        log.debug("REST request to get a page of Offres");
+        Page<Offre> page = offreService.findByStatus(pageable, status);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/offres");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
     /**
      * GET  /offres/:id : get the "id" offre.
      *

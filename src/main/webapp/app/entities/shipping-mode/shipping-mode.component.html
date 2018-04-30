@@ -18,7 +18,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="name"><span jhiTranslate="pharmarketApp.shippingMode.name">Name</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="ordre.id"><span jhiTranslate="pharmarketApp.shippingMode.ordre">Ordre</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -26,11 +25,6 @@
             <tr *ngFor="let shippingMode of shippingModes ;trackBy: trackId">
                 <td><a [routerLink]="['../shipping-mode', shippingMode.id ]">{{shippingMode.id}}</a></td>
                 <td>{{shippingMode.name}}</td>
-                <td>
-                    <div *ngIf="shippingMode.ordre">
-                        <a [routerLink]="['../ordre', shippingMode.ordre?.id ]" >{{shippingMode.ordre?.id}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
