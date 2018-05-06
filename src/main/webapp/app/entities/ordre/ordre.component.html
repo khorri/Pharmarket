@@ -88,7 +88,9 @@
                 <td><span class="badge "
                           [ngClass]="{'badge-info':ordre.type=='DIRECT','badge-warning':ordre.type=='GROSSISTE'}">{{ordre.type}}</span>
                 </td>
-                <td><span class="badge badge-primary">{{ordre.status}}</span></td>
+                <td><span class="badge"
+                          [style.background]="ordre.currentStatus?.color" [style.color]="'#fff'">{{ordre.currentStatus?.name}}</span>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
@@ -96,7 +98,7 @@
                                 class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
                         </button>
-                        <button type="submit"
+                        <button type="submit" *ngIf="isEditable(ordre)"
                                 [routerLink]="['../order/'+ ordre.id + '/edit',{type:ordre.type}]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

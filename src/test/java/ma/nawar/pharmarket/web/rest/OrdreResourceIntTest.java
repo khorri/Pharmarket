@@ -80,17 +80,6 @@ public class OrdreResourceIntTest {
 
     private Ordre ordre;
 
-    @Before
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        final OrdreResource ordreResource = new OrdreResource(ordreService);
-        this.restOrdreMockMvc = MockMvcBuilders.standaloneSetup(ordreResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
-    }
-
     /**
      * Create an entity for this test.
      *
@@ -102,10 +91,20 @@ public class OrdreResourceIntTest {
             .totalPaid(DEFAULT_TOTAL_PAID)
             .totalOrdred(DEFAULT_TOTAL_ORDRED)
             .type(DEFAULT_TYPE)
-            .status(DEFAULT_STATUS)
             .paymentDueDate(DEFAULT_PAYMENT_DUE_DATE)
             .totalDiscount(DEFAULT_TOTAL_DISCOUNT);
         return ordre;
+    }
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        final OrdreResource ordreResource = new OrdreResource(ordreService);
+        this.restOrdreMockMvc = MockMvcBuilders.standaloneSetup(ordreResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     @Before
@@ -131,7 +130,6 @@ public class OrdreResourceIntTest {
         assertThat(testOrdre.getTotalPaid()).isEqualTo(DEFAULT_TOTAL_PAID);
         assertThat(testOrdre.getTotalOrdred()).isEqualTo(DEFAULT_TOTAL_ORDRED);
         assertThat(testOrdre.getType()).isEqualTo(DEFAULT_TYPE);
-        assertThat(testOrdre.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testOrdre.getPaymentDueDate()).isEqualTo(DEFAULT_PAYMENT_DUE_DATE);
         assertThat(testOrdre.getTotalDiscount()).isEqualTo(DEFAULT_TOTAL_DISCOUNT);
     }
@@ -253,7 +251,6 @@ public class OrdreResourceIntTest {
             .totalPaid(UPDATED_TOTAL_PAID)
             .totalOrdred(UPDATED_TOTAL_ORDRED)
             .type(UPDATED_TYPE)
-            .status(UPDATED_STATUS)
             .paymentDueDate(UPDATED_PAYMENT_DUE_DATE)
             .totalDiscount(UPDATED_TOTAL_DISCOUNT);
 
@@ -269,7 +266,6 @@ public class OrdreResourceIntTest {
         assertThat(testOrdre.getTotalPaid()).isEqualTo(UPDATED_TOTAL_PAID);
         assertThat(testOrdre.getTotalOrdred()).isEqualTo(UPDATED_TOTAL_ORDRED);
         assertThat(testOrdre.getType()).isEqualTo(UPDATED_TYPE);
-        assertThat(testOrdre.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testOrdre.getPaymentDueDate()).isEqualTo(UPDATED_PAYMENT_DUE_DATE);
         assertThat(testOrdre.getTotalDiscount()).isEqualTo(UPDATED_TOTAL_DISCOUNT);
     }

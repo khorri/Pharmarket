@@ -1,5 +1,6 @@
 import {BaseEntity, User} from './../../shared';
 import {Offre} from "../offre/offre.model";
+import {OrderState} from "../order-state/order-state.model";
 
 export const enum OrderType {
     'DIRECT',
@@ -12,7 +13,7 @@ export class Ordre implements BaseEntity {
         public totalPaid?: number,
         public totalOrdred?: number,
         public type?: OrderType,
-        public status?: string,
+        public currentStatus?: OrderState,
         public paymentDueDate?: Date,
         public totalDiscount?: number,
         public customer?: BaseEntity,

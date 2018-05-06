@@ -31,9 +31,7 @@ export class UserMgmtDialogComponent implements OnInit {
         this.userService.authorities().subscribe((authorities) => {
             this.authorities = authorities;
         });
-        this.languageHelper.getAll().then((languages) => {
-            this.languages = languages;
-        });
+
     }
 
     clear() {
@@ -43,6 +41,7 @@ export class UserMgmtDialogComponent implements OnInit {
     save() {
         this.isSaving = true;
         if (this.user.id !== null) {
+            this.user.password = this.user.password || null;
             this.userService.update(this.user).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
         } else {
             this.userService.create(this.user).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());

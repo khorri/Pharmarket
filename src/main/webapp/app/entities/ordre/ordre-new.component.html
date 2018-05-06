@@ -115,7 +115,7 @@
             <div class="col-3">
 
                 <div class="col-12">
-                    <div class="row">
+                    <div class="row" *jhiHasAnyAuthority="['ROLE_ADMIN']">
 
                         <angular2-multiselect [data]="orderStates" [(ngModel)]="selectedOrderState"
                                               [ngModelOptions]="{standalone: true}"
@@ -242,7 +242,7 @@
                                 class="btn btn-primary col-6 mt-2 ml-2">
                             <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                         </button>
-                        <button type="button" (click)="save(2)"
+                        <button type="button" (click)="validate()" *jhiHasAnyAuthority="['ROLE_REP']"
                                 [disabled]="editForm.form.invalid || isSaving || !selectedCustomer || totalDiscounted<offre?.amountMin"
                                 class="btn btn-success col-12 mt-2 mr-2">
                             <span class="fa fa-save"></span>&nbsp;<span>Valider</span>

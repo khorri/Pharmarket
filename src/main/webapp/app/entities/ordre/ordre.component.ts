@@ -53,10 +53,12 @@ currentAccount: any;
     }
 
     loadAll() {
+
         this.ordreService.query({
             page: this.page - 1,
             size: this.itemsPerPage,
-            sort: this.sort()}).subscribe(
+            sort: this.sort()
+        }).subscribe(
                 (res: HttpResponse<Ordre[]>) => this.onSuccess(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
         );
@@ -122,5 +124,9 @@ currentAccount: any;
     }
     private onError(error) {
         this.jhiAlertService.error(error.message, null, null);
+    }
+
+    isEditable(order) {
+        return (this.currentAccount.authorities.includes('ROLE_REP') && order.currentStatus && order.currentStatus.priority === 1);
     }
 }

@@ -152,8 +152,8 @@
         <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
     </button>
 
-    <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'ordre/'+ ordre.id + '/edit'} }]"
+    <button type="button" *ngIf="isEditable()"
+            [routerLink]="['/order/'+ ordre.id + '/edit',{type:ordre.type}]"
             replaceUrl="true"
             queryParamsHandling="merge"
             class="btn btn-primary">

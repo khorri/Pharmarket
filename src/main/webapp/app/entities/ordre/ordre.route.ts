@@ -33,7 +33,7 @@ export const ordreRoute: Routes = [
             'pagingParams': OrdreResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_REP', 'ROLE_ADMIN', 'ROLE_MANAGER'],
             pageTitle: 'pharmarketApp.ordre.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -41,7 +41,7 @@ export const ordreRoute: Routes = [
         path: 'ordre/:id',
         component: OrdreDetailComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_REP', 'ROLE_ADMIN', 'ROLE_MANAGER'],
             pageTitle: 'pharmarketApp.ordre.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -49,7 +49,7 @@ export const ordreRoute: Routes = [
         path: 'order-new',
         component: OrdreNewComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_REP', 'ROLE_ADMIN', 'ROLE_MANAGER'],
             pageTitle: 'pharmarketApp.ordre.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const ordreRoute: Routes = [
         path: 'order/:id/edit',
         component: OrdreNewComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_REP', 'ROLE_ADMIN', 'ROLE_MANAGER'],
             pageTitle: 'pharmarketApp.ordre.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -69,7 +69,7 @@ export const ordrePopupRoute: Routes = [
         path: 'ordre-new',
         component: OrdrePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_REP', 'ROLE_ADMIN', 'ROLE_MANAGER'],
             pageTitle: 'pharmarketApp.ordre.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -79,7 +79,7 @@ export const ordrePopupRoute: Routes = [
         path: 'ordre/:id/edit',
         component: OrdrePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_REP', 'ROLE_ADMIN', 'ROLE_MANAGER'],
             pageTitle: 'pharmarketApp.ordre.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -89,7 +89,7 @@ export const ordrePopupRoute: Routes = [
         path: 'ordre/:id/delete',
         component: OrdreDeletePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_REP', 'ROLE_ADMIN', 'ROLE_MANAGER'],
             pageTitle: 'pharmarketApp.ordre.home.title'
         },
         canActivate: [UserRouteAccessService],

@@ -136,8 +136,10 @@ public class UserService {
                 .collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
-        String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
-        user.setPassword(encryptedPassword);
+        if (!userDTO.getPassword().isEmpty()) {
+            String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
+            user.setPassword(encryptedPassword);
+        }
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
         user.setActivated(true);
@@ -189,6 +191,10 @@ public class UserService {
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
+                if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
+                    String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
+                    user.setPassword(encryptedPassword);
+                }
                 Set<Authority> managedAuthorities = user.getAuthorities();
                 managedAuthorities.clear();
                 userDTO.getAuthorities().stream()

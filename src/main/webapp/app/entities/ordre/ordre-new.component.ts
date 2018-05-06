@@ -28,6 +28,7 @@ import {Account} from "../../shared/user/account.model";
 import * as moment from "moment";
 import {OrderState} from "../order-state/order-state.model";
 import {OrderStateService} from "../order-state/order-state.service";
+import {OrderHistory} from "../order-history/order-history.model";
 
 @Component({
     selector: 'jhi-ordre-dialog',
@@ -235,12 +236,10 @@ export class OrdreNewComponent implements OnInit {
         };
     }
 
-    save(state?: number) {
+    save(isValidate?: boolean) {
         this.isSaving = true;
-        this.copyDataToOrder();
-        if (state) {
-            this.setOrderState();
-        }
+        this.copyDataToOrder(isValidate);
+
         if (this.ordre.id !== undefined) {
             this.subscribeToSaveResponse(
                 this.ordreService.update(this.ordre));
@@ -250,12 +249,16 @@ export class OrdreNewComponent implements OnInit {
         }
     }
 
+    validate() {
+        this.save(true);
+    }
+
     private isDataValid(): boolean {
         return this.ordre.customer && this.ordre.totalOrdred > 0;
 
     }
 
-    private copyDataToOrder() {
+    private copyDataToOrder(isValidate?: boolean) {
         this.ordre.offre = this.offre;
         this.ordre.type = this.type;
         if (this.ordre.displayPaymentDueDate) {
@@ -277,19 +280,30 @@ export class OrdreNewComponent implements OnInit {
         } else {
             this.createOrderDetails();
         }
+        this.setOrderState(isValidate);
 
         this.ordre.orderDetails = this.orderDetails;
 
     }
 
-    private setOrderState() {
-        let states = this.orderStates.filter((state) => {
-            return state.id === 2;
-        });
-        if (states && states.length > 0) {
-            this.ordre.status = states[0].name;
-
+    private setOrderState(isValidate) {
+        let orderHistory: OrderHistory = new OrderHistory();
+        orderHistory.orderState = this.selectedOrderState[0];
+        orderHistory.addDate = new Date();
+        this.ordre.currentStatus = this.selectedOrderState[0];
+        if (!this.ordre.orderHistories) {
+            this.ordre.orderHistories = [];
         }
+        if (isValidate) {
+            let orderSates = this.orderStates.filter((orderState: OrderState) => {
+                return orderState.priority === 2;
+            });
+            if (orderSates && orderSates.length > 0) {
+                orderHistory.orderState = orderSates[0];
+                this.ordre.currentStatus = orderSates[0];
+            }
+        }
+        this.ordre.orderHistories.push(orderHistory);
     }
 
 

@@ -15,6 +15,7 @@ import {Offre} from "../offre/offre.model";
 import {OrderDetails} from "../order-details/order-details.model";
 import {Pack} from "../pack/pack.model";
 import {PackProduct} from "../pack-product/pack-product.model";
+import {Principal} from "../../shared/auth/principal.service";
 
 @Component({
     selector: 'jhi-ordre-detail',
@@ -29,6 +30,7 @@ export class OrdreDetailComponent implements OnInit, OnDestroy {
     selectedPackProducts: any[];
     private subscription: Subscription;
     private eventSubscriber: Subscription;
+    currentAccount;
 
 
     constructor(
@@ -40,12 +42,16 @@ export class OrdreDetailComponent implements OnInit, OnDestroy {
         private shippingService: ShippingService,
         private paymentService: PaymentService,
         private shippingModeService: ShippingModeService,
+        private principal: Principal
     ) {
     }
 
     ngOnInit() {
         this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
+        });
+        this.principal.identity().then((account) => {
+            this.currentAccount = account;
         });
         this.registerChangeInOrdres();
     }
@@ -111,5 +117,9 @@ export class OrdreDetailComponent implements OnInit, OnDestroy {
             'ordreListModification',
             (response) => this.load(this.ordre.id)
         );
+    }
+
+    isEditable() {
+        return (this.currentAccount.authorities.includes('ROLE_REP') && this.ordre.currentStatus && this.ordre.currentStatus.priority === 1);
     }
 }
