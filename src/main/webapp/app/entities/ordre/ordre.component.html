@@ -2,20 +2,19 @@
     <h2>
         <span jhiTranslate="pharmarketApp.ordre.home.title">Ordres</span>
 
-        <div class="btn-group float-right" ngbDropdown>
+        <div class="btn-group float-right">
             <button [routerLink]="['../order-new',{type:'DIRECT'}]"
                     class="btn btn-primary  jh-create-entity create-ordre"><span class="fa fa-plus"></span>
                 <span jhiTranslate="pharmarketApp.ordre.home.createLabel">
             Create new Ordre
             </span>
             </button>
-            <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
-            <div class="dropdown-menu" ngbDropdownMenu>
-                <button class="dropdown-item" [routerLink]="['../order-new',{type:'GROSSISTE'}]"><span
+
+            <button class="btn btn-info" [routerLink]="['../order-new',{type:'GROSSISTE'}]"><span
                     class="fa fa-print"></span> Commande grossiste
                 </button>
 
-            </div>
+
         </div>
 
     </h2>
@@ -71,6 +70,15 @@
                     <div *ngIf="ordre.shipping">
                         {{ordre.shipping?.name}}
                     </div>
+                    <div *ngIf="ordre.firstGrossiste">
+                        {{ordre.firstGrossiste?.name}},
+                    </div>
+                    <div *ngIf="ordre.secondGrossiste">
+                        {{ordre.secondGrossiste?.name}},
+                    </div>
+                    <div *ngIf="ordre.thirdGrossiste">
+                        {{ordre.thirdGrossiste?.name}}
+                    </div>
                 </td>
                 <td>
                     <div *ngIf="ordre.shippingMode">
@@ -89,7 +97,7 @@
                             <span class="fa fa-eye"></span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'ordre/'+ ordre.id + '/edit'} }]"
+                                [routerLink]="['../order/'+ ordre.id + '/edit',{type:ordre.type}]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-primary btn-sm">

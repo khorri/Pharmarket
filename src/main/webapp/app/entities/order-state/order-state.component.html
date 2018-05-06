@@ -19,6 +19,8 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="name"><span jhiTranslate="pharmarketApp.orderState.name">Name</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="color"><span jhiTranslate="pharmarketApp.orderState.color">Color</span> <span class="fa fa-sort"></span></th>
+                <th jhiSortBy="priority"><span jhiTranslate="pharmarketApp.orderState.priority">Priority</span> <span
+                    class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -26,7 +28,8 @@
             <tr *ngFor="let orderState of orderStates ;trackBy: trackId">
                 <td><a [routerLink]="['../order-state', orderState.id ]">{{orderState.id}}</a></td>
                 <td>{{orderState.name}}</td>
-                <td>{{orderState.color}}</td>
+                <td [style.background]="orderState.color">{{orderState.color}}</td>
+                <td>{{orderState.priority}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

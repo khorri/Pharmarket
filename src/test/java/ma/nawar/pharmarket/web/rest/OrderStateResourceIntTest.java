@@ -45,6 +45,9 @@ public class OrderStateResourceIntTest {
     private static final String DEFAULT_COLOR = "AAAAAAAAAA";
     private static final String UPDATED_COLOR = "BBBBBBBBBB";
 
+    private static final Integer DEFAULT_PRIORITY = 1;
+    private static final Integer UPDATED_PRIORITY = 2;
+
     @Autowired
     private OrderStateRepository orderStateRepository;
 
@@ -87,7 +90,8 @@ public class OrderStateResourceIntTest {
     public static OrderState createEntity(EntityManager em) {
         OrderState orderState = new OrderState()
             .name(DEFAULT_NAME)
-            .color(DEFAULT_COLOR);
+            .color(DEFAULT_COLOR)
+            .priority(DEFAULT_PRIORITY);
         return orderState;
     }
 
@@ -113,6 +117,7 @@ public class OrderStateResourceIntTest {
         OrderState testOrderState = orderStateList.get(orderStateList.size() - 1);
         assertThat(testOrderState.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testOrderState.getColor()).isEqualTo(DEFAULT_COLOR);
+        assertThat(testOrderState.getPriority()).isEqualTo(DEFAULT_PRIORITY);
     }
 
     @Test
@@ -154,6 +159,24 @@ public class OrderStateResourceIntTest {
 
     @Test
     @Transactional
+    public void checkPriorityIsRequired() throws Exception {
+        int databaseSizeBeforeTest = orderStateRepository.findAll().size();
+        // set the field null
+        orderState.setPriority(null);
+
+        // Create the OrderState, which fails.
+
+        restOrderStateMockMvc.perform(post("/api/order-states")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(orderState)))
+            .andExpect(status().isBadRequest());
+
+        List<OrderState> orderStateList = orderStateRepository.findAll();
+        assertThat(orderStateList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllOrderStates() throws Exception {
         // Initialize the database
         orderStateRepository.saveAndFlush(orderState);
@@ -164,7 +187,8 @@ public class OrderStateResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(orderState.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].color").value(hasItem(DEFAULT_COLOR.toString())));
+            .andExpect(jsonPath("$.[*].color").value(hasItem(DEFAULT_COLOR.toString())))
+            .andExpect(jsonPath("$.[*].priority").value(hasItem(DEFAULT_PRIORITY)));
     }
 
     @Test
@@ -179,7 +203,8 @@ public class OrderStateResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(orderState.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.color").value(DEFAULT_COLOR.toString()));
+            .andExpect(jsonPath("$.color").value(DEFAULT_COLOR.toString()))
+            .andExpect(jsonPath("$.priority").value(DEFAULT_PRIORITY));
     }
 
     @Test
@@ -204,7 +229,8 @@ public class OrderStateResourceIntTest {
         em.detach(updatedOrderState);
         updatedOrderState
             .name(UPDATED_NAME)
-            .color(UPDATED_COLOR);
+            .color(UPDATED_COLOR)
+            .priority(UPDATED_PRIORITY);
 
         restOrderStateMockMvc.perform(put("/api/order-states")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -217,6 +243,7 @@ public class OrderStateResourceIntTest {
         OrderState testOrderState = orderStateList.get(orderStateList.size() - 1);
         assertThat(testOrderState.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testOrderState.getColor()).isEqualTo(UPDATED_COLOR);
+        assertThat(testOrderState.getPriority()).isEqualTo(UPDATED_PRIORITY);
     }
 
     @Test

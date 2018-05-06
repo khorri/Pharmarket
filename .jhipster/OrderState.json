@@ -12,12 +12,19 @@
         {
             "fieldName": "color",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "priority",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20180331093104",
-    "entityTableName": "order_state",
     "dto": "no",
-    "pagination": "pagination",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": false
+    "entityTableName": "order_state",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
 }

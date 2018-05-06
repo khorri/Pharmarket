@@ -126,7 +126,7 @@
                                [(ngModel)]="pac.name"/>
                     </div>
 
-                    <div class="form-group col-6">
+                    <div class="form-group col-5">
 
                         <angular2-multiselect [data]="packRules" [(ngModel)]="pac.rules"
                                               [ngModelOptions]="{standalone: true}"
@@ -135,6 +135,12 @@
                                               (onDeSelect)="OnItemDeSelect($event)"
                                               (onSelectAll)="onSelectAll($event)"
                                               (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+                    </div>
+                    <div class="col-1">
+                        <select class="form-control" [(ngModel)]="pac.operator" name="operator_{{idx}}">
+                            <option value="and">ET</option>
+                            <option value="or">OU</option>
+                        </select>
                     </div>
                     <div class="col-1">
                         <button class="btn btn-sm btn-info pull-right" (click)="removePack(idx)">
@@ -234,7 +240,7 @@
 
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" [routerLink]="['/offre' ]">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" [routerLink]="['/offre']">
             <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
         <button type="submit" [disabled]="editForm.form.invalid || isSaving || !isValidData()" class="btn btn-primary">

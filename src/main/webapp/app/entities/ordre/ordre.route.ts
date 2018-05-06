@@ -53,6 +53,14 @@ export const ordreRoute: Routes = [
             pageTitle: 'pharmarketApp.ordre.home.title'
         },
         canActivate: [UserRouteAccessService]
+    }, {
+        path: 'order/:id/edit',
+        component: OrdreNewComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'pharmarketApp.ordre.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     }
 ];
 

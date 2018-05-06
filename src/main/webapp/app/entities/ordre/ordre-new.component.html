@@ -1,20 +1,26 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
 
-    <div class="row">
 
-        <div class="col-9">
-            <h4 class="modal-title" id="myOrdreLabel">{{offre?.name}}</h4>
-            <span *ngIf="offre?.amountMin"> Montant minimal par commande est : <span class="badge badge-danger">{{offre?.amountMin|currency:'MAD':'symbol':'2.2-2':'fr'}}  T.T.C</span> (après remise)</span>
-            <span *ngIf="offre?.quantityMin"> Quantité minimal par commande est {{offre?.quantityMin}} unité</span>
-        </div>
-
-
-    </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
 
         <div class="row">
+
+
             <div class="col-9">
+
+                <div class="form-group">
+
+                    <select class="form-control" id="field_customer" name="customer" [(ngModel)]="offre">
+                        <option [ngValue]="null">Sélectionner une offre</option>
+                        <option [ngValue]="offreOption.id === offre?.id ? offre : offreOption"
+                                *ngFor="let offreOption of offres; trackBy: trackById">{{offreOption.name}}
+                        </option>
+                    </select>
+                </div>
+                <span *ngIf="offre?.amountMin"> Montant minimal par commande est : <span class="badge badge-danger">{{offre?.amountMin|currency:'MAD':'symbol':'2.2-2':'fr'}}  T.T.C</span> (après remise)</span>
+                <span *ngIf="offre?.quantityMin"> Quantité minimal par commande est {{offre?.quantityMin}} unité</span>
+
                 <div *ngFor="let pac of offre?.packs; index as idx; trackBy:trackId">
                     <div class="row card">
                         <div class="card-header-sm bg-info">
@@ -26,8 +32,9 @@
                                 <div class="col-8">
 
                                     <div class="col-12" *ngFor="let rule of pac.rules; trackBy:trackId">
-                                        <span *ngIf="rule?.reduction"> A l'achat de ce pack une remise de {{rule?.reduction}}% sera appliqué sur le total</span>
-                                        <span *ngIf="rule?.giftQuantity"> A l'achat d'1 pack,  {{rule?.giftQuantity}} boite(s) de ({{rule?.product?.name}}) sont offerts</span>
+                                        <span *ngIf="rule?.reduction"> A l'achat de {{rule.quantityMin}} boite(s), une remise de {{rule?.reduction}}% sera appliqué sur le total</span>
+                                        {{pac.operator}}
+                                        <span *ngIf="rule?.giftQuantity"> A l'achat de {{rule.quantityMin}} boite(s),  {{rule?.giftQuantity}} boite(s) de ({{rule?.product?.name}}) sont offerts</span>
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +64,7 @@
                                 <td class="font-weight-bold">{{p.product.ppv|currency:'MAD':'symbol':'2.2-2':'fr'}}
                                 </td>
                                 <td class="font-weight-bold">{{p.product.pph|currency:'MAD':'symbol':'2.2-2':'fr'}}</td>
-                                <td>{{p.quantityMin}}</td>
+                                <td class="text-center">{{p.quantityMin}}</td>
                                 <td>
                                     <ul class="rule-list">
                                         <li *ngFor=" let r of p.rules">
@@ -110,6 +117,25 @@
                 <div class="col-12">
                     <div class="row">
 
+                        <angular2-multiselect [data]="orderStates" [(ngModel)]="selectedOrderState"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownOrderStateSettings"
+                        >
+                            <c-badge>
+                                <ng-template let-item="item">
+                                    <label [ngStyle]="getStyles(item)">{{item.name}}</label>
+                                </ng-template>
+                            </c-badge>
+                            <c-item>
+                                <ng-template let-item="item">
+                                    <label [ngStyle]="getStyles(item)">{{item.name}}</label>
+                                </ng-template>
+                            </c-item>
+
+                        </angular2-multiselect>
+                    </div>
+                    <div class="row">
+
                         <angular2-multiselect [data]="cities" [(ngModel)]="city"
                                               [ngModelOptions]="{standalone: true}"
                                               [settings]="dropdownCitySettings"
@@ -125,15 +151,7 @@
                         ></angular2-multiselect>
 
                     </div>
-                    <div class="row">
-
-                        <angular2-multiselect [data]="shippingModes" [(ngModel)]="selectedShippingMode"
-                                              [ngModelOptions]="{standalone: true}"
-                                              [settings]="dropdownShippingModSettings"
-                        ></angular2-multiselect>
-
-                    </div>
-                    <div class="row">
+                    <div class="row" *ngIf="type==='DIRECT'">
 
                         <angular2-multiselect [data]="shippings" [(ngModel)]="selectedShipping"
                                               [ngModelOptions]="{standalone: true}"
@@ -142,11 +160,48 @@
                         ></angular2-multiselect>
 
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="type==='DIRECT'">
+
+                        <angular2-multiselect [data]="shippingModes" [(ngModel)]="selectedShippingMode"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownShippingModSettings"
+
+                        ></angular2-multiselect>
+
+                    </div>
+                    <div class="row" *ngIf="type==='DIRECT'">
 
                         <angular2-multiselect [data]="payments" [(ngModel)]="selectedPayment"
                                               [ngModelOptions]="{standalone: true}"
                                               [settings]="dropdownPaymentSettings"
+
+                        ></angular2-multiselect>
+
+                    </div>
+                    <div class="row" *ngIf="type==='GROSSISTE'">
+
+                        <angular2-multiselect [data]="grossistes" [(ngModel)]="firstGrossiste"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownGrossisteSettings"
+
+                        ></angular2-multiselect>
+
+                    </div>
+                    <div class="row" *ngIf="type==='GROSSISTE'">
+
+                        <angular2-multiselect [data]="grossistes" [(ngModel)]="secondGrossiste"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownGrossisteSettings"
+
+                        ></angular2-multiselect>
+
+                    </div>
+                    <div class="row" *ngIf="type==='GROSSISTE'">
+
+                        <angular2-multiselect [data]="grossistes" [(ngModel)]="thirdGrossiste"
+                                              [ngModelOptions]="{standalone: true}"
+                                              [settings]="dropdownGrossisteSettings"
+
                         ></angular2-multiselect>
 
                     </div>
@@ -179,13 +234,18 @@
                     </div>
                     <div class="row">
                         <button type="button" class="btn btn-secondary col-5 mt-2" data-dismiss="modal"
-                                (click)="clear()">
+                                [routerLink]="['/ordre']">
                             <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                         </button>
                         <button type="submit"
                                 [disabled]="editForm.form.invalid || isSaving || !selectedCustomer || totalDiscounted<offre?.amountMin"
                                 class="btn btn-primary col-6 mt-2 ml-2">
                             <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                        </button>
+                        <button type="button" (click)="save(2)"
+                                [disabled]="editForm.form.invalid || isSaving || !selectedCustomer || totalDiscounted<offre?.amountMin"
+                                class="btn btn-success col-12 mt-2 mr-2">
+                            <span class="fa fa-save"></span>&nbsp;<span>Valider</span>
                         </button>
                     </div>
 

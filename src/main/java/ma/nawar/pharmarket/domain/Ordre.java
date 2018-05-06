@@ -72,6 +72,17 @@ public class Ordre extends AbstractAuditingEntity implements Serializable {
     @ManyToOne
     private ShippingMode shippingMode;
 
+    @ManyToOne
+    private Shipping firstGrossiste;
+
+    @ManyToOne
+    private Shipping secondGrossiste;
+
+
+    @ManyToOne
+    private Shipping thirdGrossiste;
+
+
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -275,7 +286,30 @@ public class Ordre extends AbstractAuditingEntity implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+    public Shipping getFirstGrossiste() {
+        return firstGrossiste;
+    }
+
+    public void setFirstGrossiste(Shipping firstGrossiste) {
+        this.firstGrossiste = firstGrossiste;
+    }
+
+    public Shipping getSecondGrossiste() {
+        return secondGrossiste;
+    }
+
+    public void setSecondGrossiste(Shipping secondGrossiste) {
+        this.secondGrossiste = secondGrossiste;
+    }
+
+    public Shipping getThirdGrossiste() {
+        return thirdGrossiste;
+    }
+
+    public void setThirdGrossiste(Shipping thirdGrossiste) {
+        this.thirdGrossiste = thirdGrossiste;
+    }
+// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

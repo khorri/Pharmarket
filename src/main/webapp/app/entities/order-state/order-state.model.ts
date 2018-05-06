@@ -5,6 +5,7 @@ export class OrderState implements BaseEntity {
         public id?: number,
         public name?: string,
         public color?: string,
+        public priority?: number,
     ) {
     }
 }

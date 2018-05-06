@@ -52,9 +52,7 @@ public class OrdreServiceImpl implements OrdreService {
     @Transactional
     public Ordre save(Ordre ordre) {
         log.debug("Request to save Ordre : {}", ordre);
-        if (ordre.getId() == null) {
 
-        }
         final Ordre order = ordreRepository.save(ordre);
         Set<OrderDetails> orderDetails = order.getOrderDetails();
         orderDetails.forEach(orderDetail -> {

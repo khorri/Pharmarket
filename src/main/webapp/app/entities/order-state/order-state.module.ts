@@ -15,16 +15,19 @@ import {
     orderStatePopupRoute,
     OrderStateResolvePagingParams,
 } from './';
+import {ColorPickerModule} from "ngx-color-picker";
 
 const ENTITY_STATES = [
     ...orderStateRoute,
     ...orderStatePopupRoute,
+
 ];
 
 @NgModule({
     imports: [
         PharmarketSharedModule,
-        RouterModule.forChild(ENTITY_STATES)
+        RouterModule.forChild(ENTITY_STATES),
+        ColorPickerModule
     ],
     declarations: [
         OrderStateComponent,

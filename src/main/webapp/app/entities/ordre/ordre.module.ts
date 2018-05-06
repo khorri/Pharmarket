@@ -17,6 +17,7 @@ import {
     OrdreNewComponent
 } from './';
 import {AngularMultiSelectModule} from "../../angular2-multiselect-dropdown/multiselect.component";
+import {ColorPickerModule} from "ngx-color-picker";
 
 const ENTITY_STATES = [
     ...ordreRoute,
@@ -28,6 +29,7 @@ const ENTITY_STATES = [
         PharmarketSharedModule,
         RouterModule.forChild(ENTITY_STATES),
         AngularMultiSelectModule
+
     ],
     declarations: [
         OrdreComponent,

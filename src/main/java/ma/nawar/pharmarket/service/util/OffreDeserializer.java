@@ -137,6 +137,7 @@ public class OffreDeserializer extends JsonDeserializer {
             }
             if (packMap.get("name") != null) {
                 pack.setName(packMap.get("name").toString());
+                pack.setOperator(packMap.get("operator").toString());
                 pack.setRules(this.getRules(packMap.get("rules")));
                 pack.setPackProducts(this.getPackProduct(packMap.get("packProducts")));
                 listPack.add(pack);

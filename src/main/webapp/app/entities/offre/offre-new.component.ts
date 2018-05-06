@@ -251,6 +251,7 @@ export class OffreNewComponent implements OnInit {
 
     addPack() {
         let pack: Pack = new Pack(null, '', []);
+        pack.operator = 'and';
         pack.packProducts = [];
         if (!this.offre.packs)
             this.offre.packs = [];

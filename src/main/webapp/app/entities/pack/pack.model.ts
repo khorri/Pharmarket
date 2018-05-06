@@ -7,6 +7,7 @@ export class Pack implements BaseEntity {
                 public packProducts?: BaseEntity[],
                 public offre?: BaseEntity,
                 public description?: string,
-                public selected?: boolean) {
+                public selected?: boolean,
+                public operator?: string,) {
     }
 }

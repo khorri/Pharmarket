@@ -3,9 +3,9 @@
     "pharmarketApp": {
         "orderState" : {
             "home": {
-                "title": "Staus commande",
-                "createLabel": "Créer un nouveau status",
-                "createOrEditLabel": "Créer ou éditer un status "
+                "title": "OrderStates",
+                "createLabel": "Créer un nouveau Order State",
+                "createOrEditLabel": "Créer ou éditer un Order State"
             },
             "created": "Un nouveau Order State a été créé avec l'identifiant {{ param }}",
             "updated": "Le Order State avec l'identifiant {{ param }} a été mis à jour",
@@ -17,7 +17,8 @@
                 "title": "Order State"
             },
             "name": "Name",
-            "color": "Color"
+            "color": "Color",
+            "priority": "Priority"
         }
     }
 }

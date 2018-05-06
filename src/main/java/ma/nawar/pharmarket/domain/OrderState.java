@@ -30,6 +30,10 @@ public class OrderState implements Serializable {
     @Column(name = "color")
     private String color;
 
+    @NotNull
+    @Column(name = "priority", nullable = false)
+    private Integer priority;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -64,6 +68,19 @@ public class OrderState implements Serializable {
     public void setColor(String color) {
         this.color = color;
     }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public OrderState priority(Integer priority) {
+        this.priority = priority;
+        return this;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -92,6 +109,7 @@ public class OrderState implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", color='" + getColor() + "'" +
+            ", priority=" + getPriority() +
             "}";
     }
 }

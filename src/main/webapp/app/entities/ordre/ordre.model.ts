@@ -26,6 +26,10 @@ export class Ordre implements BaseEntity {
         public displayPaymentDueDate?: any,
         public createdBy?: any,
         public createdDate?: Date,
+        public firstGrossiste?: BaseEntity,
+        public secondGrossiste?: BaseEntity,
+        public thirdGrossiste?: BaseEntity,
+
 
     ) {
     }
