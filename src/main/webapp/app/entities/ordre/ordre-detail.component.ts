@@ -119,7 +119,15 @@ export class OrdreDetailComponent implements OnInit, OnDestroy {
         );
     }
 
-    isEditable() {
-        return (this.currentAccount.authorities.includes('ROLE_REP') && this.ordre.currentStatus && this.ordre.currentStatus.priority === 1);
+    isEditable(order) {
+        if (this.currentAccount.authorities.includes('ROLE_REP')) {
+            return order.currentStatus && order.currentStatus.priority === 1;
+        } else {
+            return true;
+        }
+    }
+
+    export() {
+
     }
 }

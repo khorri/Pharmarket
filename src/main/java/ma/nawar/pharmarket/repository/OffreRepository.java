@@ -21,6 +21,6 @@ public interface OffreRepository extends JpaRepository<Offre, Long> {
     @Query("select offre from Offre offre left join fetch offre.shippings where offre.id =:id")
     Offre findOneWithEagerRelationships(@Param("id") Long id);
 
-    @Query("select offre from Offre offre left join fetch offre.shippings where offre.status =:status")
+    @Query("select offre from Offre offre left join fetch offre.shippings where offre.status =:status group by offre.id order by offre.start desc")
     List<Offre> findByStatusWithEagerRelationships(@Param("status") String status);
 }

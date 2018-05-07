@@ -53,10 +53,18 @@ public class OrdreServiceImpl implements OrdreService {
     @Transactional
     public Ordre save(Ordre ordre) {
         log.debug("Request to save Ordre : {}", ordre);
-
+        if (ordre.getId() != null) {
+            log.debug("Remove all order details before saving the order");
+            orderDetailsRepository.deleteByOrdre(ordre);
+        }
         final Ordre order = ordreRepository.save(ordre);
         Set<OrderDetails> orderDetails = order.getOrderDetails();
+        List<OrderDetails> toBeRemoved = new ArrayList<OrderDetails>();
         orderDetails.forEach(orderDetail -> {
+            OrderDetails ot = orderDetailsRepository.findOne(orderDetail.getId());
+            if (ot == null) {
+                toBeRemoved.add(orderDetail);
+            }
             orderDetail.setOrdre(order);
         });
         if (order.getOrderHistories() != null) {
@@ -73,6 +81,8 @@ public class OrdreServiceImpl implements OrdreService {
             orderHistory.setOrdre(order);
             orderHistoryRepository.save(orderHistory);
         }
+
+        order.getOrderDetails().removeAll(toBeRemoved);
         return ordreRepository.save(order);
 
     }
@@ -100,7 +110,7 @@ public class OrdreServiceImpl implements OrdreService {
             //getSubordonates
             return ordreRepository.findByCreatedByIn(pageable, users);
         }
-        return ordreRepository.findAll(pageable);
+        return ordreRepository.findWithEagerRelationships(pageable);
 
     }
 

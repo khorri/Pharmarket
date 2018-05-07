@@ -3,9 +3,22 @@
 
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
+        <div class="row justify-content-center" *ngIf="isLoading">
+            <div class="col-1">
+                <div class="lds-ellipsis">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
 
-        <div class="row">
+            <h2 class="pt-2">Chargement en cours ...</h2>
 
+        </div>
+
+
+        <div class="row" *ngIf="!isLoading">
 
             <div class="col-9">
 
@@ -110,12 +123,12 @@
                     </div>
                     <br/>
                 </div>
-        </div>
+            </div>
 
             <div class="col-3">
 
                 <div class="col-12">
-                    <div class="row" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                    <div class="row" *jhiHasAnyAuthority="['ROLE_ADMIN','ROLE_USER']">
 
                         <angular2-multiselect [data]="orderStates" [(ngModel)]="selectedOrderState"
                                               [ngModelOptions]="{standalone: true}"

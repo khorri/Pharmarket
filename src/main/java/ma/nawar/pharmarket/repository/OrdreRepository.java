@@ -21,5 +21,6 @@ public interface OrdreRepository extends JpaRepository<Ordre, Long> {
 
     Page<Ordre> findByCreatedByIn(Pageable pageable, List<String> users);
 
-
+    @Query("select ordre from Ordre ordre  where ordre.currentStatus.priority <>1")
+    Page<Ordre> findWithEagerRelationships(Pageable pageable);
 }

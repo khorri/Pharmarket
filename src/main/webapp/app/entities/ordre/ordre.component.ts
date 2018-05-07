@@ -29,6 +29,8 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
+    totalOrdred: number;
+    totalShipped: number;
 
     constructor(
         private ordreService: OrdreService,
@@ -108,9 +110,9 @@ currentAccount: any;
     }
 
     sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
-            result.push('id');
+        const result = [this.predicate + ',' + (this.reverse ? 'desc' : 'asc')];
+        if (this.predicate !== 'createdDate') {
+            result.push('createdDate');
         }
         return result;
     }
@@ -121,12 +123,29 @@ currentAccount: any;
         this.queryCount = this.totalItems;
         // this.page = pagingParams.page;
         this.ordres = data;
+        this.totalOrdred = this.ordres.map((order: Ordre) => {
+            return order.totalOrdred;
+        }).reduce((t1, t2) => {
+            return t1 + t2;
+        });
+        this.totalShipped = this.ordres.map((order: Ordre) => {
+            return order.totalPaid;
+        }).reduce((t1, t2) => {
+            return t1 + t2;
+        });
+
     }
+
+
     private onError(error) {
         this.jhiAlertService.error(error.message, null, null);
     }
 
     isEditable(order) {
-        return (this.currentAccount.authorities.includes('ROLE_REP') && order.currentStatus && order.currentStatus.priority === 1);
+        if (this.currentAccount.authorities.includes('ROLE_REP')) {
+            return order.currentStatus && order.currentStatus.priority === 1;
+        } else {
+            return true;
+        }
     }
 }

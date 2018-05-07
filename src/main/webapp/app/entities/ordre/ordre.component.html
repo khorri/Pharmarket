@@ -19,8 +19,62 @@
 
     </h2>
     <jhi-alert></jhi-alert>
-    <div class="row">
+
+    <div class="row mb-3">
+        <div class="col-xl-4 col-sm-6">
+            <div class="card bg-info text-white">
+                <div class="card-body bg-info" style="padding:0px;">
+                    <div class="row">
+                        <div class="rotate col-3 widget-card-icon widget-info">
+                            <i class="icofont icofont-basket fa-3x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h1 class="display-5">{{totalItems}} CMD</h1>
+                            <h6 class="text-uppercase">Commandes livrés</h6>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-sm-6">
+            <div class="card bg-danger text-white">
+                <div class="card-body bg-danger" style="padding:0px;">
+                    <div class="row">
+                        <div class="rotate col-3 widget-card-icon widget-danger">
+                            <i class="icofont icofont-bill-alt fa-3x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h1 class="display-5">{{totalOrdred|currency:'MAD':'symbol':'3.2-2':'fr'}}</h1>
+                            <h6 class="text-uppercase">Total commandé</h6>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-sm-6">
+            <div class="card bg-success text-white">
+                <div class="card-body bg-success" style="padding:0px;">
+                    <div class="row">
+                        <div class="rotate col-3 widget-card-icon widget-success">
+                            <i class="icofont icofont-dart fa-3x"></i>
+                        </div>
+                        <div class="col-8">
+                            <h1 class="display-5">{{totalShipped|currency:'MAD':'symbol':'3.2-2':'fr'}} </h1>
+                            <h6 class="text-uppercase">Total livré</h6>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
     </div>
+
     <br/>
     <div class="table-responsive" *ngIf="ordres">
         <table class="table table-striped table-hover table-responsive-sm">
@@ -30,7 +84,7 @@
                     class="fa fa-sort"></span></th>
 
                 <th jhiSortBy="totalOrdred">Total Cmd <span class="fa fa-sort"></span></th>
-                <th jhiSortBy="totalPaid">Total Payé <span class="fa fa-sort"></span></th>
+                <th jhiSortBy="totalPaid">Total Réglé <span class="fa fa-sort"></span></th>
                 <th jhiSortBy="created_by">Crée le<span
                     class="fa fa-sort"></span></th>
                 <th jhiSortBy="created_by">Crée par<span
@@ -39,11 +93,11 @@
                     class="fa fa-sort"></span></th>
                 <th jhiSortBy="shipping.name">Transporteur<span
                     class="fa fa-sort"></span></th>
-                <th jhiSortBy="shippingMode.name">Mode livraison<span
+                <th jhiSortBy="shippingMode.name">Livraison<span
                     class="fa fa-sort"></span></th>
                 <th jhiSortBy="type">Type <span
                     class="fa fa-sort"></span></th>
-                <th jhiSortBy="status">Status <span
+                <th jhiSortBy="status">Etat<span
                     class="fa fa-sort"></span></th>
 
                 <th></th>
@@ -105,7 +159,7 @@
                                 class="btn btn-primary btn-sm">
                             <span class="fa fa-pencil"></span>
                         </button>
-                        <button type="submit"
+                        <button type="submit" *ngIf="isEditable(ordre)"
                                 [routerLink]="['/', { outlets: { popup: 'ordre/'+ ordre.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"

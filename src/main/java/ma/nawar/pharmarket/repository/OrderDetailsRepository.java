@@ -5,6 +5,7 @@ import ma.nawar.pharmarket.domain.Ordre;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -17,4 +18,6 @@ import java.util.Set;
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long> {
 
     Set<OrderDetails> findByOrdre(Ordre ordre);
+
+    void deleteByOrdre(Ordre ordre);
 }

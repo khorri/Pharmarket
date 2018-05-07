@@ -3,10 +3,12 @@
     <div class="row">
         <div class="col-6">
             <h2><span jhiTranslate="pharmarketApp.ordre.detail.title">Ordre: </span> #{{ordre.id}}</h2>
-            <span class="badge badge-danger">{{ordre.status}}</span>
+            <span class="badge" [style.background]="ordre.currentStatus?.color" [style.color]="'#fff'">
+                {{ordre.currentStatus?.name}}</span>
         </div>
         <div class="col-6 text-right">
             <h2> {{ordre.customer?.name}}</h2>
+            <h4>{{ordre.customer?.city?.name}}</h4>
         </div>
     </div>
 
@@ -25,8 +27,9 @@
                             <div class="col-8">
 
                                 <div class="col-12" *ngFor="let rule of pac.rules; trackBy:trackId">
-                                    <span *ngIf="rule?.reduction"> A l'achat de ce pack une remise de {{rule?.reduction}}% sera appliqué sur le total</span>
-                                    <span *ngIf="rule?.giftQuantity"> A l'achat d'1 pack,  {{rule?.giftQuantity}} boite(s) de ({{rule?.product?.name}}) sont offerts</span>
+                                    <span *ngIf="rule?.reduction"> A l'achat de {{rule.quantityMin}} boite(s), une remise de {{rule?.reduction}}% sera appliqué sur le total</span>
+                                    {{pac.operator}}
+                                    <span *ngIf="rule?.giftQuantity"> A l'achat de {{rule.quantityMin}} boite(s),  {{rule?.giftQuantity}} boite(s) de ({{rule?.product?.name}}) sont offerts</span>
                                 </div>
                             </div>
                         </div>
@@ -48,34 +51,36 @@
                         </thead>
                         <tbody>
                         <tr *ngFor="let p of pac.packProducts;index as i;trackBy:trackId">
-                            <td>{{p.product.name}}</td>
-                            <td class="font-weight-bold">{{p.product.ppv|currency:'MAD':'symbol':'2.2-2':'fr'}}
-                            </td>
-                            <td class="font-weight-bold">{{p.product.pph|currency:'MAD':'symbol':'2.2-2':'fr'}}</td>
-                            <td class="text-center">{{p.quantityMin}}</td>
-                            <td>
-                                <ul class="rule-list">
-                                    <li *ngFor=" let r of p.rules">
-                                        <span *ngIf="r.type.code=='reduction'">{{r.name}}</span>
-                                        <span *ngIf="r.type.code=='ug'">A l'achat de {{r.quantityMin}} boîtes, {{r.giftQuantity}}  sont offertes</span>
-                                    </li>
-                                </ul>
+                            <ng-template [ngIf]="p.quantity>0">
+                                <td>{{p.product.name}}</td>
+                                <td class="font-weight-bold">{{p.product.ppv|currency:'MAD':'symbol':'2.2-2':'fr'}}
+                                </td>
+                                <td class="font-weight-bold">{{p.product.pph|currency:'MAD':'symbol':'2.2-2':'fr'}}</td>
+                                <td class="text-center">{{p.quantityMin}}</td>
+                                <td>
+                                    <ul class="rule-list">
+                                        <li *ngFor=" let r of p.rules">
+                                            <span *ngIf="r.type.code=='reduction'">{{r.name}}</span>
+                                            <span *ngIf="r.type.code=='ug'">A l'achat de {{r.quantityMin}} boîtes, {{r.giftQuantity}}  sont offertes</span>
+                                        </li>
+                                    </ul>
 
-                            </td>
-                            <td>
-                                {{p.quantity}}
-                            </td>
-                            <td>
-                                {{p.ugQuantity}}
-                            </td>
-                            <td>
+                                </td>
+                                <td>
+                                    {{p.quantity}}
+                                </td>
+                                <td>
+                                    {{p.ugQuantity}}
+                                </td>
+                                <td>
                             <span
                                 *ngIf="p.totalTtc">{{p.totalTtc|currency:'MAD':'symbol':'2.2-2':'fr'}}</span>
-                            </td>
-                            <td>
+                                </td>
+                                <td>
                             <span
                                 *ngIf="p.totalDiscounted">{{p.totalDiscounted|currency:'MAD':'symbol':'2.2-2':'fr'}}</span>
-                            </td>
+                                </td>
+                            </ng-template>
                         </tr>
                         </tbody>
                         <tfoot *ngIf="pac.totalTtc">
@@ -99,45 +104,66 @@
             </div>
         </div>
         <div class="col-3">
-            <div class="row card">
-                <div class="card-header-sm bg-primary">
+            <div class="row card ml-2">
+                <div class="card-header-sm bg-info">
                     <h4>Détails de la commande</h4>
                 </div>
                 <div class="col-12">
                     <div class="row">
-                        <span class="text-uppercase col-8">Date d'écheance</span>
-                        <h6 class="display-5 col-4">{{ordre.paymentDueDate| date:'shortDate'}}</h6>
+                        <span class="text-uppercase col-7"><i
+                            class="text-secondary icofont icofont-calendar"></i> Date d'écheance</span>
+                        <h6 class="display-5 col-5">{{ordre.paymentDueDate| date:'shortDate'}}</h6>
                     </div>
-                    <div class="row">
-                        <span class="text-uppercase col-8">Mode de paiement</span>
+                    <div class="row" *ngIf="ordre.type==='DIRECT'">
+                        <span class="text-uppercase col-8"><i
+                            class="text-secondary icofont icofont-bank-transfer-alt"></i> Mode de paiement</span>
                         <h6 class="display-5 col-4">{{ordre.payment?.name}}</h6>
                     </div>
 
-                    <div class="row">
-                        <span class="text-uppercase col-8">Livraison</span>
+                    <div class="row" *ngIf="ordre.type==='DIRECT'">
+                        <span class="text-uppercase col-8"><i
+                            class="text-secondary fa fa-truck"></i> Transporteur</span>
                         <h6 class="display-5 col-4">{{ordre.shipping?.name}}</h6>
                     </div>
 
-                    <div class="row">
-                        <span class="text-uppercase col-8">Mode de livraison</span>
+                    <div class="row" *ngIf="ordre.type==='DIRECT'">
+                        <span class="text-uppercase col-8"><i
+                            class="text-secondary fa fa-truck"></i> Livraison</span>
                         <h6 class="display-5 col-4">{{ordre.shippingMode?.name}}</h6>
+                    </div>
+                    <div class="row" *ngIf="ordre.type==='GROSSISTE'">
+                        <span class="text-uppercase col-5"><i
+                            class="text-secondary fa fa-truck"></i> Grossiste 1</span>
+                        <h6 class="display-5 col-7">{{ordre.firstGrossiste?.name}}</h6>
+                    </div>
+
+                    <div class="row" *ngIf="ordre.type==='GROSSISTE'">
+                        <span class="text-uppercase col-5"><i
+                            class="text-secondary fa fa-truck"></i> Grossiste 2</span>
+                        <h6 class="display-5 col-7">{{ordre.secondGrossiste?.name}}</h6>
+                    </div>
+
+                    <div class="row" *ngIf="ordre.type==='GROSSISTE'">
+                        <span class="text-uppercase col-5"><i
+                            class="text-secondary fa fa-truck"></i> Grossiste 2</span>
+                        <h6 class="display-5 col-7">{{ordre.thirdGrossiste?.name}}</h6>
                     </div>
                 </div>
 
                 <hr>
-                <div class="row">
-                    <span class="text-uppercase col-6">Total TTC</span>
+                <div class="row ml-1">
+                    <span class="text-uppercase col-6">Total TTC:</span>
                     <h6 class="display-5 col-6">{{totalTtc|currency:'MAD':'symbol':'2.2-2':'fr'}}</h6>
                 </div>
-                <div class="row">
-                    <span class="text-uppercase col-6">Total Remise</span>
+                <div class="row ml-1">
+                    <span class="text-uppercase col-6">Total Remise:</span>
                     <h6 class="display-5 col-6">
                         {{totalTtc-ordre.totalPaid|currency:'MAD':'symbol':'2.2-2':'fr'}}</h6>
                 </div>
-                <div class="row">
+                <div class="row bg-secondary text-white ml-1 mr-1 mb-1">
 
-                    <span class="text-uppercase col-6">Nat à payer</span>
-                    <h6 class="display-5 col-6">{{ordre.totalPaid|currency:'MAD':'symbol':'2.2-2':'fr'}} </h6>
+                    <span class="text-uppercase col-6 pt-2">Nat à payer:</span>
+                    <h6 class="display-5 col-6 pt-2">{{ordre.totalPaid|currency:'MAD':'symbol':'2.2-2':'fr'}} </h6>
 
                 </div>
             </div>
@@ -158,5 +184,10 @@
             queryParamsHandling="merge"
             class="btn btn-primary">
         <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+    <button type="submit"
+            (click)="export()"
+            class="btn btn-warning">
+        <span class="fa fa-download"></span>&nbsp; Exporter
     </button>
 </div>

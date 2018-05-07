@@ -22,7 +22,7 @@ import java.util.Objects;
 @Table(name = "offre")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @JsonDeserialize(using = OffreDeserializer.class)
-public class Offre implements Serializable {
+public class Offre extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

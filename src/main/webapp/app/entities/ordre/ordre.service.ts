@@ -108,41 +108,63 @@ export class OrdreService {
     public calculatePackTotals(pack) {
 
         this.calculateSubTotals(pack);
-        pack.packQteMin = pack.packProducts.map(packProduct => {
-            return packProduct.quantityMin ? packProduct.quantityMin : 0;
-        }).reduce((previousValue, currentValue) => {
-            return previousValue + currentValue;
-        });
+
         pack.packQte = pack.packProducts.map(packProduct => {
             return packProduct.quantity ? packProduct.quantity : 0;
         }).reduce((previousValue, currentValue) => {
             return previousValue + currentValue;
         });
-        if (pack.packQte >= pack.packQteMin)
-            this.applyPackRules(pack);
+
+        this.applyPackRules(pack);
     }
 
     private applyPackRules(pack: any): void {
+        if (pack.operator === 'and') {
+            this.applyDiscountRules(pack);
+            this.applyUgRules(pack);
+        }
+        if (pack.operator === 'or') {
+            this.applyOneRule(pack);
+        }
+        pack.totalUgQuantity = pack.packProducts.map(packProduct => {
+            return packProduct.ugQuantity ? packProduct.ugQuantity : 0;
+        }).reduce((previousValue, currentValue) => {
+            return previousValue + currentValue;
+        });
+
+
+    }
+
+    private applyDiscountRules(pack) {
         let discountRules: Rule[] = pack.rules.filter((rule: Rule) => {
             return rule.type.code === 'reduction';
         });
+
+        if (discountRules && discountRules.length > 0) {
+            let rules = discountRules.filter((rule: Rule) => {
+                return pack.packQte >= rule.quantityMin;
+            });
+            let discount = (rules && rules.length > 0) ? rules.map(rule => {
+                    return rule.reduction;
+                }).reduce((r1, r2) => {
+                    return (r1 + r2);
+                }) : 0;
+            pack.totalDiscounted = (1 - discount / 100) * pack.totalDiscounted;
+        }
+    }
+
+    private applyUgRules(pack) {
         let ugRules: Rule[] = pack.rules.filter((rule: Rule) => {
             return rule.type.code === 'ug';
         });
-        if (discountRules && discountRules.length > 0) {
-            let discount = discountRules.map(rule => {
-                return rule.reduction;
-            }).reduce((r1, r2) => {
-                return (r1 + r2);
-            });
-            pack.totalDiscounted = (1 - discount / 100) * pack.totalDiscounted;
-        }
 
         if (ugRules && ugRules.length > 0) {
-            ugRules.forEach((rule) => {
+            ugRules.filter((rule: Rule) => {
+                return pack.packQte >= rule.quantityMin;
+            }).forEach((rule) => {
                 pack.packProducts.forEach((p) => {
                     if (p.product.id === rule.product.id) {
-                        p.ugQuantity = Math.floor((pack.packQte / pack.packQteMin) * rule.giftQuantity)
+                        p.ugQuantity = Math.floor((pack.packQte / rule.quantityMin) * rule.giftQuantity)
                         p.totalTtc = (p.quantity + p.ugQuantity) * p.product.pph;
                     } else {
                         //show error
@@ -150,9 +172,33 @@ export class OrdreService {
                 });
             });
 
-            this.calculateSubTotals(pack);
-        }
 
+        }
+    }
+
+    private applyOneRule(pack) {
+        pack.rules.sort((r1: Rule, r2: Rule) => {
+            return r1.quantityMin - r2.quantityMin;
+        });
+        for (let i = pack.rules.length - 1; i > -1; i--) {
+            let rule: Rule = pack.rules[i];
+            if (rule.quantityMin <= pack.packQte) {
+                if (rule.type.code === 'ug') {
+                    pack.packProducts.forEach((p) => {
+                        if (p.product.id === rule.product.id) {
+                            p.ugQuantity = Math.floor((pack.packQte / pack.packQteMin) * rule.giftQuantity)
+                            p.totalTtc = (p.quantity + p.ugQuantity) * p.product.pph;
+                        } else {
+                            //show error
+                        }
+                    });
+                }
+                if (rule.type.code === 'reduction') {
+                    pack.totalDiscounted = (1 - rule.reduction / 100) * pack.totalDiscounted;
+                }
+                break;
+            }
+        }
     }
 
     private calculateSubTotals(pack) {
@@ -166,11 +212,7 @@ export class OrdreService {
         }).reduce((previousValue, currentValue) => {
             return previousValue + currentValue;
         });
-        pack.totalUgQuantity = pack.packProducts.map(packProduct => {
-            return packProduct.ugQuantity ? packProduct.ugQuantity : 0;
-        }).reduce((previousValue, currentValue) => {
-            return previousValue + currentValue;
-        });
+
     }
 
 

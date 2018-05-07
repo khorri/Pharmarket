@@ -71,6 +71,7 @@ export class OrdreNewComponent implements OnInit {
     dropdownGrossisteSettings;
     dropdownShippingSettings;
     dropdownOrderStateSettings;
+    isLoading: boolean = true;
 
 
 
@@ -121,7 +122,9 @@ export class OrdreNewComponent implements OnInit {
                         this.offre = this.getSelectedOffre();
                         this.setQuantities();
                         this.setOrderValues();
+
                     }
+                    this.isLoading = false;
 
                 }
 
@@ -187,7 +190,7 @@ export class OrdreNewComponent implements OnInit {
             .subscribe((res: HttpResponse<OrderState[]>) => {
                 this.orderStates = res.body;
                 if (this.orderStates && this.orderStates.length > 0) {
-                    this.selectedOrderState = [].concat(this.orderStates[0]);
+                    this.selectedOrderState = (this.ordre.id) ? [].concat(this.ordre.currentStatus) : [].concat(this.orderStates[0]);
                 }
             }, (res: HttpErrorResponse) => this.onError(res.message));
     }
@@ -265,7 +268,10 @@ export class OrdreNewComponent implements OnInit {
             this.ordre.paymentDueDate = new Date(this.ordre.displayPaymentDueDate.year, this.ordre.displayPaymentDueDate.month - 1, this.ordre.displayPaymentDueDate.day);
         }
         this.orderDetails = [];
-        this.ordre.totalOrdred = this.totalDiscounted;
+        if (this.ordre.currentStatus && this.ordre.currentStatus.priority === 1) {
+            this.ordre.totalOrdred = this.totalDiscounted;
+        }
+
         this.ordre.totalPaid = this.totalDiscounted;
         this.ordre.totalDiscount = this.totalTtc - this.totalDiscounted;
         this.ordre.customer = this.selectedCustomer[0];
@@ -290,22 +296,43 @@ export class OrdreNewComponent implements OnInit {
         let orderHistory: OrderHistory = new OrderHistory();
         orderHistory.orderState = this.selectedOrderState[0];
         orderHistory.addDate = new Date();
-        this.ordre.currentStatus = this.selectedOrderState[0];
+
+
         if (!this.ordre.orderHistories) {
             this.ordre.orderHistories = [];
         }
-        if (isValidate) {
-            let orderSates = this.orderStates.filter((orderState: OrderState) => {
-                return orderState.priority === 2;
-            });
-            if (orderSates && orderSates.length > 0) {
-                orderHistory.orderState = orderSates[0];
-                this.ordre.currentStatus = orderSates[0];
-            }
+
+        if (!this.ordre.currentStatus || this.ordre.currentStatus.id !== this.selectedOrderState[0].id) {
+            this.ordre.currentStatus = this.selectedOrderState[0];
         }
-        this.ordre.orderHistories.push(orderHistory);
+
+        if (isValidate) {
+
+            orderHistory.orderState = this.getValidationOrderState();
+            this.ordre.currentStatus = orderHistory.orderState;
+
+        }
+
+        if (!this.isOrderHistoryExist(orderHistory)) {
+            this.ordre.orderHistories.push(orderHistory);
+        }
+
+
     }
 
+    private getValidationOrderState() {
+        let orderSates = this.orderStates.filter((orderState: OrderState) => {
+            return orderState.priority === 2;
+        });
+        return (orderSates && orderSates.length > 0) ? orderSates[0] : null;
+    }
+
+    private isOrderHistoryExist(orderHistory: OrderHistory) {
+        let orderHistoryList = this.ordre.orderHistories.filter((orderHist: OrderHistory) => {
+            return orderHist.orderState.id === orderHistory.orderState.id;
+        });
+        return (orderHistoryList && orderHistoryList.length > 0);
+    }
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<Ordre>>) {
         result.subscribe((res: HttpResponse<Ordre>) =>
@@ -340,151 +367,11 @@ export class OrdreNewComponent implements OnInit {
         p.totalDiscounted = p.quantity * p.product.pph;
         p.ugQuantity = null;
         if (p.quantity >= p.quantityMin)
-            this.applyDiscount(p);
-        this.calculatePackTotals(pack);
+            this.ordreService.applyDiscount(p);
+        this.ordreService.calculatePackTotals(pack);
         this.calculateOrderTotals();
     }
 
-    private applyDiscount(p: PackProduct): void {
-
-        let discountRules: Rule[] = p.rules.filter((rule: Rule) => {
-            return rule.type.code === 'reduction';
-        });
-        let ugRules: Rule[] = p.rules.filter((rule: Rule) => {
-            return rule.type.code === 'ug';
-        });
-        if (discountRules && discountRules.length > 0) {
-            let discount = discountRules.map(rule => {
-                return rule.reduction;
-            }).reduce((r1, r2) => {
-                return (r1 + r2);
-            });
-            p.totalDiscounted = (1 - discount / 100) * p.totalTtc;
-        }
-        if (ugRules && ugRules.length > 0) {
-            p.ugQuantity = ugRules.map((rule: Rule) => {
-                return Math.floor((p.quantity / rule.quantityMin) * rule.giftQuantity);
-            }).reduce((r1, r2) => {
-                return (r1 + r2);
-            });
-            p.totalTtc = (p.ugQuantity + p.quantity) * p.product.pph;
-            p.totalDiscounted = p.quantity * p.product.pph;
-
-
-        }
-
-
-    }
-
-    private calculatePackTotals(pack) {
-
-        this.calculateSubTotals(pack);
-
-        pack.packQte = pack.packProducts.map(packProduct => {
-            return packProduct.quantity ? packProduct.quantity : 0;
-        }).reduce((previousValue, currentValue) => {
-            return previousValue + currentValue;
-        });
-
-        this.applyPackRules(pack);
-    }
-
-    private applyPackRules(pack: any): void {
-        if (pack.operator === 'and') {
-            this.applyDiscountRules(pack);
-            this.applyUgRules(pack);
-        }
-        if (pack.operator === 'or') {
-            this.applyOneRule(pack);
-        }
-        pack.totalUgQuantity = pack.packProducts.map(packProduct => {
-            return packProduct.ugQuantity ? packProduct.ugQuantity : 0;
-        }).reduce((previousValue, currentValue) => {
-            return previousValue + currentValue;
-        });
-
-
-    }
-
-    private applyDiscountRules(pack) {
-        let discountRules: Rule[] = pack.rules.filter((rule: Rule) => {
-            return rule.type.code === 'reduction';
-        });
-
-        if (discountRules && discountRules.length > 0) {
-            let rules = discountRules.filter((rule: Rule) => {
-                return pack.packQte >= rule.quantityMin;
-            });
-            let discount = (rules && rules.length > 0) ? rules.map(rule => {
-                return rule.reduction;
-            }).reduce((r1, r2) => {
-                return (r1 + r2);
-                }) : 0;
-            pack.totalDiscounted = (1 - discount / 100) * pack.totalDiscounted;
-        }
-    }
-
-    private applyUgRules(pack) {
-        let ugRules: Rule[] = pack.rules.filter((rule: Rule) => {
-            return rule.type.code === 'ug';
-        });
-
-        if (ugRules && ugRules.length > 0) {
-            ugRules.filter((rule: Rule) => {
-                return pack.packQte >= rule.quantityMin;
-            }).forEach((rule) => {
-                pack.packProducts.forEach((p) => {
-                    if (p.product.id === rule.product.id) {
-                        p.ugQuantity = Math.floor((pack.packQte / rule.quantityMin) * rule.giftQuantity)
-                        p.totalTtc = (p.quantity + p.ugQuantity) * p.product.pph;
-                    } else {
-                        //show error
-                    }
-                });
-            });
-
-
-        }
-    }
-
-    private applyOneRule(pack) {
-        pack.rules.sort((r1: Rule, r2: Rule) => {
-            return r1.quantityMin - r2.quantityMin;
-        });
-        for (let i = pack.rules.length - 1; i > -1; i--) {
-            let rule: Rule = pack.rules[i];
-            if (rule.quantityMin <= pack.packQte) {
-                if (rule.type.code === 'ug') {
-                    pack.packProducts.forEach((p) => {
-                        if (p.product.id === rule.product.id) {
-                            p.ugQuantity = Math.floor((pack.packQte / pack.packQteMin) * rule.giftQuantity)
-                            p.totalTtc = (p.quantity + p.ugQuantity) * p.product.pph;
-                        } else {
-                            //show error
-                        }
-                    });
-                }
-                if (rule.type.code === 'reduction') {
-                    pack.totalDiscounted = (1 - rule.reduction / 100) * pack.totalDiscounted;
-                }
-                break;
-            }
-        }
-    }
-
-    private calculateSubTotals(pack) {
-        pack.totalTtc = pack.packProducts.map(packProduct => {
-            return packProduct.totalTtc ? packProduct.totalTtc : 0;
-        }).reduce((previousValue, currentValue) => {
-            return previousValue + currentValue;
-        });
-        pack.totalDiscounted = pack.packProducts.map(packProduct => {
-            return packProduct.totalDiscounted ? packProduct.totalDiscounted : 0;
-        }).reduce((previousValue, currentValue) => {
-            return previousValue + currentValue;
-        });
-
-    }
 
     private calculateOrderTotals() {
         this.totalTtc = this.offre.packs.map((pack: any) => {
