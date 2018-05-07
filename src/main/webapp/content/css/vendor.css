@@ -1,6 +1,5 @@
 /* after changing this file run 'yarn run webpack:build' */
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~font-awesome/css/font-awesome.css';
-@import '~ngx-select-dropdown/dist/assets/style.css';
 @import '../icofont/css/icofont.css';
 

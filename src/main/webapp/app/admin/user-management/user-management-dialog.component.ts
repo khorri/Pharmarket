@@ -17,6 +17,7 @@ export class UserMgmtDialogComponent implements OnInit {
     languages: any[];
     authorities: any[];
     isSaving: Boolean;
+    confirmPassword;
 
     constructor(
         public activeModal: NgbActiveModal,

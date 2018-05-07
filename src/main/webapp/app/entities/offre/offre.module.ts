@@ -1,7 +1,6 @@
 import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {AngularMultiSelectModule} from '../../angular2-multiselect-dropdown/angular2-multiselect-dropdown';
-import {SelectDropDownModule} from 'ngx-select-dropdown'
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 import {PharmarketSharedModule} from '../../shared';
@@ -28,7 +27,6 @@ const ENTITY_STATES = [
         PharmarketSharedModule,
         RouterModule.forChild(ENTITY_STATES),
         AngularMultiSelectModule,
-        SelectDropDownModule,
         NgbModule
     ],
     declarations: [
