@@ -7,5 +7,5 @@ mvn -Pprod package -DskipTests
 rm -rf /opt/tomcat/webapps/pharmarket.war
 rm -rf /opt/tomcat/webapps/pharmarket
 rm -rf /opt/tomcat/work/Catalina/localhost/
-cp /opt/target/Pharmarket-0.0.1.war /opt/tomcat/webapps/pharmarket.war
+cp /opt/Pharmarket/target/pharmarket-0.0.1.war /opt/tomcat/webapps/pharmarket.war
 service tomcat start

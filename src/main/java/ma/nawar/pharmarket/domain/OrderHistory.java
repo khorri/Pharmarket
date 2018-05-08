@@ -32,7 +32,6 @@ public class OrderHistory extends AbstractAuditingEntity implements Serializable
     private Ordre ordre;
 
     @OneToOne
-    @JoinColumn(unique = true)
     private OrderState orderState;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

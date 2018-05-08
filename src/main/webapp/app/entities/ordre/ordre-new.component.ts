@@ -72,7 +72,7 @@ export class OrdreNewComponent implements OnInit {
     dropdownShippingSettings;
     dropdownOrderStateSettings;
     isLoading: boolean = true;
-
+    isValuesInitiated: boolean = false;
 
 
     constructor(private jhiAlertService: JhiAlertService,
@@ -119,6 +119,7 @@ export class OrdreNewComponent implements OnInit {
                         this.offre = this.offres[0];
                     }
                     if (this.ordre.id) {
+                        this.isValuesInitiated = true;
                         this.offre = this.getSelectedOffre();
                         this.setQuantities();
                         this.setOrderValues();
@@ -137,6 +138,11 @@ export class OrdreNewComponent implements OnInit {
             return;
         this.ordreService.find(id).subscribe((res: HttpResponse<Ordre>) => {
             this.ordre = res.body;
+            if (!this.isValuesInitiated) {
+                this.offre = this.getSelectedOffre();
+                this.setQuantities();
+                this.setOrderValues();
+            }
         });
     }
 
@@ -268,9 +274,6 @@ export class OrdreNewComponent implements OnInit {
             this.ordre.paymentDueDate = new Date(this.ordre.displayPaymentDueDate.year, this.ordre.displayPaymentDueDate.month - 1, this.ordre.displayPaymentDueDate.day);
         }
         this.orderDetails = [];
-        if (this.ordre.currentStatus && this.ordre.currentStatus.priority === 1) {
-            this.ordre.totalOrdred = this.totalDiscounted;
-        }
 
         this.ordre.totalPaid = this.totalDiscounted;
         this.ordre.totalDiscount = this.totalTtc - this.totalDiscounted;
@@ -289,6 +292,10 @@ export class OrdreNewComponent implements OnInit {
         this.setOrderState(isValidate);
 
         this.ordre.orderDetails = this.orderDetails;
+        if (this.ordre.currentStatus && this.ordre.currentStatus.priority === 1) {
+            this.ordre.totalOrdred = this.totalDiscounted;
+        }
+
 
     }
 

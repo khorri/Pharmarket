@@ -119,9 +119,9 @@ export class OrdreDetailComponent implements OnInit, OnDestroy {
         );
     }
 
-    isEditable(order) {
+    isEditable() {
         if (this.currentAccount.authorities.includes('ROLE_REP')) {
-            return order.currentStatus && order.currentStatus.priority === 1;
+            return this.ordre.currentStatus && this.ordre.currentStatus.priority === 1;
         } else {
             return true;
         }
