@@ -48,6 +48,7 @@ spring:
             enabled: false
     thymeleaf:
         mode: XHTML
+spring.jmx.default-domain: app1
 security:
     basic:
         enabled: false

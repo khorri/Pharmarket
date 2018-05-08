@@ -33,9 +33,11 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/Pharmarket?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
-        password: root
+        url: jdbc:mysql://localhost:3306/pharmarket?useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: tracker
+        password: Tracker-2018
+        poolName: pharmarket
+        registerMbeans: true
         hikari:
             data-source-properties:
                 cachePrepStmts: true
