@@ -32,7 +32,7 @@ export const ruleRoute: Routes = [
             'pagingParams': RuleResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.rule.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -40,7 +40,7 @@ export const ruleRoute: Routes = [
         path: 'rule/:id',
         component: RuleDetailComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.rule.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -52,7 +52,7 @@ export const rulePopupRoute: Routes = [
         path: 'rule-new',
         component: RulePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.rule.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -62,7 +62,7 @@ export const rulePopupRoute: Routes = [
         path: 'rule/:id/edit',
         component: RulePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.rule.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -72,7 +72,7 @@ export const rulePopupRoute: Routes = [
         path: 'rule/:id/delete',
         component: RuleDeletePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.rule.home.title'
         },
         canActivate: [UserRouteAccessService],

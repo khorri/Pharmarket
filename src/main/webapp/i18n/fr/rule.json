@@ -17,7 +17,7 @@
                 "title": "Règle"
             },
             "name": "Libellé",
-            "isActive": "Is Active",
+            "isActive": "Activé?",
             "priority": "Priorité",
             "quantityMin": "Quantité Min",
             "amountMin": "Montant Min",

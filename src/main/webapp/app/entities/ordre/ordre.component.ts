@@ -29,8 +29,9 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
-    totalOrdred: number;
-    totalShipped: number;
+    totalOrdred: number = 0;
+    totalShipped: number = 0;
+    totalShippedItems: number = 0;
 
     constructor(
         private ordreService: OrdreService,
@@ -123,16 +124,18 @@ currentAccount: any;
         this.queryCount = this.totalItems;
         // this.page = pagingParams.page;
         this.ordres = data;
-        this.totalOrdred = this.ordres.map((order: Ordre) => {
-            return order.totalOrdred;
-        }).reduce((t1, t2) => {
-            return t1 + t2;
+
+        this.ordres.forEach((order) => {
+            if (order.currentStatus.id === 2) {
+                this.totalOrdred++;
+            }
+            if (order.currentStatus.shipped) {
+                this.totalShippedItems++;
+                this.totalShipped += order.totalPaid;
+            }
+
         });
-        this.totalShipped = this.ordres.map((order: Ordre) => {
-            return order.totalPaid;
-        }).reduce((t1, t2) => {
-            return t1 + t2;
-        });
+
 
     }
 
@@ -145,7 +148,7 @@ currentAccount: any;
         if (this.currentAccount.authorities.includes('ROLE_REP')) {
             return order.currentStatus && order.currentStatus.priority === 1;
         } else {
-            return true;
+            return order.currentStatus && order.currentStatus.priority !== 4;
         }
     }
 }

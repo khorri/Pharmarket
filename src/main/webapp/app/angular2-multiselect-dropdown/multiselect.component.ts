@@ -222,7 +222,7 @@ export class AngularMultiSelect implements OnInit, ControlValueAccessor, OnChang
         this.onTouchedCallback = fn;
     }
     trackByFn(index: number, item: ListItem) {
-        return item.id;
+        return (item) ? item.id : index;
     }
     isSelected(clickedItem: ListItem) {
         let found = false;

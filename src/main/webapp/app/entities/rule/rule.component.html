@@ -44,34 +44,42 @@
                 <td><span *ngIf="rule.isForProduct" class="badge badge-info"> Oui</span></td>
                 <td>
                     <div *ngIf="rule.type">
-                        <a [routerLink]="['../rule-type', rule.type?.id ]">{{rule.type?.name}}</a>
+                        {{rule.type?.name}}
                     </div>
                 </td>
                 <td>
                     <div *ngIf="rule.product">
-                        <a [routerLink]="['../product', rule.product?.id ]">{{rule.product?.name}}</a>
+                        {{rule.product?.name}}
                     </div>
                 </td>
                 <td>
                     <div *ngIf="rule.gadget">
-                        <a [routerLink]="['../gadget', rule.gadget?.id ]" >{{rule.gadget?.id}}</a>
+                        {{rule.gadget?.name}}
                     </div>
+                </td>
+                <td>
+                    <span *ngIf="rule.isActive" class="badge badge-success">
+                        Activé
+                    </span>
+                    <span *ngIf="!rule.isActive" class="badge badge-danger">
+                        Désactivé
+                    </span>
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
+                        <!--button type="submit"
                                 [routerLink]="['../rule', rule.id ]"
                                 class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
+
+                        </button-->
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'rule/'+ rule.id + '/edit'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-primary btn-sm">
                             <span class="fa fa-pencil"></span>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+
                         </button>
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'rule/'+ rule.id + '/delete'} }]"
@@ -79,7 +87,7 @@
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
                             <span class="fa fa-remove"></span>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+
                         </button>
                     </div>
                 </td>

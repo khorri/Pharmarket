@@ -18,7 +18,8 @@
             },
             "name": "Name",
             "color": "Color",
-            "priority": "Priority"
+            "priority": "Priority",
+            "shipped": "Shipped"
         }
     }
 }

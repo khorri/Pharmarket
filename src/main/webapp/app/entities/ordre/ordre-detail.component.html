@@ -43,6 +43,7 @@
                             <th>PPH</th>
                             <th>Qté Min</th>
                             <th>Règle</th>
+                            <th>Qté Cmd</th>
                             <th>Qté</th>
                             <th>UG</th>
                             <th>Total TTC</th>
@@ -65,6 +66,9 @@
                                         </li>
                                     </ul>
 
+                                </td>
+                                <td>
+                                    {{p.quantityShipped}}
                                 </td>
                                 <td>
                                     {{p.quantity}}
@@ -131,6 +135,12 @@
                             class="text-secondary fa fa-truck"></i> Livraison</span>
                         <h6 class="display-5 col-4">{{ordre.shippingMode?.name}}</h6>
                     </div>
+
+                    <hr>
+                    <div class="row">
+                        <p class="display-5 col-12">{{ordre.comment}}</p>
+                    </div>
+
                     <div class="row" *ngIf="ordre.type==='GROSSISTE'">
                         <span class="text-uppercase col-5"><i
                             class="text-secondary fa fa-truck"></i> Grossiste 1</span>

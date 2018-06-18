@@ -6,6 +6,8 @@ export class OrderState implements BaseEntity {
         public name?: string,
         public color?: string,
         public priority?: number,
+        public shipped?: boolean,
     ) {
+        this.shipped = false;
     }
 }

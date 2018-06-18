@@ -42,11 +42,11 @@ public class ProductResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_PPV = 1L;
-    private static final Long UPDATED_PPV = 2L;
+    private static final Float DEFAULT_PPV = 1f;
+    private static final Float UPDATED_PPV = 2f;
 
-    private static final Long DEFAULT_PPH = 1L;
-    private static final Long UPDATED_PPH = 2L;
+    private static final Float DEFAULT_PPH = 1f;
+    private static final Float UPDATED_PPH = 2f;
 
     private static final String DEFAULT_CODE = "AAAAAAAAAA";
     private static final String UPDATED_CODE = "BBBBBBBBBB";
@@ -94,17 +94,6 @@ public class ProductResourceIntTest {
 
     private Product product;
 
-    @Before
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        final ProductResource productResource = new ProductResource(productService);
-        this.restProductMockMvc = MockMvcBuilders.standaloneSetup(productResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
-    }
-
     /**
      * Create an entity for this test.
      *
@@ -125,6 +114,17 @@ public class ProductResourceIntTest {
             .fabricationPrice(DEFAULT_FABRICATION_PRICE)
             .actif(DEFAULT_ACTIF);
         return product;
+    }
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        final ProductResource productResource = new ProductResource(productService);
+        this.restProductMockMvc = MockMvcBuilders.standaloneSetup(productResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     @Before

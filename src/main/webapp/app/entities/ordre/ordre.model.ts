@@ -30,6 +30,7 @@ export class Ordre implements BaseEntity {
         public firstGrossiste?: BaseEntity,
         public secondGrossiste?: BaseEntity,
         public thirdGrossiste?: BaseEntity,
+        public comment?: string,
 
 
     ) {

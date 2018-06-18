@@ -74,4 +74,10 @@ public class ProductServiceImpl implements ProductService {
         log.debug("Request to delete Product : {}", id);
         productRepository.delete(id);
     }
+
+    @Override
+    public Page<Product> findByActifIsTrue(Pageable pageable) {
+        log.debug("Request to get all product actif");
+        return this.productRepository.findByActifIsTrue(pageable);
+    }
 }

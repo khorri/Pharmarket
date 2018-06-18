@@ -21,7 +21,10 @@
             <th jhiSortBy="color"><span jhiTranslate="pharmarketApp.orderState.color">Color</span> <span class="fa fa-sort"></span></th>
                 <th jhiSortBy="priority"><span jhiTranslate="pharmarketApp.orderState.priority">Priority</span> <span
                     class="fa fa-sort"></span></th>
-            <th></th>
+                <th jhiSortBy="shipped"><span jhiTranslate="pharmarketApp.orderState.shipped">Shipped</span> <span
+                    class="fa fa-sort"></span></th>
+
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -30,6 +33,7 @@
                 <td>{{orderState.name}}</td>
                 <td [style.background]="orderState.color">{{orderState.color}}</td>
                 <td>{{orderState.priority}}</td>
+                <td>{{orderState.shipped}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

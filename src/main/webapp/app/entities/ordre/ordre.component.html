@@ -29,7 +29,7 @@
                             <i class="icofont icofont-basket fa-3x"></i>
                         </div>
                         <div class="col-8">
-                            <h1 class="display-5">{{totalItems}} CMD</h1>
+                            <h1 class="display-5">{{totalShippedItems}} CMD</h1>
                             <h6 class="text-uppercase">Commandes livrés</h6>
                         </div>
 
@@ -47,8 +47,8 @@
                             <i class="icofont icofont-bill-alt fa-3x"></i>
                         </div>
                         <div class="col-8">
-                            <h1 class="display-5">{{totalOrdred|currency:'MAD':'symbol':'3.2-2':'fr'}}</h1>
-                            <h6 class="text-uppercase">Total commandé</h6>
+                            <h1 class="display-5">{{totalOrdred}}</h1>
+                            <h6 class="text-uppercase">Commandes valides</h6>
                         </div>
 
                     </div>
@@ -82,7 +82,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                 <th jhiSortBy="customer.name">Pharmacie</span> <span
                     class="fa fa-sort"></span></th>
-
+                <th>Ville</th>
                 <th jhiSortBy="totalOrdred">Total Cmd <span class="fa fa-sort"></span></th>
                 <th jhiSortBy="totalPaid">Total Réglé <span class="fa fa-sort"></span></th>
                 <th jhiSortBy="created_by">Crée le<span
@@ -111,6 +111,7 @@
                         <a class="text-primary" [routerLink]="['../ordre', ordre.id ]">{{ordre.customer?.name}}</a>
                     </div>
                 </td>
+                <td>{{ordre.customer?.city?.name}}</td>
                 <td class="font-weight-bold">{{ordre.totalOrdred|currency:'MAD':'symbol':'3.2-2':'fr'}}</td>
                 <td class="font-weight-bold">{{ordre.totalPaid|currency:'MAD':'symbol':'3.2-2':'fr'}}</td>
                 <td>{{ordre.createdDate| date:'shortDate'}}</td>

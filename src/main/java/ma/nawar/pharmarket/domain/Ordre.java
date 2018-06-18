@@ -40,9 +40,14 @@ public class Ordre extends AbstractAuditingEntity implements Serializable {
     @Column(name = "jhi_type")
     private OrderType type;
 
+    @Lob
+    @Column(name = "comment")
+    private String comment;
+
 
     @ManyToOne
     private OrderState currentStatus;
+
 
     @Column(name = "payment_due_date")
     private String paymentDueDate;
@@ -131,6 +136,14 @@ public class Ordre extends AbstractAuditingEntity implements Serializable {
     public Ordre type(OrderType type) {
         this.type = type;
         return this;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public OrderState getCurrentStatus() {

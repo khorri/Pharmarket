@@ -30,10 +30,8 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class ProductResource {
 
-    private final Logger log = LoggerFactory.getLogger(ProductResource.class);
-
     private static final String ENTITY_NAME = "product";
-
+    private final Logger log = LoggerFactory.getLogger(ProductResource.class);
     private final ProductService productService;
 
     public ProductResource(ProductService productService) {
@@ -90,9 +88,15 @@ public class ProductResource {
      */
     @GetMapping("/products")
     @Timed
-    public ResponseEntity<List<Product>> getAllProducts(Pageable pageable) {
+    public ResponseEntity<List<Product>> getAllProducts(Pageable pageable, @RequestParam(value = "actif", required = false) Boolean actif) {
         log.debug("REST request to get a page of Products");
-        Page<Product> page = productService.findAll(pageable);
+        Page<Product> page = null;
+        if (actif != null && actif) {
+            page = productService.findByActifIsTrue(pageable);
+        } else {
+            page = productService.findAll(pageable);
+        }
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

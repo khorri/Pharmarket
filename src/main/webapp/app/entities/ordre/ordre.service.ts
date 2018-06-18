@@ -92,7 +92,7 @@ export class OrdreService {
         }
         if (ugRules && ugRules.length > 0) {
             p.ugQuantity = ugRules.map((rule: Rule) => {
-                return Math.floor((p.quantity / rule.quantityMin) * rule.giftQuantity);
+                return Math.floor((p.quantity / rule.quantityMin)) * rule.giftQuantity;
             }).reduce((r1, r2) => {
                 return (r1 + r2);
             });

@@ -32,7 +32,7 @@ export const productRoute: Routes = [
             'pagingParams': ProductResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.product.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -40,7 +40,7 @@ export const productRoute: Routes = [
         path: 'product/:id',
         component: ProductDetailComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.product.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -52,7 +52,7 @@ export const productPopupRoute: Routes = [
         path: 'product-new',
         component: ProductPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.product.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -62,7 +62,7 @@ export const productPopupRoute: Routes = [
         path: 'product/:id/edit',
         component: ProductPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.product.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -72,7 +72,7 @@ export const productPopupRoute: Routes = [
         path: 'product/:id/delete',
         component: ProductDeletePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.product.home.title'
         },
         canActivate: [UserRouteAccessService],

@@ -1,6 +1,8 @@
 package ma.nawar.pharmarket.repository;
 
 import ma.nawar.pharmarket.domain.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
@@ -13,4 +15,5 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
+    Page<Product> findByActifIsTrue(Pageable pageable);
 }

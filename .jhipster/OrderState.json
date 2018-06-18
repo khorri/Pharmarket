@@ -19,6 +19,10 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "shipped",
+            "fieldType": "Boolean"
         }
     ],
     "changelogDate": "20180331093104",

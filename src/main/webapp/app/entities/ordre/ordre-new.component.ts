@@ -104,7 +104,9 @@ export class OrdreNewComponent implements OnInit {
             this.loadOrder(id);
         });
         this.loadInitialDetails();
-
+        this.principal.identity().then((account) => {
+            this.account = account;
+        })
 
     }
 
@@ -147,6 +149,8 @@ export class OrdreNewComponent implements OnInit {
     }
 
     private getSelectedOffre(): Offre {
+        if (!this.offres)
+            return null;
         let offres = this.offres.filter((offre) => {
             return offre.id === this.ordre.offre.id;
         });
@@ -224,19 +228,20 @@ export class OrdreNewComponent implements OnInit {
             let orderDetail: OrderDetails = this.ordre.orderDetails[i];
             if (p.id === orderDetail.packProduct.id) {
                 p.quantity = orderDetail.quantity;
+                p.quantityShipped = orderDetail.quantityShipped;
                 break;
             }
         }
     }
 
     private setOrderValues() {
-        this.selectedPayment = [].concat(this.ordre.payment);
-        this.selectedShippingMode = [].concat(this.ordre.shippingMode);
-        this.selectedShipping = [].concat(this.ordre.shipping);
-        this.selectedCustomer = [].concat(this.ordre.customer);
-        this.firstGrossiste = [].concat(this.ordre.firstGrossiste);
-        this.secondGrossiste = [].concat(this.ordre.secondGrossiste);
-        this.thirdGrossiste = [].concat(this.ordre.thirdGrossiste);
+        this.selectedPayment = (this.ordre.payment) ? [].concat(this.ordre.payment) : [];
+        this.selectedShippingMode = (this.ordre.shippingMode) ? [].concat(this.ordre.shippingMode) : [];
+        this.selectedShipping = (this.ordre.shipping) ? [].concat(this.ordre.shipping) : [];
+        this.selectedCustomer = (this.ordre.customer) ? [].concat(this.ordre.customer) : [];
+        this.firstGrossiste = (this.ordre.firstGrossiste) ? [].concat(this.ordre.firstGrossiste) : [];
+        this.secondGrossiste = (this.ordre.secondGrossiste) ? [].concat(this.ordre.secondGrossiste) : [];
+        this.thirdGrossiste = (this.ordre.thirdGrossiste) ? [].concat(this.ordre.thirdGrossiste) : [];
         let paymentDueDate = new Date(this.ordre.paymentDueDate);
         this.ordre.displayPaymentDueDate = {
             year: paymentDueDate.getFullYear(),
@@ -247,15 +252,20 @@ export class OrdreNewComponent implements OnInit {
 
     save(isValidate?: boolean) {
         this.isSaving = true;
-        this.copyDataToOrder(isValidate);
+        this.principal.hasAuthority("ROLE_REP").then(hasAuthority => {
+            isValidate = isValidate || !hasAuthority;
+            this.copyDataToOrder(isValidate);
 
-        if (this.ordre.id !== undefined) {
-            this.subscribeToSaveResponse(
-                this.ordreService.update(this.ordre));
-        } else {
-            this.subscribeToSaveResponse(
-                this.ordreService.create(this.ordre));
-        }
+            if (this.ordre.id !== undefined) {
+                this.subscribeToSaveResponse(
+                    this.ordreService.update(this.ordre));
+            } else {
+                this.subscribeToSaveResponse(
+                    this.ordreService.create(this.ordre));
+            }
+        });
+
+
     }
 
     validate() {
@@ -263,7 +273,7 @@ export class OrdreNewComponent implements OnInit {
     }
 
     private isDataValid(): boolean {
-        return this.ordre.customer && this.ordre.totalOrdred > 0;
+        return this.ordre.customer && this.ordre.totalOrdred && this.ordre.totalOrdred > 0;
 
     }
 
@@ -285,14 +295,14 @@ export class OrdreNewComponent implements OnInit {
         this.ordre.secondGrossiste = (this.secondGrossiste && this.secondGrossiste.length > 0) ? this.secondGrossiste[0] : null;
         this.ordre.thirdGrossiste = (this.thirdGrossiste && this.thirdGrossiste.length > 0) ? this.thirdGrossiste[0] : null;
         if (this.ordre.id) {
-            this.updateOrderDetails();
+            this.updateOrderDetails(isValidate);
         } else {
             this.createOrderDetails();
         }
         this.setOrderState(isValidate);
 
         this.ordre.orderDetails = this.orderDetails;
-        if (this.ordre.currentStatus && this.ordre.currentStatus.priority === 1) {
+        if ((this.ordre.currentStatus && this.ordre.currentStatus.priority === 1) || this.ordre.createdBy === this.account.login) {
             this.ordre.totalOrdred = this.totalDiscounted;
         }
 
@@ -425,13 +435,14 @@ export class OrdreNewComponent implements OnInit {
         });
     }
 
-    private updateOrderDetails() {
+    private updateOrderDetails(isValidate: boolean) {
         this.offre.packs.forEach((pack: Pack) => {
             pack.packProducts.forEach((p: PackProduct) => {
                 if (p.quantity && p.quantity > 0) {
                     let orderDetail = this.getOrderDetails(p);
                     orderDetail.quantity = p.quantity;
-                    orderDetail.quantityShipped = p.quantity;
+                    if (!isValidate)
+                        orderDetail.quantityShipped = p.quantity;
                     orderDetail.packProduct = p;
                     //orderDetail.ordre = this.ordre;
                     this.orderDetails.push(orderDetail);

@@ -104,18 +104,19 @@ export class OffreNewComponent implements OnInit {
                 this.shippings = res.body;
 
             }, (res: HttpErrorResponse) => this.onError(res.message));
-        this.productService.query({size: 9999})
+        this.productService.query({size: 9999, actif: true})
             .subscribe((res: HttpResponse<Product[]>) => {
                 this.products = res.body;
+                console.table(this.products);
             }, (res: HttpErrorResponse) => this.onError(res.message));
         this.ruleService.query({size: 9999})
             .subscribe((res: HttpResponse<Rule[]>) => {
                 const data = res.body;
                 this.packRules = data.filter((rule) => {
-                    return rule.isForPack;
+                    return rule.isForPack && rule.isActive;
                 });
                 this.productRules = data.filter((rule) => {
-                    return rule.isForProduct;
+                    return rule.isForProduct && rule.isActive;
                 });
             }, (res: HttpErrorResponse) => this.onError(res.message));
 

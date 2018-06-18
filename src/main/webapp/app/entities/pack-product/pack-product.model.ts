@@ -10,6 +10,7 @@ export class PackProduct implements BaseEntity {
                 public quantity?: number,
                 public totalTtc?: number,
                 public totalDiscounted?: number,
-                public ugQuantity?: number,) {
+                public ugQuantity?: number,
+                public quantityShipped?: number,) {
     }
 }

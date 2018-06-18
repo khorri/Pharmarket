@@ -48,6 +48,9 @@ public class OrderStateResourceIntTest {
     private static final Integer DEFAULT_PRIORITY = 1;
     private static final Integer UPDATED_PRIORITY = 2;
 
+    private static final Boolean DEFAULT_SHIPPED = false;
+    private static final Boolean UPDATED_SHIPPED = true;
+
     @Autowired
     private OrderStateRepository orderStateRepository;
 
@@ -91,7 +94,8 @@ public class OrderStateResourceIntTest {
         OrderState orderState = new OrderState()
             .name(DEFAULT_NAME)
             .color(DEFAULT_COLOR)
-            .priority(DEFAULT_PRIORITY);
+            .priority(DEFAULT_PRIORITY)
+            .shipped(DEFAULT_SHIPPED);
         return orderState;
     }
 
@@ -118,6 +122,7 @@ public class OrderStateResourceIntTest {
         assertThat(testOrderState.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testOrderState.getColor()).isEqualTo(DEFAULT_COLOR);
         assertThat(testOrderState.getPriority()).isEqualTo(DEFAULT_PRIORITY);
+        assertThat(testOrderState.isShipped()).isEqualTo(DEFAULT_SHIPPED);
     }
 
     @Test
@@ -188,7 +193,8 @@ public class OrderStateResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(orderState.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].color").value(hasItem(DEFAULT_COLOR.toString())))
-            .andExpect(jsonPath("$.[*].priority").value(hasItem(DEFAULT_PRIORITY)));
+            .andExpect(jsonPath("$.[*].priority").value(hasItem(DEFAULT_PRIORITY)))
+            .andExpect(jsonPath("$.[*].shipped").value(hasItem(DEFAULT_SHIPPED.booleanValue())));
     }
 
     @Test
@@ -204,7 +210,8 @@ public class OrderStateResourceIntTest {
             .andExpect(jsonPath("$.id").value(orderState.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.color").value(DEFAULT_COLOR.toString()))
-            .andExpect(jsonPath("$.priority").value(DEFAULT_PRIORITY));
+            .andExpect(jsonPath("$.priority").value(DEFAULT_PRIORITY))
+            .andExpect(jsonPath("$.shipped").value(DEFAULT_SHIPPED.booleanValue()));
     }
 
     @Test
@@ -230,7 +237,8 @@ public class OrderStateResourceIntTest {
         updatedOrderState
             .name(UPDATED_NAME)
             .color(UPDATED_COLOR)
-            .priority(UPDATED_PRIORITY);
+            .priority(UPDATED_PRIORITY)
+            .shipped(UPDATED_SHIPPED);
 
         restOrderStateMockMvc.perform(put("/api/order-states")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -244,6 +252,7 @@ public class OrderStateResourceIntTest {
         assertThat(testOrderState.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testOrderState.getColor()).isEqualTo(UPDATED_COLOR);
         assertThat(testOrderState.getPriority()).isEqualTo(UPDATED_PRIORITY);
+        assertThat(testOrderState.isShipped()).isEqualTo(UPDATED_SHIPPED);
     }
 
     @Test

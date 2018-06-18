@@ -61,6 +61,7 @@
                                 <th>PPH</th>
                                 <th>Qté Min</th>
                                 <th>Règle</th>
+                                <th>Qté Cmd</th>
                                 <th style="width: 80px;"><input type="number" class="form-control-sm"
                                                                 style="width: 80px;" placeholder="Qté"
                                                                 name="pack_quantity_{{idx}}" [ngModel]="pack?.quantity"
@@ -73,10 +74,12 @@
                             </thead>
                             <tbody>
                             <tr *ngFor="let p of pac?.packProducts;index as i;trackBy:trackId">
-                                <td>{{p.product.name}}</td>
+                                <td>{{p.product.commercialName}}</td>
                                 <td class="font-weight-bold">{{p.product.ppv|currency:'MAD':'symbol':'2.2-2':'fr'}}
                                 </td>
-                                <td class="font-weight-bold">{{p.product.pph|currency:'MAD':'symbol':'2.2-2':'fr'}}</td>
+                                <td class="font-weight-bold">
+                                    {{(p.product.pph*(1+p.product.tva/100))|currency:'MAD':'symbol':'2.2-2':'fr'}}
+                                </td>
                                 <td class="text-center">{{p.quantityMin}}</td>
                                 <td>
                                     <ul class="rule-list">
@@ -87,7 +90,9 @@
                                     </ul>
 
                                 </td>
+                                <td> {{p.quantityShipped}}</td>
                                 <td style="width: 80px;">
+
                                     <input type="number" class="form-control form-control-sm "
                                            name="quantity_{{idx}}_{{i}}"
                                            [ngModel]="p.quantity" (ngModelChange)="calculateTotals($event,p,pac)">
@@ -111,7 +116,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td colspan="3">Sous total {{pac.name}}</td>
+                                <td colspan="4">Sous total {{pac.name}}</td>
                                 <td>{{pac.totalUgQuantity}}</td>
                                 <td>{{pac.totalTtc|currency:'MAD':'symbol':'2.2-2':'fr'}}</td>
                                 <td>{{pac.totalDiscounted|currency:'MAD':'symbol':'2.2-2':'fr'}}</td>
@@ -229,6 +234,14 @@
                 </span>
                         </div>
                     </div>
+
+                    <br/>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="3" placeholder="Commentaire"
+                                  [(ngModel)]="ordre.comment" name="comment"></textarea>
+                    </div>
+
+
                     <hr>
                     <div class="row">
                         <span class="text-uppercase col-6">Total TTC</span>
@@ -251,7 +264,7 @@
                             <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                         </button>
                         <button type="submit"
-                                [disabled]="editForm.form.invalid || isSaving || !selectedCustomer || totalDiscounted<offre?.amountMin"
+                                [disabled]="editForm.form.invalid || isSaving || !selectedCustomer"
                                 class="btn btn-primary col-6 mt-2 ml-2">
                             <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                         </button>

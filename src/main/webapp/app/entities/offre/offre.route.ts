@@ -33,7 +33,7 @@ export const offreRoute: Routes = [
             'pagingParams': OffreResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.offre.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -41,7 +41,7 @@ export const offreRoute: Routes = [
         path: 'offre/:id',
         component: OffreDetailComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.offre.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -49,7 +49,7 @@ export const offreRoute: Routes = [
         path: 'offre-new',
         component: OffreNewComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.offre.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -57,7 +57,7 @@ export const offreRoute: Routes = [
         path: 'offre/:id/edit',
         component: OffreNewComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.offre.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -70,7 +70,7 @@ export const offrePopupRoute: Routes = [
         path: 'offre/:id/delete',
         component: OffreDeletePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_USER', 'ROLE_ADMIN'],
             pageTitle: 'pharmarketApp.offre.home.title'
         },
         canActivate: [UserRouteAccessService],

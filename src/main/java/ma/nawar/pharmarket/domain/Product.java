@@ -29,10 +29,10 @@ public class Product implements Serializable {
 
     @NotNull
     @Column(name = "ppv", nullable = false)
-    private Long ppv;
+    private Float ppv;
 
     @Column(name = "pph")
-    private Long pph;
+    private Float pph;
 
     @Column(name = "code")
     private String code;
@@ -71,52 +71,52 @@ public class Product implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Product name(String name) {
         this.name = name;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getPpv() {
+    public Float getPpv() {
         return ppv;
     }
 
-    public Product ppv(Long ppv) {
+    public void setPpv(Float ppv) {
+        this.ppv = ppv;
+    }
+
+    public Product ppv(Float ppv) {
         this.ppv = ppv;
         return this;
     }
 
-    public void setPpv(Long ppv) {
-        this.ppv = ppv;
-    }
-
-    public Long getPph() {
+    public Float getPph() {
         return pph;
     }
 
-    public Product pph(Long pph) {
+    public void setPph(Float pph) {
         this.pph = pph;
-        return this;
     }
 
-    public void setPph(Long pph) {
+    public Product pph(Float pph) {
         this.pph = pph;
+        return this;
     }
 
     public String getCode() {
         return code;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public Product code(String code) {
         this.code = code;
         return this;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public Boolean isIsNew() {
@@ -136,17 +136,21 @@ public class Product implements Serializable {
         return refrence;
     }
 
+    public void setRefrence(String refrence) {
+        this.refrence = refrence;
+    }
+
     public Product refrence(String refrence) {
         this.refrence = refrence;
         return this;
     }
 
-    public void setRefrence(String refrence) {
-        this.refrence = refrence;
-    }
-
     public String getCommercialName() {
         return commercialName;
+    }
+
+    public void setCommercialName(String commercialName) {
+        this.commercialName = commercialName;
     }
 
     public Product commercialName(String commercialName) {
@@ -154,12 +158,12 @@ public class Product implements Serializable {
         return this;
     }
 
-    public void setCommercialName(String commercialName) {
-        this.commercialName = commercialName;
-    }
-
     public String getMarque() {
         return marque;
+    }
+
+    public void setMarque(String marque) {
+        this.marque = marque;
     }
 
     public Product marque(String marque) {
@@ -167,12 +171,12 @@ public class Product implements Serializable {
         return this;
     }
 
-    public void setMarque(String marque) {
-        this.marque = marque;
-    }
-
     public Float getTva() {
         return tva;
+    }
+
+    public void setTva(Float tva) {
+        this.tva = tva;
     }
 
     public Product tva(Float tva) {
@@ -180,21 +184,17 @@ public class Product implements Serializable {
         return this;
     }
 
-    public void setTva(Float tva) {
-        this.tva = tva;
-    }
-
     public Double getFabricationPrice() {
         return fabricationPrice;
+    }
+
+    public void setFabricationPrice(Double fabricationPrice) {
+        this.fabricationPrice = fabricationPrice;
     }
 
     public Product fabricationPrice(Double fabricationPrice) {
         this.fabricationPrice = fabricationPrice;
         return this;
-    }
-
-    public void setFabricationPrice(Double fabricationPrice) {
-        this.fabricationPrice = fabricationPrice;
     }
 
     public Boolean isActif() {

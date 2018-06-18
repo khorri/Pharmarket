@@ -86,6 +86,7 @@ export class OrdreDetailComponent implements OnInit, OnDestroy {
                 if (detail && detail.length > 0) {
                     pack.selected = true;
                     packProduct.quantity = detail[0].quantity;
+                    packProduct.quantityShipped = detail[0].quantityShipped;
                     packProduct.ugQuantity = detail[0].ugQuantity;
                     packProduct.totalTtc = packProduct.quantity * packProduct.product.pph;
                     packProduct.totalDiscounted = packProduct.quantity * packProduct.product.pph;
