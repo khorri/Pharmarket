@@ -496,10 +496,10 @@
                     <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
                     <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                     <driver>com.mysql.jdbc.Driver</driver>
-                    <url>jdbc:mysql://localhost:3306/Pharmarket</url>
-                    <defaultSchemaName>Pharmarket</defaultSchemaName>
-                    <username>root</username>
-                    <password>root</password>
+                    <url>jdbc:mysql://localhost:3306/pharmarket</url>
+                    <defaultSchemaName>pharmarket</defaultSchemaName>
+                    <username>tracker</username>
+                    <password>Tracker-2018</password>
                     <referenceUrl>hibernate:spring:ma.nawar.pharmarket.domain?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                     <verbose>true</verbose>
                     <logging>debug</logging>
