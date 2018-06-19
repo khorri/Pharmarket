@@ -155,6 +155,7 @@
                 <tr>
                     <th><input type="checkbox" [(ngModel)]="pac.selectedAll" (click)="selectAll(pac)"
                                name="selectAll_{{idx}}"></th>
+                    <th>#</th>
                     <th>Référence</th>
                     <th>Désignation</th>
                     <th>PPV</th>
@@ -169,7 +170,7 @@
                 </tr>
                 <tr>
 
-                    <td colspan="3">
+                    <td colspan="4">
                         <angular2-multiselect [data]="products" [(ngModel)]="pac.selectedProducts"
                                               [ngModelOptions]="{standalone: true}"
                                               [settings]="dropdownSettings1"
@@ -203,6 +204,7 @@
                 <tr *ngFor="let p of pac.packProducts;index as i;trackBy:trackIndex">
                     <td><input type="checkbox" [(ngModel)]="p.selected" name="select_{{i}}_{{idx}}"></td>
                     <td>{{p.product.id}}</td>
+                    <td>{{p.product.refrence}}</td>
                     <td>{{p.product.name}}</td>
                     <td>{{p.product.ppv|currency:'MAD':'symbol':'2.2-2':'fr'}}</td>
                     <td>{{p.product.pph|currency:'MAD':'symbol':'2.2-2':'fr'}}</td>
